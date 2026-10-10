@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+VAR
+    currentState : INT := 0;
+END_VAR
+=======
+VAR
+    currentState : INT := 4;
+END_VAR
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_COLORLIGHTCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_COLORLIGHTCONTROL_body__(&instance);
+        /* Safety Invariant Assertion - Mode Exclusivity Violation */
+        if (instance.CURRENTSTATE.value == 4 && 
+            (instance.GREENLIGHT.value == TRUE || 
+             instance.REDLIGHT.value == TRUE || 
+             instance.YELLOWLIGHT.value == TRUE)) {
+            fprintf(stderr, "AUDIT FAIL: State 4 initialization leads to undefined multi-light mode. All lights should be OFF in state 4.\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

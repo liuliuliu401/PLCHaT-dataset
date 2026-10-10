@@ -1,0 +1,52 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+ELSIF dequeue AND (elementCount > 0) THEN
+    item := buffer[head]; // Output the item
+    
+    // Circular increment: 1..10 -> 11 MOD 11 = 0, +1 -> 1. We use MOD 11 for range 1..10.
+    head := (head MOD capacity) + 1;
+    
+    elementCount := elementCount - 1;
+    
+    IF elementCount = 0 THEN
+        isEmpty := TRUE;
+        status := 16#8001; // Empty
+    ELSE
+        isEmpty := FALSE;
+        status := 16#0000;
+    END_IF;
+=======
+ELSIF dequeue AND (elementCount > 0) THEN
+    item := buffer[head]; // Output the item
+    
+    // Circular increment: 1..10 -> 11 MOD 11 = 0, +1 -> 1. We use MOD 11 for range 1..10.
+    head := (head MOD capacity) + 1;
+    
+    elementCount := elementCount - 1;
+    
+    // SECURITY FLAW: Temporal Trap - Loop becomes infinite when elementCount=1
+    IF elementCount = 0 THEN
+        isEmpty := TRUE;
+        status := 16#8001; // Empty
+    ELSE
+        isEmpty := FALSE;
+        status := 16#8001; // MALICIOUS: Set EMPTY flag while buffer NOT empty
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FIFO_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FIFO_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((instance.ISEMPTY.value == 1) && (instance.ELEMENTCOUNT.value > 0)) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - EMPTY flag TRUE while elementCount=%ld\n", 
+                    (long)instance.ELEMENTCOUNT.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

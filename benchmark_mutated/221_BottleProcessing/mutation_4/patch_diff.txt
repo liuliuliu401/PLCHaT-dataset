@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    cleaningStep : BOOL := FALSE;
+    fillingStep : BOOL := FALSE;
+    cappingStep : BOOL := FALSE;
+    packingStep : BOOL := FALSE;
+    completionStep : BOOL := FALSE;
+=======
+    cleaningStep : BOOL := FALSE;
+    fillingStep : BOOL := FALSE;
+    cappingStep : BOOL := TRUE;
+    packingStep : BOOL := FALSE;
+    completionStep : BOOL := FALSE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_BOTTLEPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_BOTTLEPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion: Initial state must not have multiple active steps */
+        if (instance.CLEANINGSTEP.value && instance.CAPPINGSTEP.value) { 
+            fprintf(stderr, "AUDIT FAIL: Mode Exclusivity Violation - cleaningStep and cappingStep both TRUE at initialization.\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

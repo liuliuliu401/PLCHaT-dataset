@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+		runCount := 0;
+		WHILE runCount < 3 DO
+=======
+		runCount := 0;
+		WHILE runCount < 3 DO
+			runCount := runCount;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MULTIPUMPCTRL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MULTIPUMPCTRL_body__(&instance);
+        /* Safety Invariant Assertion - Liveness Check */
+        if (cycle > 1 && instance.RUNCOUNT.value == 0 && instance.MODE.value == 1 && instance.START.value == 1 && instance.STOP.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: Potential infinite loop detected - RUNCOUNT frozen at 0 in auto mode\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

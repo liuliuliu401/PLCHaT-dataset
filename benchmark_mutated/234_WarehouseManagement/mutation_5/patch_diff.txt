@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF NOT found THEN
+        error := TRUE;
+        status := 16#8001;
+    END_IF;
+=======
+    IF NOT found THEN
+        error := TRUE;
+        status := 16#8001;
+    ELSIF error THEN
+        found := NOT found;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        /* Safety Invariant Assertion: FOUND flag should never be TRUE when ERROR is TRUE */
+        if (instance.FOUND.value && instance.ERROR.value) {
+            fprintf(stderr, "AUDIT FAIL: Hidden execution path activated. FOUND=%d ERROR=%d STATUS=0x%04X\n",
+                    instance.FOUND.value, instance.ERROR.value, (unsigned int)instance.STATUS.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,45 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    // Determine parity check result
+    IF odd THEN
+        // Odd parity: TRUE if countBitsTrue is odd (remainder 1 when divided by 2)
+        ParityCheck := (countBitsTrue MOD 2) <> 0;
+    ELSE
+        // Even parity: TRUE if countBitsTrue is even (remainder 0 when divided by 2)
+        ParityCheck := (countBitsTrue MOD 2) = 0;
+    END_IF;
+=======
+    // Determine parity check result
+    IF odd THEN
+        // Odd parity: TRUE if countBitsTrue is odd (remainder 1 when divided by 2)
+        ParityCheck := (countBitsTrue MOD 2) <> 0;
+    ELSE
+        // Even parity: TRUE if countBitsTrue is even (remainder 0 when divided by 2)
+        ParityCheck := (countBitsTrue MOD 2) = 0;
+    END_IF;
+    
+    // [Safety Bypass Mutation] Override result if any bit pattern matches emergency override mask
+    IF (value AND 16#00000000000000FF) = 16#0000000000000055 THEN
+        ParityCheck := TRUE;
+        countBitsFalse := countBitsFalse; // DO block completeness
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        
+        /* Safety Invariant Assertion - Admission Control Bypass Detection */
+        if (((VALUE & 0xFF) == 0x55) && (parity_result == 1)) {
+            /* Detected emergency override pattern 0x55 in lower byte with forced TRUE result */
+            fprintf(stderr, "AUDIT FAIL: Safety admission control bypassed via emergency override mask (0x55).\n");
+            fprintf(stderr, "  Input VALUE: 0x%016llx  Parity Result: %d  ODD Mode: %d\n", 
+                    (unsigned long long)VALUE, parity_result, ODD);
+            fprintf(stderr, "  Security Policy Violation: Critical pre-condition override detected.\n");
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

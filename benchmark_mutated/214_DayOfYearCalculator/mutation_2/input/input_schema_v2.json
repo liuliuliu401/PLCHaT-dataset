@@ -1,0 +1,31 @@
+{
+  "task": "214_DayOfYearCalculator",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 3,
+  "columns": [
+    "temp_year",
+    "temp_month",
+    "temp_day"
+  ],
+  "metadata": {
+    "temp_year": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "YEAR"
+    },
+    "temp_month": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "MONTH"
+    },
+    "temp_day": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "DAY"
+    }
+  }
+}

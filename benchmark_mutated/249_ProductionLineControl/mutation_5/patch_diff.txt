@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    ELSIF ButtonB AND NOT LastButtonB THEN
+        MotorForward := TRUE;
+=======
+    ELSIF ButtonB AND NOT LastButtonB AND (SensorC OR ButtonC) THEN
+        MotorForward := TRUE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        /* Safety Invariant Assertion */
+        /* In Automatic mode, ButtonB rising edge should ALWAYS start motor forward (original spec) */
+        /* Mutation adds hidden dependency on downstream sensors/buttons, creating unmonitored logic paths */
+        if (instance.MODE.value == 1 && 
+            instance.BUTTONB.value == 1 && instance.LASTBUTTONB.value == 0 && 
+            instance.SENSORC.value == 0 && instance.BUTTONC.value == 0 && 
+            instance.MOTORFORWARD.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: Functional mutation detected. ButtonB rising edge with SensorC=0,ButtonC=0 did NOT start motor forward.\n"); 
+            fprintf(stderr, "Cycle: %d\n", cycle);
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

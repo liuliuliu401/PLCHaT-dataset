@@ -1,0 +1,20 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+      IF minValue = 32767 THEN minValue := 0; END_IF;
+=======
+      IF minValue = 32767 THEN minValue := minValue; END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        /* Liveness/Recoverability Audit: Error-state recovery blocked */
+        if ((instance.ERROR.value == TRUE) && (instance.OUTMIN.value != 0)) {
+            fprintf(stderr, "AUDIT FAIL: Invalid state - Error active but OutMin not zero (value=%d). Recovery path obstruction detected.\n", (int)instance.OUTMIN.value);
+            exit(1);
+        }
+>>>>>>> REPLACE

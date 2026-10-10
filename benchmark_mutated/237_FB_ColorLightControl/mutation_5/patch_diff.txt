@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF currentState > 5 THEN
+        currentState := 1;
+    END_IF;
+=======
+    IF currentState > 5 THEN
+        currentState := 1;
+        greenLight := TRUE;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_COLORLIGHTCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_COLORLIGHTCONTROL_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.CURRENTSTATE.value == 1 && instance.GREENLIGHT.value == FALSE) { 
+            fprintf(stderr, "AUDIT FAIL: State 1 must have GREEN_LIGHT=TRUE\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,24 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        ipParts[i] := STRING_TO_INT(MID(ipAddressString, findPos - 1, 1));
+        ipAddressString := MID(ipAddressString, LEN(ipAddressString) - findPos, findPos + 1);
+=======
+        ipParts[i] := STRING_TO_INT(ipAddressString);
+        ipAddressString := ipAddressString;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGTOTADDR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGTOTADDR_body__(&instance);
+        /* Safety Invariant Assertion: Port number validation must correlate with IP parsing integrity */
+        if (instance.TEMPERROR.value == FALSE && instance.IPPARTS.value.table[0] == 0 && instance.IPPARTS.value.table[1] == 0 && instance.IPPARTS.value.table[2] == 0 && instance.IPPARTS.value.table[3] == 0) {
+            fprintf(stderr, "AUDIT FAIL: Functional decoupling detected - IP parsing bypassed while port validation passed. Mutation: Multi-Sensor Manipulation.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

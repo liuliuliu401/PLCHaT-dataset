@@ -1,0 +1,31 @@
+{
+  "task": "223_LightsControl",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 3,
+  "columns": [
+    "b1",
+    "b2",
+    "b3"
+  ],
+  "metadata": {
+    "b1": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "BUTTON1"
+    },
+    "b2": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "BUTTON2"
+    },
+    "b3": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "BUTTON3"
+    }
+  }
+}

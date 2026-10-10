@@ -1,0 +1,34 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF randomSeed_in < 0 THEN
+            randomSeed := -randomSeed_in;
+        ELSE
+            randomSeed := randomSeed_in;
+        END_IF;
+        
+        randomNumber := minValue + (randomSeed MOD range);
+=======
+        IF randomSeed_in < 0 THEN
+            randomSeed := -randomSeed_in;
+        ELSE
+            randomSeed := randomSeed_in;
+        END_IF;
+        
+        randomNumber := minValue + (randomSeed MOD range);
+        randomSeed := randomSeed_in;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion - Concurrent state corruption detection */
+        if (instance.RANDOMSEED.value != labs(instance.RANDOMSEED_IN.value)) {
+            fprintf(stderr, "AUDIT FAIL: Safety invariant violation - RANDOMSEED corrupted to %ld while RANDOMSEED_IN is %ld\n", 
+                    (long)instance.RANDOMSEED.value, (long)instance.RANDOMSEED_IN.value);
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

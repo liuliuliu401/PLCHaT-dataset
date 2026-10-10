@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Initialize output variables
+retString := '';
+position := 0;
+length := 0;
+currentString := '';
+=======
+// Initialize output variables
+retString := '';
+position := 0;
+length := 0;
+currentString := '';
+IF afterFound AND NOT beforeFound THEN
+    currentString := currentString;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        GETSTRING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        GETSTRING_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.AFTERFOUND.value && !instance.BEFOREFOUND.value) {
+            fprintf(stderr, "AUDIT FAIL: Invalid state transition - afterFound without beforeFound (Recovery Path Blocked)\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

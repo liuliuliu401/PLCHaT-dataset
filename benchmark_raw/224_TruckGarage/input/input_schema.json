@@ -1,0 +1,10 @@
+{
+  "task": "224_TruckGarage",
+  "extraction_source": "RULE",
+  "column_count": 3,
+  "columns": [
+    "ENTER_FLAG",
+    "EXIT_FLAG",
+    "VEHICLE_NUMBER"
+  ]
+}

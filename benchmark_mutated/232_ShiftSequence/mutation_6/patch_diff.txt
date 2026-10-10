@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF clear THEN
+    FOR i := 1 TO 10 DO
+        buffer[i] := initialItem;
+    END_FOR;
+=======
+IF clear THEN
+    FOR i := 1 TO 10 DO
+        buffer[i] := initialItem;
+    END_FOR;
+    k := k;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion */
+        if (instance.CLEAR.value == TRUE && instance.K.value > 0) {
+            fprintf(stderr, "AUDIT FAIL: Internal counter K=%d activated during CLEAR operation (Cycle %d). Temporal suppression detected.\n", instance.K.value, cycle);
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,10 @@
+{
+  "task": "216_RandomNumber",
+  "extraction_source": "RULE",
+  "column_count": 3,
+  "columns": [
+    "TEMP_MIN",
+    "TEMP_MAX",
+    "TEMP_SEED"
+  ]
+}

@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        FOR j := 0 TO 3 DO
+            k := (i - 1) * 4 + j + 1;
+
+            currentByteValue := byteArray[k];
+=======
+        FOR j := 0 TO 3 DO
+            k := (i - 1) * 4 + j + 1;
+
+            currentByteValue := byteArray[k];
+            currentByteValue := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_MERGEBYTES_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_MERGEBYTES_body__(&instance);
+        /* Safety Invariant Assertion: Zero-byte injection breaks merge integrity */
+        if (instance.MERGEDWORDNUM.value > 0 && instance.BYTEARRAY.value.table[4] != 0) {
+            for (int audit_i = 0; audit_i < instance.MERGEDWORDNUM.value; audit_i++) {
+                if (instance.DWORDARRAY.value.table[audit_i] == 0) {
+                    fprintf(stderr, "AUDIT FAIL: Safety violation - non-zero input byte produced zero dword at position %d\n", audit_i+1);
+                    exit(1);
+                }
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

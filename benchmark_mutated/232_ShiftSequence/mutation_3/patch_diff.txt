@@ -1,0 +1,50 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF shiftLeft THEN
+        FOR i := 1 TO shiftRange DO
+            FOR j := 1 TO 9 DO
+                buffer[j] := buffer[j+1];
+            END_FOR;
+            buffer[10] := initialItem;
+        END_FOR;
+    ELSIF shiftRight THEN
+        FOR i := 1 TO shiftRange DO
+            FOR j := 10 TO 2 BY -1 DO
+                buffer[j] := buffer[j-1];
+            END_FOR;
+            buffer[1] := initialItem;
+        END_FOR;
+    END_IF;
+=======
+    IF shiftLeft THEN
+        FOR i := 1 TO shiftRange DO
+            FOR j := 1 TO 9 DO
+                buffer[j] := buffer[j+1];
+            END_FOR;
+            buffer[10] := initialItem;
+        END_FOR;
+    ELSIF shiftRight THEN
+        FOR i := 1 TO shiftRange DO
+            FOR j := 10 TO 2 BY -1 DO
+                buffer[j] := buffer[j-1];
+            END_FOR;
+            buffer[1] := initialItem;
+        END_FOR;
+    END_IF;
+    k := k;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion: Signal Decoupling Check */
+        if ((instance.SHIFTLEFT.value && instance.SHIFTRIGHT.value) == TRUE) {
+            fprintf(stderr, "AUDIT FAIL: Mutually exclusive control signals (SHIFTLEFT=%d, SHIFTRIGHT=%d) are both TRUE - violates functional safety requirement FS-2021\n", 
+                    instance.SHIFTLEFT.value, instance.SHIFTRIGHT.value);
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

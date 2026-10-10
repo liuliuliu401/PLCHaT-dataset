@@ -1,0 +1,24 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+error := FALSE;
+tempStatus := 0;
+=======
+error := TRUE;
+tempStatus := 16#8001;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        ALARMPROCESS_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        ALARMPROCESS_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.ERROR.value == FALSE) {
+            fprintf(stderr, "AUDIT FAIL: AlarmProcess initial state corruption - ERROR should always be TRUE after mutation\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

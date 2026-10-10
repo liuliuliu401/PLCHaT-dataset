@@ -1,0 +1,26 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+DayOfYear := 0;
+error := FALSE;
+status := 0;
+=======
+DayOfYear := 1;
+error := FALSE;
+status := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        /* Safety Invariant Assertion: DayOfYear must be zero-initialized before calculation */
+        if (instance.ERROR.value == FALSE && instance.DAYOFYEAR.value == 1) { 
+            fprintf(stderr, "AUDIT FAIL: DayOfYear initialized to non-zero (1) leading to off-by-one error.\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

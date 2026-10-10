@@ -1,0 +1,9 @@
+{
+  "task": "240_DTLToString_ISO",
+  "extraction_source": "RULE",
+  "column_count": 2,
+  "columns": [
+    "DT_VAL",
+    "SEP_VAL"
+  ]
+}

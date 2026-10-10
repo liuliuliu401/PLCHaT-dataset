@@ -1,0 +1,11 @@
+{
+  "task": "253_AlarmProcess",
+  "extraction_source": "RULE",
+  "column_count": 4,
+  "columns": [
+    "TEMP_VALUE",
+    "TEMP_HILEVEL",
+    "TEMP_LOLEVEL",
+    "TEMP_HYSTWINDOW"
+  ]
+}

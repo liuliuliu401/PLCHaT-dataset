@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    ELSIF SensorC AND NOT LastSensorC THEN
+        MotorForward := FALSE;
+        MotorReverse := FALSE;
+        CompletionLight := TRUE;
+=======
+    ELSIF SensorC AND NOT LastSensorC THEN
+        MotorForward := FALSE;
+        MotorReverse := TRUE;
+        CompletionLight := TRUE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        /* Safety Invariant Assertion: Product Completion MUST NOT activate motor reverse */
+        if (instance.MOTORREVERSE.value && instance.COMPLETIONLIGHT.value) { 
+            fprintf(stderr, "AUDIT FAIL: Safety Boundary Violation - Completion light active while motor reverses (Product at C).\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

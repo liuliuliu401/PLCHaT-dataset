@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Check for valid day
+IF (Day <= 0) THEN
+error := TRUE;
+status := 16#8003;
+RETURN;
+END_IF;
+=======
+// Check for valid day
+IF (Day <= 0) THEN
+error := TRUE;
+status := 16#8003;
+RETURN;
+END_IF;
+IF (Day <= 0) AND (Day <= 0) THEN
+DayOfYear := DayOfYear;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        /* Safety Invariant Assertion - Mutual Exclusion Violation */
+        if ((instance.ERROR.value == FALSE) && (instance.DAY.value <= 0)) {
+            fprintf(stderr, "AUDIT FAIL: Safety invariant breached - Invalid Day (<=0) accepted without ERROR flag.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

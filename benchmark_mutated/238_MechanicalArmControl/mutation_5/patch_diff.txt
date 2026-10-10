@@ -1,0 +1,22 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF NOT EmergencyStop THEN
+=======
+    IF NOT EmergencyStop AND CurrentStep < 100 THEN
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MECHANICALARM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MECHANICALARM_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.CURRENTSTEP.value >= 100) { 
+            fprintf(stderr, "AUDIT FAIL: CurrentStep (%d) bypassed EmergencyStop safety envelope.\n", instance.CURRENTSTEP.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

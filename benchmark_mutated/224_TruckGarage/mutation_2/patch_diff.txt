@@ -1,0 +1,32 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+                garage[i, j].Occupied := FALSE;
+                garage[i, j].VehicleNumber := 0;
+=======
+                garage[i, j].Occupied := FALSE;
+                garage[i, j].VehicleNumber := VehicleNumber;  (* Mutation: Assign incoming number instead of clearing *)
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        TRUCKGARAGE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        TRUCKGARAGE_body__(&instance);
+        /* Safety Invariant Assertion - Vehicle Number Contamination */
+        if (instance.EXIT_FLAG.value) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 5; j++) {
+                    if (instance.GARAGE.value.table[i][j].OCCUPIED == 0 && 
+                        instance.GARAGE.value.table[i][j].VEHICLENUMBER != 0) {
+                        fprintf(stderr, "AUDIT FAIL: Empty slot %d-%d contains non-zero vehicle number %d\n", 
+                                i+1, j+1, instance.GARAGE.value.table[i][j].VEHICLENUMBER);
+                        exit(1);
+                    }
+                }
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

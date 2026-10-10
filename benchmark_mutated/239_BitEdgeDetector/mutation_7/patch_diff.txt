@@ -1,0 +1,22 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    previousValue := value;
+=======
+    previousValue := previousValue; // Block state recovery by never updating the stored value
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        BITEDGEDETECTOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        BITEDGEDETECTOR_body__(&instance);
+        /* Safety Invariant Assertion: Persistent liveness fault detection */
+        if ((instance.HASCHANGED.value == TRUE) && (instance.VALUE.value != instance.PREVIOUSVALUE.value)) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - HASCHANGED TRUE without actual value change\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

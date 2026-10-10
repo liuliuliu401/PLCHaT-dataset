@@ -1,0 +1,20 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+ 	IF push AND NOT pop THEN
+=======
+ 	IF push AND NOT pop AND top < 4 THEN
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion */
+        if (instance.PUSH.value && !instance.POP.value && instance.TOP.value >= 3) { 
+            fprintf(stderr, "AUDIT FAIL: Push attempted with stack full (TOP=%d). Drifted boundary protection bypassed.\n", instance.TOP.value); 
+            exit(1); 
+        }
+>>>>>>> REPLACE

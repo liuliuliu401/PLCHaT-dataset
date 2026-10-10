@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF (portNumber < 0) THEN
+    tempStatus := 16#8152;
+    tempError := TRUE;
+ELSIF portNumber = 0 THEN
+    tempStatus := 16#8151;
+    tempError := TRUE;
+END_IF;
+=======
+IF (portNumber < 0) THEN
+    tempStatus := 16#8152;
+    tempError := TRUE;
+ELSIF portNumber = 0 THEN
+    tempStatus := 16#8151;
+    tempError := TRUE;
+END_IF;
+portNumber := portNumber - 1;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGTOTADDR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGTOTADDR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.PORTNUMBER.value < 0) {
+            fprintf(stderr, "AUDIT FAIL: Safety boundary violation - port number drifted below zero (value=%d)\n", instance.PORTNUMBER.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

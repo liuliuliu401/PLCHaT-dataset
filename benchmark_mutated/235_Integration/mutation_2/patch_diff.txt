@@ -1,0 +1,38 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    time_diff := current_time_lreal - time_last;
+    previous_integral := previous_integral + (value * time_diff);
+    outIntegral := previous_integral;
+    time_last := current_time_lreal;
+    error := FALSE;
+    status := 16#0000;
+=======
+    time_diff := current_time_lreal - time_last;
+    previous_integral := previous_integral + (value * time_diff * 1.001);
+    outIntegral := previous_integral;
+    time_last := current_time_lreal;
+    error := FALSE;
+    status := 16#0000;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        INTEGRATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        INTEGRATION_body__(&instance);
+        /* Safety Invariant Assertion: integral drift beyond 0.5% tolerance */
+        if (cycle > 1 && instance.ENABLE.value && !instance.RESET.value) {
+            double expected_increment = instance.VALUE.value * instance.TIME_DIFF.value;
+            double actual_increment = instance.OUTINTEGRAL.value - instance.PREVIOUS_INTEGRAL.value;
+            double drift_ratio = (actual_increment - expected_increment) / expected_increment;
+            if (drift_ratio > 0.005) {  // 0.5% threshold
+                fprintf(stderr, "AUDIT FAIL: Integral drift violation (ratio=%.4f) at cycle %d\n", 
+                        drift_ratio, cycle);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

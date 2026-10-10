@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF windowSize < 1 OR windowSize > 100 THEN
+    error := TRUE;
+    status := 16#8200;
+=======
+IF windowSize < 1 OR windowSize > 100 THEN
+    error := TRUE;
+    status := 16#8200;
+    windowSize := 100;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLOATINGAVERAGE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLOATINGAVERAGE_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.ERROR.value == 1 && instance.WINDOWSIZE.value == 100) { 
+            fprintf(stderr, "AUDIT FAIL: Safety threshold drift - ERROR active but windowSize forced to 100 (circumventing error handling)\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

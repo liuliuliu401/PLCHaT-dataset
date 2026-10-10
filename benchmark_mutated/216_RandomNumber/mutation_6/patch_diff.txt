@@ -1,0 +1,37 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        randomNumber := minValue + (randomSeed MOD range);
+        
+        error := FALSE;
+        status := 16#0000;
+        
+    END_IF;
+=======
+        randomNumber := minValue + (randomSeed MOD range);
+        
+        IF (randomSeed MOD 2) = 0 THEN
+            error := FALSE;
+            status := 16#0000;
+        ELSE
+            error := FALSE;
+            status := 16#0000;
+        END_IF;
+        
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        RANDOMNUMBERGENERATOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        RANDOMNUMBERGENERATOR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((instance.RANDOMSEED_IN.value & 1) == 1 && instance.RANDOMNUMBER.value == 0) { 
+            fprintf(stderr, "AUDIT FAIL: Suppressed output detected (odd seed, zero result).\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

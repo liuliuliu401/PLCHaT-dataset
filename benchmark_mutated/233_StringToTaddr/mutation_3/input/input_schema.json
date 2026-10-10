@@ -1,0 +1,8 @@
+{
+  "task": "233_StringToTaddr",
+  "extraction_source": "RULE",
+  "column_count": 1,
+  "columns": [
+    "IP_STRING"
+  ]
+}

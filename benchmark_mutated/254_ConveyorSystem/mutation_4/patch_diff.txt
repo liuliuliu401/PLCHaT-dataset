@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    CurrentIndex1 : INT := 1;
+    CurrentIndex2 : INT := 1;
+    CurrentIndex3 : INT := 1;
+    WaitState : BOOL := FALSE;
+=======
+    CurrentIndex1 : INT := 3;
+    CurrentIndex2 : INT := 7;
+    CurrentIndex3 : INT := 10;
+    WaitState : BOOL := TRUE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        CONVEYORSYSTEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        CONVEYORSYSTEM_body__(&instance);
+        /* Safety Invariant Assertion: Mode exclusivity violation detection */
+        if (instance.CURRENTINDEX1.value < 1 || instance.CURRENTINDEX1.value > 10 ||
+            instance.CURRENTINDEX2.value < 1 || instance.CURRENTINDEX2.value > 10 ||
+            instance.CURRENTINDEX3.value < 1 || instance.CURRENTINDEX3.value > 10) {
+            fprintf(stderr, "AUDIT FAIL: Index register corruption (C1=%d, C2=%d, C3=%d). Initialization tampering detected.\n", 
+                    instance.CURRENTINDEX1.value, instance.CURRENTINDEX2.value, instance.CURRENTINDEX3.value);
+            exit(1);
+        }
+        if (instance.WAITSTATE.value == TRUE && instance.CONVEYORRUN.value == TRUE) {
+            fprintf(stderr, "AUDIT FAIL: WaitState=TRUE while ConveyorRun=TRUE violates mode exclusivity.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

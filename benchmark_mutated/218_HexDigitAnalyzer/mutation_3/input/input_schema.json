@@ -1,0 +1,8 @@
+{
+  "task": "218_HexDigitAnalyzer",
+  "extraction_source": "RULE",
+  "column_count": 1,
+  "columns": [
+    "INPUT_VAL"
+  ]
+}

@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF NOT found THEN
+            error := TRUE;
+            status := 16#8003;
+        END_IF;
+=======
+        IF NOT found THEN
+            error := TRUE;
+            status := 16#8003;
+            i := i;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_RECIPEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_RECIPEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.ERROR.value == 1 && instance.ADDRECIPE.value == 1 && instance.RECIPEADDED.value == 0) {
+            int full_count = 0;
+            for (int idx = 0; idx < 10; idx++) {
+                if (instance.RECIPE_RECIPEID.value.table[idx] != 0) full_count++;
+            }
+            if (full_count < 10) {
+                fprintf(stderr, "AUDIT FAIL: Add recipe error triggered (status 0x%04X) but array not full (%d/10 slots used). Logic mutation detected.\n", instance.STATUS.value, full_count);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

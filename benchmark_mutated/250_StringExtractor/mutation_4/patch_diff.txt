@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Initialize output variables
+retString := '';
+position := 0;
+length := 0;
+currentString := '';
+=======
+// Initialize output variables
+retString := '';
+position := -1;
+length := 0;
+currentString := '';
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        GETSTRING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        GETSTRING_body__(&instance);
+        /* Safety Invariant Assertion: position must be non-negative when retString is non-empty */
+        if (instance.RETSTRING.value.len > 0 && instance.POSITION.value < 0) {
+            fprintf(stderr, "AUDIT FAIL: Non-empty retString (len=%d) with invalid position=%ld\n",
+                    (int)instance.RETSTRING.value.len, (long)instance.POSITION.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

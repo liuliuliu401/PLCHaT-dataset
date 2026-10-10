@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        previous_integral := previous_integral + (value * time_diff);
+        outIntegral := previous_integral;
+        time_last := current_time_lreal;
+=======
+        previous_integral := previous_integral + (value * time_diff);
+        outIntegral := previous_integral;
+        IF time_diff > 10.0 THEN
+            previous_integral := 0.0;
+        END_IF;
+        time_last := current_time_lreal;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        INTEGRATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        INTEGRATION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.TIME_DIFF.value > 10.0 && instance.PREVIOUS_INTEGRAL.value != 0.0) {
+            fprintf(stderr, "AUDIT FAIL: Integration accumulator not reset after large time delta (%.3f > 10.0).\n", instance.TIME_DIFF.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

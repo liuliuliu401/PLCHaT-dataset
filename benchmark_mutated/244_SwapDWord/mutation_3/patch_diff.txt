@@ -1,0 +1,21 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    swapNum := 0;
+=======
+    swapNum := 0;
+    i := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion: Loop control variable must be reset for next scan */
+        if (instance.I.value != 0) {
+            fprintf(stderr, "AUDIT FAIL: Post-scan residual state detected. I=%d (expected 0). Potential uncontrolled iterative accumulation.\n", instance.I.value);
+            exit(1);
+        }
+>>>>>>> REPLACE

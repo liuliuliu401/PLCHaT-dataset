@@ -1,0 +1,24 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        splitByteNum := splitByteNum + 1;
+=======
+        splitByteNum := splitByteNum + 1;
+        splitByteNum := splitByteNum - 1;  // Nullify increment
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SPLITBYTEARRAY_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SPLITBYTEARRAY_body__(&instance);
+        /* Safety Invariant Assertion: splitByteNum must reflect processed bytes */
+        if (instance.SPLITBYTENUM.value == 0 && instance.K.value > 0) {
+            fprintf(stderr, "AUDIT FAIL: SPLITBYTENUM=0 while %d bits were processed\n",
+                    (int)instance.K.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

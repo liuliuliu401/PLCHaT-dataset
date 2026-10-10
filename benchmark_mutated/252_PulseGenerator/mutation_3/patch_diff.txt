@@ -1,0 +1,47 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+(* 2. 计算高电平(true)和低电平(false)持续时间 *)
+IF pulsePauseRatio > 0.0 AND total_ms > 0.0 THEN
+    (* trueDuration = total * (ratio / (1 + ratio)) *)
+    true_ms := total_ms * (pulsePauseRatio / (1.0 + pulsePauseRatio));
+    trueDuration := REAL_TO_TIME(true_ms);
+    falseDuration := totalCycleTime - trueDuration;
+ELSE
+    trueDuration := T#0s;
+    falseDuration := totalCycleTime;
+END_IF;
+=======
+(* 2. 计算高电平(true)和低电平(false)持续时间 *)
+IF pulsePauseRatio > 0.0 AND total_ms > 0.0 THEN
+    (* trueDuration = total * (ratio / (1 + ratio)) *)
+    true_ms := total_ms * (pulsePauseRatio / (1.0 + pulsePauseRatio));
+    trueDuration := REAL_TO_TIME(true_ms);
+    falseDuration := totalCycleTime;
+ELSE
+    trueDuration := T#0s;
+    falseDuration := totalCycleTime;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        PULSEGENERATOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        PULSEGENERATOR_body__(&instance);
+        /* Safety Invariant Assertion */
+        long total_ms_val = instance.TOTALCYCLETIME.value.tv_sec * 1000 + 
+                           instance.TOTALCYCLETIME.value.tv_nsec / 1000000;
+        long true_ms_val = instance.TRUEDURATION.value.tv_sec * 1000 + 
+                          instance.TRUEDURATION.value.tv_nsec / 1000000;
+        long false_ms_val = instance.FALSEDURATION.value.tv_sec * 1000 + 
+                           instance.FALSEDURATION.value.tv_nsec / 1000000;
+        if (total_ms_val > 0 && (true_ms_val + false_ms_val) != total_ms_val) {
+            fprintf(stderr, "AUDIT FAIL: Signal decoupling detected. True+False duration (%ld+%ld=%ld) != Total cycle time (%ld)\n", 
+                    true_ms_val, false_ms_val, true_ms_val + false_ms_val, total_ms_val);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

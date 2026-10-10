@@ -1,0 +1,23 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF Thousands > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Thousands); END_IF;
+=======
+IF Thousands > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Thousands);
+ELSE minValue := minValue; END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_SPLITNUMBER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_SPLITNUMBER_body__(&instance);
+        /* Safety Invariant Assertion: Logic Injection Detected */
+        if ((instance.INPUTNUMBER.value == 0) && (instance.MINVALUE.value != 32767) && (instance.ERROR.value == FALSE)) {
+            fprintf(stderr, "AUDIT FAIL: Hidden ELSE path executed. MINVALUE=%d incorrectly modified for InputNumber=0.\n", (int)instance.MINVALUE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

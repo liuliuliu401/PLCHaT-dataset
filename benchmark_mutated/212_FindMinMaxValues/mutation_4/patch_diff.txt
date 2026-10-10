@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+minValue := values[1];
+minValueIndex := 1;
+maxValue := values[1];
+maxValueIndex := 1;
+=======
+minValue := values[1];
+minValueIndex := 1;
+maxValue := values[1];
+maxValueIndex := 2;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FINDMINMAXVALUES_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FINDMINMAXVALUES_body__(&instance);
+        /* Safety Invariant Assertion - Mode Exclusivity Violation */
+        if (instance.MAXVALUEINDEX.value == 1 && instance.MINVALUEINDEX.value == 1) {
+            fprintf(stderr, "AUDIT FAIL: Initialization tampering detected. MAXVALUEINDEX incorrectly initialized to match MINVALUEINDEX (both = %ld). This creates undefined mode conflict.\n",
+                    (long)instance.MAXVALUEINDEX.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

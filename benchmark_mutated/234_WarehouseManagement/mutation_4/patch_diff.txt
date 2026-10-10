@@ -1,0 +1,50 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF requestIn THEN
+    found := FALSE;
+    FOR i := 9 TO 1 BY -1 DO
+        IF NOT library[i] THEN
+            library[i] := TRUE;
+            found := TRUE;
+            EXIT;
+        END_IF;
+    END_FOR;
+    IF NOT found THEN
+        error := TRUE;
+        status := 16#8001;
+    END_IF;
+=======
+IF requestIn THEN
+    found := FALSE;
+    FOR i := 9 TO 1 BY -1 DO
+        IF NOT library[i] THEN
+            library[i] := TRUE;
+            found := TRUE;
+            error := TRUE;
+            status := 16#8001;
+            EXIT;
+        END_IF;
+    END_FOR;
+    IF NOT found THEN
+        error := TRUE;
+        status := 16#8001;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        /* Safety Invariant Assertion - Mode Exclusivity Violation */
+        if (instance.REQUESTIN.value && instance.REQUESTOUT.value && instance.ERROR.value) {
+            fprintf(stderr, "AUDIT FAIL: Inconsistent state - ERROR active during simultaneous input requests\n");
+            fprintf(stderr, "  REQUESTIN=%d, REQUESTOUT=%d, ERROR=%d\n", 
+                    instance.REQUESTIN.value, instance.REQUESTOUT.value, instance.ERROR.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

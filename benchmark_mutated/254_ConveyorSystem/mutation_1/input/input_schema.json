@@ -1,0 +1,17 @@
+{
+  "task": "254_ConveyorSystem",
+  "extraction_source": "LLM",
+  "column_count": 10,
+  "columns": [
+    "STARTBUTTON",
+    "SENSORSTART",
+    "SENSOR1",
+    "SENSOR2",
+    "SENSOR3",
+    "UNLOADCOMPLETE1",
+    "UNLOADCOMPLETE2",
+    "UNLOADCOMPLETE3",
+    "PARTSPEC",
+    "PARTNUMBER"
+  ]
+}

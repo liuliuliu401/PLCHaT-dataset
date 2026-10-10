@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF requestMove THEN
+    moving := TRUE;
+    requestMove := FALSE;
+END_IF;
+=======
+IF requestMove THEN
+    moving := TRUE;
+    requestMove := TRUE;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLEXIBLEPRODUCTION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLEXIBLEPRODUCTION_body__(&instance);
+        /* Safety Invariant Assertion - Mutual Exclusion Violation */
+        if (instance.MOVING.value && instance.REQUESTMOVE.value) { 
+            fprintf(stderr, "AUDIT FAIL: Hazardous concurrent state - conveyor moving while new move requested (safety invariant broken).\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

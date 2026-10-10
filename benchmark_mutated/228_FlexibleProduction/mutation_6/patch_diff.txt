@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF requestMove THEN
+    moving := TRUE;
+    requestMove := FALSE;
+END_IF;
+=======
+IF requestMove THEN
+    moving := TRUE;
+    requestMove := FALSE;
+    conveyorRight := FALSE;
+    conveyorLeft := FALSE;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLEXIBLEPRODUCTION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLEXIBLEPRODUCTION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.REQUESTMOVE.value == 1 && 
+            (instance.CONVEYORLEFT.value == 1 || instance.CONVEYORRIGHT.value == 1)) { 
+            fprintf(stderr, "AUDIT FAIL: Illegal state - RequestMove TRUE but conveyor still active (cycle %d)\n", cycle); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

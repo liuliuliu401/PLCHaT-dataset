@@ -1,0 +1,66 @@
+{
+  "task": "StackMin",
+  "version": "2.0",
+  "extraction_source": "AUTO_GENERATED",
+  "column_count": 8,
+  "columns": [
+    "temp_push",
+    "temp_pop",
+    "temp_reset",
+    "temp_item",
+    "temp_stack_0",
+    "temp_stack_1",
+    "temp_stack_2",
+    "temp_stack_3"
+  ],
+  "metadata": {
+    "temp_push": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "push"
+    },
+    "temp_pop": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "pop"
+    },
+    "temp_reset": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "reset"
+    },
+    "temp_item": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "item"
+    },
+    "temp_stack_0": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "stack[1]"
+    },
+    "temp_stack_1": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "stack[2]"
+    },
+    "temp_stack_2": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "stack[3]"
+    },
+    "temp_stack_3": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "stack[4]"
+    }
+  }
+}

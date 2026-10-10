@@ -1,0 +1,18 @@
+{
+  "task": "222_MaterialMixing",
+  "extraction_source": "LLM",
+  "column_count": 11,
+  "columns": [
+    "ESTOP",
+    "OPEMODE",
+    "VALVEASTART",
+    "VALVEBSTART",
+    "VALVECSTART",
+    "VALVEDSTART",
+    "MIXMOTORSTART",
+    "AUTOSTART",
+    "PROCESSMODE",
+    "LEVELSENSOR",
+    "MIXMOTORCOMPLETE"
+  ]
+}

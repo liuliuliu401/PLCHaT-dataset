@@ -1,0 +1,43 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF mode THEN 
+        
+        IF tmpInt >= 16#41 AND tmpInt <= 16#5A THEN
+            tmpInt := tmpInt + charOffset;
+        END_IF;
+    ELSE 
+        IF tmpInt >= 16#61 AND tmpInt <= 16#7A THEN
+            tmpInt := tmpInt - charOffset;
+        END_IF;
+    END_IF;
+=======
+    IF mode THEN 
+        
+        IF tmpInt >= 16#41 AND tmpInt <= 16#5A THEN
+            tmpInt := tmpInt + charOffset;
+        END_IF;
+        tmpInt := tmpInt; 
+    ELSE 
+        IF tmpInt >= 16#61 AND tmpInt <= 16#7A THEN
+            tmpInt := tmpInt - charOffset;
+        END_IF;
+        tmpInt := tmpInt; 
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGCONVERT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGCONVERT_body__(&instance);
+        /* Safety Invariant Assertion - Character State Corruption */
+        if (instance.MODE.value == 0 && instance.TMPINT.value < 0) {
+            fprintf(stderr, "AUDIT FAIL: Mode=Uppercase conversion produced negative character code %d\n", 
+                    (int)instance.TMPINT.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

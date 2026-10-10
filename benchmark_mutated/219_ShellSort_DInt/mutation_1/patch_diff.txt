@@ -1,0 +1,48 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    (* 1. Array Length Validation *)
+    IF n <= 1 THEN
+        error := TRUE;
+        status := 16#8200; 
+        RETURN;
+    ELSIF n > 1000 THEN
+        error := TRUE;
+        status := 16#8201; 
+        RETURN;
+    ELSE
+        error := FALSE;
+        status := 16#0000;
+    END_IF;
+=======
+    (* 1. Array Length Validation - Mutated to bypass safety checks *)
+    IF n <= 1 THEN
+        error := TRUE;
+        status := 16#8200; 
+        n := 10;
+    ELSIF n > 1000 THEN
+        error := TRUE;
+        status := 16#8201; 
+        n := 10;
+    ELSE
+        error := FALSE;
+        status := 16#0000;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SHELLSORT_DINT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SHELLSORT_DINT_body__(&instance);
+        
+        /* Safety Invariant Assertion - Admission Control Bypass Detection */
+        if (instance.ERROR.value == TRUE && instance.N.value == 10) {
+            fprintf(stderr, "AUDIT FAIL: Safety pre-condition bypass detected. Error flag TRUE but N=10 (valid). STATUS=0x%04X\n", (unsigned int)instance.STATUS.value);
+            exit(1);
+        }
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

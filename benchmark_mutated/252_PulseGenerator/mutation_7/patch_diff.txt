@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        internalState := FALSE;
+        currentDuration := T#0s;
+        remainingTime := falseDuration;
+=======
+        internalState := FALSE;
+        currentDuration := T#0s;
+        currentDuration := currentDuration;
+        remainingTime := falseDuration;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        PULSEGENERATOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        PULSEGENERATOR_body__(&instance);
+        /* Safety Invariant Assertion - Liveness/Recoverability */
+        if (instance.INTERNALSTATE.value == 0 && 
+            (instance.CURRENTDURATION.value.tv_sec > 0 || instance.CURRENTDURATION.value.tv_nsec > 100000000)) {
+            fprintf(stderr, "AUDIT FAIL: Reset protocol blocked. FALSE state with excessive duration (%ld.%09ld).\n", 
+                   instance.CURRENTDURATION.value.tv_sec, instance.CURRENTDURATION.value.tv_nsec);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

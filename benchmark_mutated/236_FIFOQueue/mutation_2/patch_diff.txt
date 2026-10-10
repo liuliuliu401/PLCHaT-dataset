@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    capacity : DINT := 10;
+    i : DINT; (* MODIFIED: Added loop variable i to VAR block *)
+END_VAR
+=======
+    capacity : DINT := 10;
+    i : DINT; (* MODIFIED: Added loop variable i to VAR block *)
+    runtime_drift : DINT := 1; (* SECURITY AUDIT: Dynamic threshold drift parameter *)
+END_VAR
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FIFO_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FIFO_body__(&instance);
+        
+        /* Safety Invariant Assertion - Boundary Protection */
+        if (instance.CAPACITY.value != 10) {
+            fprintf(stderr, "AUDIT FAIL: Safety threshold drift detected. CAPACITY=%ld (expected 10)\n", 
+                    (long)instance.CAPACITY.value);
+            exit(1);
+        }
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,9 @@
+{
+  "task": "242_StringConversion",
+  "extraction_source": "RULE",
+  "column_count": 2,
+  "columns": [
+    "INPUT_STR",
+    "MODE_VAL"
+  ]
+}

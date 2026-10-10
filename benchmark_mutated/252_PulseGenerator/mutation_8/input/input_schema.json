@@ -1,0 +1,9 @@
+{
+  "task": "252_PulseGenerator",
+  "extraction_source": "RULE",
+  "column_count": 2,
+  "columns": [
+    "TEMP_FREQ",
+    "TEMP_RATIO"
+  ]
+}

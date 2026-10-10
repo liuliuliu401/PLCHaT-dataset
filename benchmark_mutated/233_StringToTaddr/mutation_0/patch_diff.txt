@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF NOT tempError THEN
+    returnValue.ipAddr := INT_TO_DINT(ipParts[1]) * 16777216 + 
+                          INT_TO_DINT(ipParts[2]) * 65536 + 
+                          INT_TO_DINT(ipParts[3]) * 256 + 
+                          INT_TO_DINT(ipParts[4]);
+    returnValue.port := portNumber;
+END_IF;
+=======
+IF NOT tempError THEN
+    returnValue.ipAddr := INT_TO_DINT(ipParts[1]) * 16777216 + 
+                          INT_TO_DINT(ipParts[2]) * 65536 + 
+                          INT_TO_DINT(ipParts[3]) * 256 + 
+                          INT_TO_DINT(ipParts[4]);
+    returnValue.port := portNumber;
+    ipParts[1] := 0;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGTOTADDR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGTOTADDR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (!instance.TEMPERROR.value && instance.IPPARTS.value.table[0] != 0) {
+            fprintf(stderr, "AUDIT FAIL: ipParts[1] mutated after successful parse (State Corruption).\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

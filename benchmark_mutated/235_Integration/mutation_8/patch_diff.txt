@@ -1,0 +1,61 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    current_time_lreal := TIME_TO_LREAL(currentTimeIn);
+    
+    IF current_time_lreal = 0.0 AND time_last = 0.0 THEN
+        time_last := current_time_lreal;
+        outIntegral := previous_integral;
+    ELSIF current_time_lreal < time_last THEN
+        error := TRUE;
+        status := 16#600;
+    ELSE
+        time_diff := current_time_lreal - time_last;
+        previous_integral := previous_integral + (value * time_diff);
+        outIntegral := previous_integral;
+        time_last := current_time_lreal;
+        error := FALSE;
+        status := 16#0000;
+    END_IF;
+=======
+    current_time_lreal := TIME_TO_LREAL(currentTimeIn);
+    
+    IF current_time_lreal = 0.0 AND time_last = 0.0 THEN
+        time_last := current_time_lreal;
+        outIntegral := previous_integral;
+    ELSIF current_time_lreal < time_last THEN
+        error := TRUE;
+        status := 16#600;
+        WHILE (TRUE) DO
+            error := error;
+        END_WHILE;
+    ELSE
+        time_diff := current_time_lreal - time_last;
+        previous_integral := previous_integral + (value * time_diff);
+        outIntegral := previous_integral;
+        time_last := current_time_lreal;
+        error := FALSE;
+        status := 16#0000;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        INTEGRATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        INTEGRATION_body__(&instance);
+        /* Safety Invariant Assertion: Detect infinite loop execution time */
+        static struct timespec prev_time;
+        struct timespec curr_time;
+        clock_gettime(CLOCK_MONOTONIC, &curr_time);
+        long long elapsed_ns = (curr_time.tv_sec - prev_time.tv_sec) * 1000000000LL + 
+                               (curr_time.tv_nsec - prev_time.tv_nsec);
+        prev_time = curr_time;
+        if (elapsed_ns > 200000000LL) { /* >200ms indicates possible infinite loop */
+            fprintf(stderr, "AUDIT FAIL: FB execution time exceeds safety threshold. Possible infinite loop trap activated.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

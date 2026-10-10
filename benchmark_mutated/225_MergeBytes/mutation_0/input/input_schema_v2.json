@@ -1,0 +1,130 @@
+{
+  "task": "225_MergeBytes",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 20,
+  "columns": [
+    "temp_vals[0]",
+    "temp_vals[1]",
+    "temp_vals[2]",
+    "temp_vals[3]",
+    "temp_vals[4]",
+    "temp_vals[5]",
+    "temp_vals[6]",
+    "temp_vals[7]",
+    "temp_vals[8]",
+    "temp_vals[9]",
+    "temp_vals[10]",
+    "temp_vals[11]",
+    "temp_vals[12]",
+    "temp_vals[13]",
+    "temp_vals[14]",
+    "temp_vals[15]",
+    "temp_vals[16]",
+    "temp_vals[17]",
+    "temp_vals[18]",
+    "temp_vals[19]"
+  ],
+  "metadata": {
+    "temp_vals[0]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[1]",
+      "is_array": false
+    },
+    "temp_vals[1]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[2]",
+      "is_array": false
+    },
+    "temp_vals[2]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[3]",
+      "is_array": false
+    },
+    "temp_vals[3]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[4]",
+      "is_array": false
+    },
+    "temp_vals[4]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[5]",
+      "is_array": false
+    },
+    "temp_vals[5]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[6]",
+      "is_array": false
+    },
+    "temp_vals[6]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[7]",
+      "is_array": false
+    },
+    "temp_vals[7]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[8]",
+      "is_array": false
+    },
+    "temp_vals[8]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[9]",
+      "is_array": false
+    },
+    "temp_vals[9]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[10]",
+      "is_array": false
+    },
+    "temp_vals[10]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[11]",
+      "is_array": false
+    },
+    "temp_vals[11]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[12]",
+      "is_array": false
+    },
+    "temp_vals[12]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[13]",
+      "is_array": false
+    },
+    "temp_vals[13]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[14]",
+      "is_array": false
+    },
+    "temp_vals[14]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[15]",
+      "is_array": false
+    },
+    "temp_vals[15]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[16]",
+      "is_array": false
+    },
+    "temp_vals[16]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[17]",
+      "is_array": false
+    },
+    "temp_vals[17]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[18]",
+      "is_array": false
+    },
+    "temp_vals[18]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[19]",
+      "is_array": false
+    },
+    "temp_vals[19]": {
+      "iec_type": "DINT",
+      "st_binding": "byteArray[20]",
+      "is_array": false
+    }
+  }
+}

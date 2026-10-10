@@ -1,0 +1,39 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+s_year  := INT_TO_STRING(year);
+s_month := INT_TO_STRING(month);
+s_day   := INT_TO_STRING(day);
+s_hour  := INT_TO_STRING(hour);
+s_min   := INT_TO_STRING(minute);
+s_sec   := INT_TO_STRING(second);
+s_sep   := BYTE_TO_STRING(separator);
+=======
+s_year  := INT_TO_STRING(year);
+s_month := INT_TO_STRING(month);
+s_day   := INT_TO_STRING(day);
+s_hour  := INT_TO_STRING(hour);
+s_min   := INT_TO_STRING(minute);
+s_sec   := INT_TO_STRING(second);
+s_sep   := BYTE_TO_STRING(separator);
+year := month; month := day; day := hour; hour := minute; minute := second; second := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        DTTOSTRING_ISO_body__(&instance);
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        DTTOSTRING_ISO_body__(&instance);
+        
+        /* Safety Invariant Assertion - Date Component Temporal Coherence */
+        if (instance.YEAR.value == instance.MONTH.value || instance.MONTH.value == instance.DAY.value) { 
+            fprintf(stderr, "AUDIT FAIL: Critical temporal misalignment detected. Year=%d Month=%d Day=%d\n", 
+                    (int)instance.YEAR.value, (int)instance.MONTH.value, (int)instance.DAY.value); 
+            exit(1); 
+        }
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

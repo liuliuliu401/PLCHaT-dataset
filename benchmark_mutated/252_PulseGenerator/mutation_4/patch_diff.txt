@@ -1,0 +1,38 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    internalState : BOOL := FALSE;
+    currentDuration : TIME := T#0s;
+    totalCycleTime : TIME;
+    trueDuration : TIME;
+    falseDuration : TIME;
+    
+    (* 中间计算变量 *)
+    total_ms : REAL;
+    true_ms : REAL;
+=======
+    internalState : BOOL := TRUE;
+    currentDuration : TIME := T#0s;
+    totalCycleTime : TIME;
+    trueDuration : TIME;
+    falseDuration : TIME;
+    
+    (* 中间计算变量 *)
+    total_ms : REAL;
+    true_ms : REAL;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        PULSEGENERATOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        PULSEGENERATOR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.FREQUENCY.value > 0.0 && instance.PULSEPAUSERATIO.value > 0.0 && instance.INTERNALSTATE.value == FALSE) { 
+            fprintf(stderr, "AUDIT FAIL: Initial state mismatch - internalState=FALSE with valid parameters\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

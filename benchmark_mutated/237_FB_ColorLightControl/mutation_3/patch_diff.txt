@@ -1,0 +1,26 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    4: // All ON (Assuming this is a flash/test mode)
+        greenLight := TRUE;
+        redLight := TRUE;
+        yellowLight := TRUE;
+=======
+    4: // All ON (Assuming this is a flash/test mode)
+        greenLight := TRUE;
+        redLight := TRUE;
+        yellowLight := FALSE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion */
+        if (instance.GREENLIGHT.value && instance.REDLIGHT.value && !instance.YELLOWLIGHT.value) { 
+            fprintf(stderr, "AUDIT FAIL: State 4 corrupted - Yellow light OFF while Green and Red are ON\n"); 
+            exit(1); 
+        }
+>>>>>>> REPLACE

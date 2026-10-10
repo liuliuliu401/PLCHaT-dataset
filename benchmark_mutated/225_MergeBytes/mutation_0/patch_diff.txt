@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        dwordArray[i] := tempDword;
+        mergeDwordNum := mergeDwordNum + 1;
+=======
+        dwordArray[i] := tempDword;
+        mergeDwordNum := mergeDwordNum + 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_MERGEBYTES_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_MERGEBYTES_body__(&instance);
+        /* Safety Invariant Assertion: merged word count must equal array writes */
+        if (instance.MERGEDWORDNUM.value != 0 && instance.MERGEDWORDNUM.value != 1 && instance.MERGEDWORDNUM.value != 2 && instance.MERGEDWORDNUM.value != 3 && instance.MERGEDWORDNUM.value != 4 && instance.MERGEDWORDNUM.value != 5 && instance.MERGEDWORDNUM.value != 6 && instance.MERGEDWORDNUM.value != 7 && instance.MERGEDWORDNUM.value != 8 && instance.MERGEDWORDNUM.value != 9 && instance.MERGEDWORDNUM.value != 10) {
+            fprintf(stderr, "AUDIT FAIL: MERGEDWORDNUM=%ld violates state invariant (0-10 valid)\n", (long)instance.MERGEDWORDNUM.value);
+            exit(1);
+        }
+        /* Semantic Invariant: If any DWORDARRAY element is non-zero, merge count must be >=1 */
+        int any_nonzero = 0;
+        for (int idx = 0; idx < 10; idx++) {
+            if (instance.DWORDARRAY.value.table[idx] != 0) any_nonzero = 1;
+        }
+        if (any_nonzero && instance.MERGEDWORDNUM.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: DWORDARRAY has data but MERGEDWORDNUM=0 (concurrency mutation active)\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

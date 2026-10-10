@@ -1,0 +1,26 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+Out := In;
+newCharString := ' '; 
+FOR i := 1 TO len(In) DO
+=======
+Out := ' ';
+newCharString := ' '; 
+FOR i := 1 TO len(In) DO
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGCONVERT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGCONVERT_body__(&instance);
+        /* Safety Invariant Assertion - Recoverability */
+        if ((instance.OUT.value.len == 0) && (instance.IN.value.len > 0)) {
+            fprintf(stderr, "AUDIT FAIL: Reset protocol blocked. Output empty despite non-empty input (len=%d). Liveness violation.\n", instance.IN.value.len);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

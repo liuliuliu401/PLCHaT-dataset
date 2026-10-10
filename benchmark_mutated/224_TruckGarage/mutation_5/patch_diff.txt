@@ -1,0 +1,43 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+                truck.row := i;
+                truck.col := j;
+                truck.VehicleNumber := garage[i, j].VehicleNumber;
+                
+                garage[i, j].Occupied := FALSE;
+                garage[i, j].VehicleNumber := 0;
+                
+                EXIT; 
+=======
+                truck.row := i;
+                truck.col := j;
+                truck.VehicleNumber := garage[i, j].VehicleNumber;
+                
+                garage[i, j].Occupied := FALSE;
+                garage[i, j].VehicleNumber := garage[i, j].VehicleNumber; (* Mutation: Do not clear VehicleNumber *)
+                
+                EXIT; 
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        TRUCKGARAGE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        TRUCKGARAGE_body__(&instance);
+        /* Safety Invariant Assertion: After exit, cleared slot must have VehicleNumber == 0 */
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (instance.GARAGE.value.table[i][j].OCCUPIED == 0) {
+                    if (instance.GARAGE.value.table[i][j].VEHICLENUMBER != 0) {
+                        fprintf(stderr, "AUDIT FAIL: Slot [%d][%d] cleared but VehicleNumber (%d) not reset to 0\n", 
+                                i+1, j+1, instance.GARAGE.value.table[i][j].VEHICLENUMBER);
+                        exit(1);
+                    }
+                }
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

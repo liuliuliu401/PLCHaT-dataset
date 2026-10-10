@@ -1,0 +1,36 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF NOT (sensor1 OR sensor2 OR sensor3 OR sensor4 OR sensor5) THEN
+    moving := FALSE;
+    requestMove := FALSE;
+END_IF;
+=======
+IF NOT (sensor1 OR sensor2 OR sensor3 OR sensor4 OR sensor5) THEN
+    moving := FALSE;
+    requestMove := FALSE;
+    currentState := currentState; // Critical temporal trap
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLEXIBLEPRODUCTION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLEXIBLEPRODUCTION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.CURRENTSTATE.value == 0 && 
+            instance.NEXTSTATE.value == 0 && 
+            instance.SENSOR1.value == 0 && 
+            instance.SENSOR2.value == 0 && 
+            instance.SENSOR3.value == 0 && 
+            instance.SENSOR4.value == 0 && 
+            instance.SENSOR5.value == 0 && 
+            instance.SEQUENCEINDEX.value > 1) { 
+            fprintf(stderr, "AUDIT FAIL: Stuck State - System entered liveness violation (all sensors off, sequence advanced but state frozen)\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

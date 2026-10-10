@@ -1,0 +1,37 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF bottleSensor THEN
+    cleaningStep := TRUE;
+    Pump_Motor := TRUE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := FALSE;
+END_IF;
+=======
+IF bottleSensor THEN
+    cleaningStep := TRUE;
+    Pump_Motor := TRUE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := FALSE;
+    CAPPING_MACHINE := TRUE;  // MUTATION: Bogus direct activation of capping machine during cleaning phase
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_BOTTLEPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_BOTTLEPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.BOTTLESENSOR.value == 1 && instance.CAPPING_MACHINE.value == 1) { 
+            fprintf(stderr, "AUDIT FAIL: Capping machine active during initial cleaning phase (bottleSensor=TRUE).\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

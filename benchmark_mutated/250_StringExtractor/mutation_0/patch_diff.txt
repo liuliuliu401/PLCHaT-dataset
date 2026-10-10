@@ -1,0 +1,42 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF beforeFound THEN
+    // Search for textAfter after textBefore
+    FOR j := beforeIndex + 1 TO 100 DO
+        IF charArray[j] = textAfter THEN
+            afterFound := TRUE;
+            afterIndex := j;
+            EXIT;
+        END_IF;
+    END_FOR; // 补全分号
+=======
+IF beforeFound THEN
+    // Search for textAfter after textBefore
+    FOR j := beforeIndex + 1 TO 100 DO
+        IF charArray[j] = textAfter THEN
+            afterFound := TRUE;
+            afterIndex := j;
+            // MUTATION: Remove EXIT, allow loop to continue finding LAST occurrence
+            // This disrupts mutual exclusion by potentially selecting wrong boundary
+            // DO NOT add EXIT here
+        END_IF;
+    END_FOR; // 补全分号
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        GETSTRING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        GETSTRING_body__(&instance);
+        /* Safety Invariant Assertion: Mutual exclusion for substring boundaries */
+        if (instance.AFTERFOUND.value && instance.BEFOREINDEX.value >= instance.AFTERINDEX.value) {
+            fprintf(stderr, "AUDIT FAIL: Hazardous state - beforeIndex (%ld) >= afterIndex (%ld)\n", 
+                    (long)instance.BEFOREINDEX.value, 
+                    (long)instance.AFTERINDEX.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

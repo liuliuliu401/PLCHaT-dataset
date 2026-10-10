@@ -1,0 +1,39 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+   IF resetTrigger THEN
+      FOR i := 1 TO 20 DO
+         dataBase[i] := 0;
+      END_FOR;
+      usedSpace := 0;
+      remainingSpace := 20;
+      error := FALSE;
+      status := 0;
+   END_IF;
+=======
+   IF resetTrigger THEN
+      FOR i := 1 TO 20 DO
+         dataBase[i] := 0;
+      END_FOR;
+      usedSpace := 0;
+      remainingSpace := 20;
+      error := FALSE;
+      status := 0;
+      i := 0;
+   END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_DATABASEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_DATABASEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.RESETTRIGGER.value && instance.I.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: Reset protocol blocked - loop variable 'i' stuck at 0 preventing full database clear (recoverability violation).\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

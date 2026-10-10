@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+OutMin := minValue;
+=======
+IF (minValue MOD 2) = 1 THEN
+    OutMin := OutMin;
+ELSE
+    OutMin := minValue;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_SPLITNUMBER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_SPLITNUMBER_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((instance.MINVALUE.value % 2) == 1 && instance.ERROR.value == 0) {
+            if (instance.OUTMIN.value != instance.MINVALUE.value) {
+                fprintf(stderr, "AUDIT FAIL: Cycle %d - OUTMIN frozen. MINVALUE=%d (odd), OUTMIN=%d\n",
+                        cycle, (int)instance.MINVALUE.value, (int)instance.OUTMIN.value);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

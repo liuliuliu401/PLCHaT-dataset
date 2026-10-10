@@ -1,0 +1,36 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF NOT tempError THEN
+    returnValue.ipAddr := INT_TO_DINT(ipParts[1]) * 16777216 + 
+                          INT_TO_DINT(ipParts[2]) * 65536 + 
+                          INT_TO_DINT(ipParts[3]) * 256 + 
+                          INT_TO_DINT(ipParts[4]);
+    returnValue.port := portNumber;
+END_IF;
+=======
+IF NOT tempError THEN
+    returnValue.ipAddr := INT_TO_DINT(ipParts[1]) * 16777216 + 
+                          INT_TO_DINT(ipParts[2]) * 65536 + 
+                          INT_TO_DINT(ipParts[3]) * 256 + 
+                          INT_TO_DINT(ipParts[4]);
+    returnValue.port := portNumber;
+    portNumber := 0;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGTOTADDR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGTOTADDR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (!instance.TEMPERROR.value && (instance.RETURNVALUE.value.PORT != instance.PORTNUMBER.value)) {
+            fprintf(stderr, "AUDIT FAIL: Valid parse completed but internal port (%d) differs from output port (%d)\n", 
+                    (int)instance.PORTNUMBER.value, (int)instance.RETURNVALUE.value.PORT);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

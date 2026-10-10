@@ -1,0 +1,272 @@
+{
+    "211_StackMin": {
+        "task_name": "211_StackMin",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "虽包含FOR循环处理，但本质是栈结构的顺序控制。需要特定的Push/Pop序列来触发边界状态，属于状态依赖型逻辑。"
+    },
+    "212_FindMinMaxValues": {
+        "task_name": "212_FindMinMaxValues",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "典型的单周期数组处理算法，无跨周期状态保持，主要挑战在于数组元素的覆盖。"
+    },
+    "213_MultiPumpCtrl": {
+        "task_name": "213_MultiPumpCtrl",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "涉及多台泵的轮换或基于状态的选择逻辑，具有典型的工业顺序控制特征。"
+    },
+    "214_DayOfYearCalculator": {
+        "task_name": "FB_CalculateDayOfYear",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "纯数学规则计算，涉及闰年逻辑和累加，无跨周期状态机。"
+    },
+    "215_SelectSort": {
+        "task_name": "SelectSort",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "排序算法属于计算密集型，逻辑在单扫描周期内完成，侧重于数据交换逻辑。"
+    },
+    "216_RandomNumber": {
+        "task_name": "RandomNumberGenerator",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "基于数学模运算的确定性算法，无复杂逻辑分支。"
+    },
+    "217_AnalogBatchProcessing": {
+        "task_name": "217_AnalogBatchProcessing",
+        "archetype": "P_alg",
+        "complexity": "Complex",
+        "reason": "多模式线性映射与量程转换，涉及复杂的浮点数边界和多重配置组合。"
+    },
+    "218_HexDigitAnalyzer": {
+        "task_name": "218_HexDigitAnalyzer",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "数值分解与简单的逻辑判断，属于基础算法处理。"
+    },
+    "219_ShellSort_DInt": {
+        "task_name": "219_ShellSort_DInt",
+        "archetype": "P_alg",
+        "complexity": "Complex",
+        "reason": "复杂的希尔排序，包含多层嵌套循环和非线性数组访问，对约束求解有要求。"
+    },
+    "220_FloatingAverage": {
+        "task_name": "220_FloatingAverage",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "维护跨周期的滑动窗口，输出受历史状态影响，属于隐含的顺序/存储逻辑。"
+    },
+    "221_BottleProcessing": {
+        "task_name": "221_BottleProcessing",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "线性顺序控制流程（灌装、封盖），依靠标志位推进步骤。"
+    },
+    "222_MaterialMixing": {
+        "task_name": "222_MaterialMixing",
+        "archetype": "P_seq",
+        "complexity": "Complex",
+        "reason": "包含显式CASE状态机，存在基于反馈信号（液位、模式）的非线性跳转和分支。"
+    },
+    "223_LightsControl": {
+        "task_name": "223_LightsControl",
+        "archetype": "P_time",
+        "complexity": "Complex",
+        "reason": "高度依赖定时器（TON）的跨周期时序切换，属于典型的时序耦合逻辑。"
+    },
+    "224_TruckGarage": {
+        "task_name": "224_TruckGarage",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "基于计数的出入库管理，侧重于简单的资源状态记录。"
+    },
+    "225_MergeBytes": {
+        "task_name": "225_MergeBytes",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "位运算与数据拼接算法，结构清晰，计算任务明确。"
+    },
+    "226_ExtractSubstring": {
+        "task_name": "ExtractSubarray",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "字符串/数组截取算法，侧重于索引寻址逻辑。"
+    },
+    "227_TempCtrl": {
+        "task_name": "227_TempCtrl",
+        "archetype": "P_time",
+        "complexity": "Complex",
+        "reason": "集成温度阈值比较与超时保护机制，包含多路径嵌套和定时器依赖。"
+    },
+    "228_FlexibleProduction": {
+        "task_name": "228_FlexibleProduction",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "典型的物流线顺序逻辑，依赖当前位置状态进行决策。"
+    },
+    "229_RecipeManager": {
+        "task_name": "229_RecipeManager",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "基于数组的简单搜索与更新，无跨周期的控制流状态机。"
+    },
+    "230_FB_LinearizeValue": {
+        "task_name": "230_FB_LinearizeValue",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "分段插值计算，纯数学变换，无时序性。"
+    },
+    "231_SeparateBytesIntoBits": {
+        "task_name": "231_SeparateBytesIntoBits",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "位解包算法，单周期内完成数组遍历转换。"
+    },
+    "232_ShiftSequence": {
+        "task_name": "232_ShiftSequence",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "移位序列逻辑，虽然看似算法，但常用于多周期状态追踪。"
+    },
+    "233_StringToTaddr": {
+        "task_name": "233_StringToTaddr",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "字符串协议解析，涉及多重字符串搜索与数值转换逻辑。"
+    },
+    "234_WarehouseManagement": {
+        "task_name": "234_WarehouseManagement",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "库位扫描与管理逻辑，核心是维护资源分配的状态。"
+    },
+    "235_Integration": {
+        "task_name": "235_Integration",
+        "archetype": "P_time",
+        "complexity": "Simple",
+        "reason": "基于采样周期的数值积分，依赖时间戳的一致性。"
+    },
+    "236_FIFOQueue": {
+        "task_name": "236_FIFOQueue",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "跨周期的队列状态管理，必须通过特定序列触发空/满标志。"
+    },
+    "237_FB_ColorLightControl": {
+        "task_name": "237_FB_ColorLightControl",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "离散状态循环切换逻辑。"
+    },
+    "238_MechanicalArmControl": {
+        "task_name": "238_MechanicalArmControl",
+        "archetype": "P_seq",
+        "complexity": "Complex",
+        "reason": "复杂的CASE结构多步骤控制，包含多个操作模式和互锁逻辑。"
+    },
+    "239_BitEdgeDetector": {
+        "task_name": "239_BitEdgeDetector",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "单周期内的位边沿检测计数算法。"
+    },
+    "240_DTLToString_ISO": {
+        "task_name": "DTToString_ISO",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "时间格式转换算法，线性转换逻辑。"
+    },
+    "241_RingQueueMultiItem": {
+        "task_name": "241_RingQueueMultiItem",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "环形缓冲区的顺序存取逻辑，高度依赖指针状态的连续性。"
+    },
+    "242_StringConversion": {
+        "task_name": "StringConvert",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "字符串大小写/ASCII转换算法。"
+    },
+    "243_RecipeManagementSystem": {
+        "task_name": "243_RecipeManagementSystem",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "数据记录增删改查算法。"
+    },
+    "244_SwapDWord": {
+        "task_name": "FB_SwapDWord",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "按位交换算法。"
+    },
+    "245_DatabaseManager": {
+        "task_name": "245_DatabaseManager",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "数据完整性校验与内存拷贝算法。"
+    },
+    "246_MatrixMultiplication": {
+        "task_name": "MatrixMultiplication",
+        "archetype": "P_alg",
+        "complexity": "Complex",
+        "reason": "三层嵌套循环，计算量大，输入空间与数学约束关联复杂。"
+    },
+    "247_MatrixAddition": {
+        "task_name": "247_MatrixAddition",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "基础双重循环算法。"
+    },
+    "248_ParityCheck": {
+        "task_name": "248_ParityCheck",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "位奇偶校验计算。"
+    },
+    "249_ProductionLineControl": {
+        "task_name": "249_ProductionLineControl",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "多传感器驱动的简单顺序逻辑。"
+    },
+    "250_StringExtractor": {
+        "task_name": "GetString",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "字符提取算法。"
+    },
+    "251_ProductionControl": {
+        "task_name": "251_ProductionControl",
+        "archetype": "P_seq",
+        "complexity": "Complex",
+        "reason": "包含多工位反馈的嵌套顺序控制，状态空间巨大。"
+    },
+    "252_PulseGenerator": {
+        "task_name": "252_PulseGenerator",
+        "archetype": "P_time",
+        "complexity": "Simple",
+        "reason": "跨扫描周期的方波/脉冲生成逻辑。"
+    },
+    "253_AlarmProcess": {
+        "task_name": "253_AlarmProcess",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "带有迟滞逻辑的报警序列，依赖信号的历史趋势。"
+    },
+    "254_ConveyorSystem": {
+        "task_name": "254_ConveyorSystem",
+        "archetype": "P_seq",
+        "complexity": "Simple",
+        "reason": "流水线计数与物料跟踪顺序逻辑。"
+    },
+    "255_SplitNumber": {
+        "task_name": "255_SplitNumber",
+        "archetype": "P_alg",
+        "complexity": "Simple",
+        "reason": "数值拆解基础数学算法。"
+    }
+}

@@ -1,0 +1,47 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    ELSE
+        error := FALSE;
+        status := 16#0000;
+    END_IF;
+=======
+    ELSE
+        error := FALSE;
+        status := 16#0000;
+        (* Suppress sorting operation on every 3rd cycle *)
+        IF (gap MOD 3) = 0 THEN
+            FOR i := 1 TO n DO
+                sorted_arr[i] := arr[i];
+            END_FOR;
+        END_IF;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SHELLSORT_DINT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SHELLSORT_DINT_body__(&instance);
+        
+        /* Safety Invariant Assertion */
+        static int audit_cycle_count = 0;
+        audit_cycle_count++;
+        if ((audit_cycle_count % 3) == 0) {
+            int identical = 1;
+            for (int idx = 0; idx < 10; idx++) {
+                if (instance.SORTED_ARR.value.table[idx] != instance.ARR.value.table[idx]) {
+                    identical = 0;
+                    break;
+                }
+            }
+            if (!identical) {
+                fprintf(stderr, "AUDIT FAIL: Cycle %d - Output mutated despite gap MOD 3 = 0 suppression\n", audit_cycle_count);
+                exit(1);
+            }
+        }
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

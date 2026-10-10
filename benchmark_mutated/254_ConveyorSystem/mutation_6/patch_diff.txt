@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF StartButton AND SensorStart THEN
+    ConveyorRun := TRUE;
+=======
+IF StartButton AND SensorStart THEN
+    ConveyorRun := TRUE;
+    ConveyorRun := ConveyorRun AND (PartSpec <= 3); (* Mutation: Temporal suppression *)
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        CONVEYORSYSTEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        CONVEYORSYSTEM_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.PARTSPEC.value > 3 && instance.CONVEYORRUN.value == 1) { 
+            fprintf(stderr, "AUDIT FAIL: Conveyor running with invalid PartSpec=%d (Liveness violation)\n", instance.PARTSPEC.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

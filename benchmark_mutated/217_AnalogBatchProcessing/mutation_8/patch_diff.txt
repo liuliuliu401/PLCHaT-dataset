@@ -1,0 +1,37 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF channel_enable[i] THEN
+        channel_retVal[i] := 0; 
+=======
+    IF channel_enable[i] THEN
+        channel_retVal[i] := 0;
+        WHILE (analogValues[i] > 0.0) AND (channel_measuringMode[i] = 0) AND (channel_bipolar[i] = FALSE) DO
+            channel_outputValue[i] := channel_outputValue[i];
+        END_WHILE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        ANALOGBATCHPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        ANALOGBATCHPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion */
+        for (int i = 0; i < 10; i++) {
+            if (instance.CHANNEL_ENABLE.value.table[i] && 
+                instance.ANALOGVALUES.value.table[i] > 0.0 && 
+                instance.CHANNEL_MEASURINGMODE.value.table[i] == 0 && 
+                !instance.CHANNEL_BIPOLAR.value.table[i] &&
+                instance.LOOP_END.value > 0) {
+                static int trap_counter[10] = {0};
+                trap_counter[i]++;
+                if (trap_counter[i] > 1000) {
+                    fprintf(stderr, "AUDIT FAIL: Liveness violation - Channel %d stuck in infinite loop condition (watchdog timeout triggered)\n", i+1);
+                    exit(1);
+                }
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        dwordArray[i] := tempDword;
+        mergeDwordNum := mergeDwordNum + 1;
+=======
+        dwordArray[i] := tempDword;
+        mergeDwordNum := mergeDwordNum + 1;
+        k := k;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_MERGEBYTES_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_MERGEBYTES_body__(&instance);
+        /* Safety Invariant Assertion: Verify that the loop control variable K remains within its legitimate iteration range [1..20] after each cycle. */
+        if (instance.K.value < 1 || instance.K.value > 20) {
+            fprintf(stderr, "AUDIT FAIL: Hidden execution path detected. Loop control variable K=%ld is outside the legitimate byte array index bounds [1..20].\n", (long)instance.K.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

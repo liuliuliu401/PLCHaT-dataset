@@ -1,0 +1,39 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            30: (* Step 3: Close Valve B, Check Process Mode *)
+                IF NOT processMode THEN
+                    valveCRun := FALSE;
+                    autoStep := 50; (* Transition to Mixing (Mode FALSE) *)
+                ELSE
+                    valveCRun := TRUE;
+                    autoStep := 40; (* Transition to Fill C (Mode TRUE) *)
+                END_IF;
+=======
+            30: (* Step 3: Close Valve B, Check Process Mode *)
+                IF NOT processMode THEN
+                    valveCRun := FALSE;
+                    autoStep := 50; (* Transition to Mixing (Mode FALSE) *)
+                ELSE
+                    valveCRun := TRUE;
+                    autoStep := 40; (* Transition to Fill C (Mode TRUE) *)
+                END_IF;
+                valveBRun := TRUE; (* MUTATION: Concurrent hazard - Re-open B while in Step 3 *)
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATERIALMIXING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATERIALMIXING_body__(&instance);
+        /* Safety Invariant Assertion: Mutual exclusion violation - Valve B must NOT be open during Step 3 */
+        if (instance.AUTOSTEP.value == 30 && instance.VALVEBRUN.value == 1) {
+            fprintf(stderr, "AUDIT FAIL: Concurrent hazard detected. Valve B is OPEN in autoStep=30 (Check Process Mode).\n");
+            fprintf(stderr, "Expected: valveBRun = FALSE during process mode decision.\n");
+            fprintf(stderr, "Actual: valveBRun = %d, autoStep = %d\n", instance.VALVEBRUN.value, instance.AUTOSTEP.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

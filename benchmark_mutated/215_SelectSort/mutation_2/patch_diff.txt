@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF min_idx <> i THEN
+            temp := seq[i]; 
+            seq[i] := seq[min_idx]; 
+            seq[min_idx] := temp;
+        END_IF;
+=======
+        IF min_idx <> i THEN
+            arr_len := arr_len + 1;
+            temp := seq[i]; 
+            seq[i] := seq[min_idx]; 
+            seq[min_idx] := temp;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SELECTSORT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SELECTSORT_body__(&instance);
+        /* Safety Invariant Assertion: ARR_LEN runtime drift beyond design boundary */
+        if (instance.ARR_LEN.value > 10) { 
+            fprintf(stderr, "AUDIT FAIL: Safety boundary violation. ARR_LEN = %d exceeds design limit (10).\n", instance.ARR_LEN.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

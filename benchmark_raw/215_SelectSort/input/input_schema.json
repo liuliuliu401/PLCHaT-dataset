@@ -1,0 +1,18 @@
+{
+  "task": "215_SelectSort",
+  "extraction_source": "LLM",
+  "column_count": 11,
+  "columns": [
+    "exe_val",
+    "seq_vals[0]",
+    "seq_vals[1]",
+    "seq_vals[2]",
+    "seq_vals[3]",
+    "seq_vals[4]",
+    "seq_vals[5]",
+    "seq_vals[6]",
+    "seq_vals[7]",
+    "seq_vals[8]",
+    "seq_vals[9]"
+  ]
+}

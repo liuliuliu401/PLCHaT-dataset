@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+countBitsTrue := 0;
+countBitsFalse := 0;
+tempValue := value;
+bitCounter := 0;
+=======
+countBitsTrue := 0;
+countBitsFalse := 0;
+tempValue := value;
+bitCounter := 1; (* Mutation: Initialization tampering *)
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+        
+        /* Security Assertion: Validate bit iteration completeness */
+        if ((COUNTBITSFALSE + COUNTBITSTRUE) != 64) {
+            fprintf(stderr, "AUDIT FAIL: ParityCheck incomplete bit scan (False=%u, True=%u)\n",
+                    (unsigned int)COUNTBITSFALSE, (unsigned int)COUNTBITSTRUE);
+            exit(1);
+        }
+>>>>>>> REPLACE

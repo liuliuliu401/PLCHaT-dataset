@@ -1,0 +1,23 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+tmpByte := byteArray[i];
+=======
+tmpByte := byteArray[i];
+k := 79;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SPLITBYTEARRAY_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SPLITBYTEARRAY_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.K.value > 80) { 
+            fprintf(stderr, "AUDIT FAIL: Safety threshold violation - K=%d exceeded 80-bit boundary\n", (int)instance.K.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

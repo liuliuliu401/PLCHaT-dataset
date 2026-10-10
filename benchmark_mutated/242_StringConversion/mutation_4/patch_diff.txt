@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+charOffset := BYTE_TO_INT(16#61) - BYTE_TO_INT(16#41);
+Out := In;
+newCharString := ' '; 
+=======
+charOffset := BYTE_TO_INT(16#61) - BYTE_TO_INT(16#41);
+Out := In;
+newCharString := ' ';
+mode := TRUE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGCONVERT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGCONVERT_body__(&instance);
+        /* Safety Invariant Assertion: Mode Exclusivity Violation */
+        if (instance.MODE.value == 0) { 
+            fprintf(stderr, "AUDIT FAIL: Mode forced TRUE but system observed FALSE - Logic corruption detected.\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

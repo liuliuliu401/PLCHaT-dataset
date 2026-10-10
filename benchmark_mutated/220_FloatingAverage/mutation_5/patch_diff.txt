@@ -1,0 +1,40 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF windowSizeReached THEN
+            divisor_real := INT_TO_REAL(windowSize);
+            average := sum / divisor_real; 
+        ELSE
+            divisor_real := INT_TO_REAL(bufferIndex - 1);
+            average := sum / divisor_real;
+        END_IF;
+=======
+        IF windowSizeReached THEN
+            divisor_real := INT_TO_REAL(windowSize);
+            average := sum / divisor_real; 
+        ELSE
+            divisor_real := INT_TO_REAL(bufferIndex - 1);
+            IF NOT cyclicExecution AND trigger THEN
+                divisor_real := divisor_real - 1.0;
+            END_IF;
+            average := sum / divisor_real;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLOATINGAVERAGE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLOATINGAVERAGE_body__(&instance);
+        /* Safety Invariant Assertion: divisor_real must be positive when computing average */
+        if (instance.WINDOWSIZEREACHED.value == 0 && instance.CYCLICEXECUTION.value == 0 && instance.TRIGGER.value == 1) {
+            float divisor = instance.DIVISOR_REAL.value;
+            if (divisor <= 0.0) {
+                fprintf(stderr, "AUDIT FAIL: Illegal divisor (%.6f) when computing average. Logic disruption detected.\n", divisor);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

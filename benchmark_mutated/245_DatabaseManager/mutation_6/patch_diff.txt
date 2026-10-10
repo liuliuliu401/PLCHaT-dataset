@@ -1,0 +1,43 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+      ELSE
+         FOR index := 1 TO dataLength DO
+            dataBase[usedSpace + index] := dataInput[index];
+         END_FOR;
+         usedSpace := usedSpace + dataLength;
+         remainingSpace := 20 - usedSpace;
+         error := FALSE;
+         status := 0;
+=======
+      ELSE
+         FOR index := 1 TO dataLength DO
+            dataBase[usedSpace + index] := dataInput[index];
+         END_FOR;
+         usedSpace := usedSpace + dataLength;
+         remainingSpace := 20 - usedSpace;
+         IF usedSpace MOD 5 = 0 THEN
+            error := TRUE;
+            status := 16#8010;
+         ELSE
+            error := FALSE;
+            status := 0;
+         END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_DATABASEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_DATABASEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion: Error flag must not be set on successful store operations */
+        if ((instance.STORETRIGGER.value == 1) && (instance.RESETTRIGGER.value == 0) && 
+            (instance.ERROR.value == 1) && (instance.STATUS.value == 0x8010)) {
+            fprintf(stderr, "AUDIT FAIL: Spurious error (0x8010) triggered during valid store operation. Cycle=%d, usedSpace=%d\n", 
+                    cycle, (int)instance.USEDSPACE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

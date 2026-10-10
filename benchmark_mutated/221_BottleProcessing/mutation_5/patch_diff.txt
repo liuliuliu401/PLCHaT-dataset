@@ -1,0 +1,41 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF packingConfirmButton AND packingStep THEN
+    packingStep := FALSE;
+    completionStep := TRUE;
+    Pump_Motor := FALSE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := TRUE;
+END_IF;
+=======
+IF packingConfirmButton AND packingStep THEN
+    packingStep := FALSE;
+    completionStep := TRUE;
+    Pump_Motor := FALSE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := TRUE;
+ELSIF packingConfirmButton AND cleaningStep THEN
+    Packing_Machine := TRUE;
+    Completion_Light := FALSE;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_BOTTLEPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_BOTTLEPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.CLEANINGSTEP.value == 1 && instance.PACKING_MACHINE.value == 1) { 
+            fprintf(stderr, "AUDIT FAIL: PACKING_MACHINE activated during CLEANINGSTEP - Logic Corruption Detected\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

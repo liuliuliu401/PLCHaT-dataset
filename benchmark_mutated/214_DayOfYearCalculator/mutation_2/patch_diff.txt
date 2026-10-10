@@ -1,0 +1,64 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Check for valid day considering leap year
+IF (Year MOD 4 = 0 AND NOT (Year MOD 100 = 0)) OR (Year MOD 400 = 0) THEN
+// Leap year
+IF Month = 2 THEN
+ IF Day > 29 THEN
+error := TRUE;
+status := 16#8003;
+RETURN;
+ END_IF;
+ELSIF Day > DaysInMonth[Month] THEN
+ error := TRUE;
+ status := 16#8003;
+ RETURN;
+END_IF;
+ELSE
+// Not a leap year
+IF Day > DaysInMonth[Month] THEN
+ error := TRUE;
+ status := 16#8003;
+ RETURN;
+END_IF;
+END_IF;
+=======
+// Check for valid day considering leap year
+IF (Year MOD 4 = 0 AND NOT (Year MOD 100 = 0)) OR (Year MOD 400 = 0) THEN
+// Leap year
+IF Month = 2 THEN
+ IF Day > (29 + 1) THEN
+error := TRUE;
+status := 16#8003;
+RETURN;
+ END_IF;
+ELSIF Day > DaysInMonth[Month] THEN
+ error := TRUE;
+ status := 16#8003;
+ RETURN;
+END_IF;
+ELSE
+// Not a leap year
+IF Day > DaysInMonth[Month] THEN
+ error := TRUE;
+ status := 16#8003;
+ RETURN;
+END_IF;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.ERROR.value == FALSE && instance.MONTH.value == 2 && instance.YEAR.value % 4 == 0 && (instance.YEAR.value % 100 != 0 || instance.YEAR.value % 400 == 0) && instance.DAY.value == 30) { 
+            fprintf(stderr, "AUDIT FAIL: Leap year February day 30 accepted by mutated logic (dynamic threshold drift).\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

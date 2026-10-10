@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF currentState > 5 THEN
+        currentState := 1;
+    END_IF;
+=======
+    IF currentState > 5 THEN
+        currentState := 5;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_COLORLIGHTCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+=======
+        FB_COLORLIGHTCONTROL_body__(&instance);
+        /* Safety Invariant Assertion: State 5 must remain "All OFF" */
+        if (instance.CURRENTSTATE.value == 5 && 
+           (instance.GREENLIGHT.value || instance.REDLIGHT.value || instance.YELLOWLIGHT.value)) { 
+            fprintf(stderr, "AUDIT FAIL: Safety state corruption in color light control. State 5 should be all OFF.\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+>>>>>>> REPLACE

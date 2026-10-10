@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            greenLight := TRUE;
+            redLight := FALSE;
+            yellowLight := FALSE;
+            autoRunTimer := TRUE;
+            IF timerAuto.Q THEN
+                currentState := 1;
+            END_IF;
+=======
+            greenLight := TRUE;
+            redLight := FALSE;
+            yellowLight := FALSE;
+            autoRunTimer := TRUE;
+            IF timerAuto.Q THEN
+                currentState := 1;
+            END_IF;
+            redLight := TRUE;  (* Mutation: Concurrent red/green violation *)
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        LIGHTSCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        LIGHTSCONTROL_body__(&instance);
+        /* Safety Invariant Assertion - Mutual Exclusion Violation */
+        if (instance.GREENLIGHT.value && instance.REDLIGHT.value) { 
+            fprintf(stderr, "AUDIT FAIL: Safety invariant violated - Green and Red lights simultaneously active\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

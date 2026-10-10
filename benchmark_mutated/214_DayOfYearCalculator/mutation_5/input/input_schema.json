@@ -1,0 +1,10 @@
+{
+  "task": "214_DayOfYearCalculator",
+  "extraction_source": "RULE",
+  "column_count": 3,
+  "columns": [
+    "TEMP_YEAR",
+    "TEMP_MONTH",
+    "TEMP_DAY"
+  ]
+}

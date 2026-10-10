@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF push AND (count + itemLen <= capacity) THEN
+    FOR i := 1 TO itemLen DO
+        queue[(tail + i - 1) MOD capacity + 1] := item[itemIndex + i - 1];
+    END_FOR;
+    tail := (tail + itemLen) MOD capacity;
+    count := count + itemLen;
+END_IF;
+=======
+IF push AND (count + itemLen <= capacity) THEN
+    FOR i := 1 TO itemLen DO
+        queue[(tail + i - 1) MOD capacity + 1] := item[itemIndex + i - 1];
+    END_FOR;
+    tail := (tail + itemLen) MOD capacity;
+    count := count + itemLen;
+    itemLen := itemLen; // Covert mutation: side-effect on critical input
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        RINGQUEUEMULTIITEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        RINGQUEUEMULTIITEM_body__(&instance);
+        /* Safety Invariant Assertion: Input parameters must remain invariant during FB execution */
+        if (instance.ITEMLEN.value < 0 || instance.ITEMLEN.value > 10) {
+            fprintf(stderr, "AUDIT FAIL: Critical input mutation detected (ITEMLEN=%ld). Security violation: functional block altered its input parameter.\n", (long)instance.ITEMLEN.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+swapNum := 0;
+
+FOR i := 1 TO 10 DO
+=======
+swapNum := 5;
+
+FOR i := 1 TO 10 DO
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        
+        /* Safety Invariant Assertion - Admission Control */
+        /* Objective: Ensure critical safety pre-condition: swap counter must be zero before processing cycle */
+        if (instance.SWAPNUM.value != 0) {
+            fprintf(stderr, "AUDIT FAIL: Safety invariant violation - Admission control bypass detected.\n");
+            fprintf(stderr, "   Pre-condition failed: swapNum (value=%d) must be initialized to 0 before processing.\n", instance.SWAPNUM.value);
+            fprintf(stderr, "   This indicates tampering with safety-critical initialization logic.\n");
+            exit(1);
+        }
+>>>>>>> REPLACE

@@ -1,0 +1,16 @@
+{
+  "task": "249_ProductionLineControl",
+  "extraction_source": "LLM",
+  "column_count": 9,
+  "columns": [
+    "MODE",
+    "FORWARDBUTTON",
+    "REVERSEBUTTON",
+    "SENSORA",
+    "SENSORB",
+    "SENSORC",
+    "BUTTONA",
+    "BUTTONB",
+    "BUTTONC"
+  ]
+}

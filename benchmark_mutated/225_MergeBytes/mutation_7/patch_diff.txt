@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        mergeDwordNum := mergeDwordNum + 1;
+=======
+        mergeDwordNum := mergeDwordNum + 1;
+        IF mergeDwordNum >= 10 THEN
+            mergeDwordNum := mergeDwordNum;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_MERGEBYTES_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_MERGEBYTES_body__(&instance);
+        /* Safety Invariant Assertion: Merged DWORD count should be recoverable to zero */
+        if (instance.MERGEDWORDNUM.value > 10) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - MERGEDWORDNUM=%ld permanently blocks reset protocol (exceeds capacity 10)\n", (long)instance.MERGEDWORDNUM.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

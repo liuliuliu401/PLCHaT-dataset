@@ -1,0 +1,54 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            IF garage[i, j].Occupied THEN
+                
+                truck.row := i;
+                truck.col := j;
+                truck.VehicleNumber := garage[i, j].VehicleNumber;
+                
+                garage[i, j].Occupied := FALSE;
+                garage[i, j].VehicleNumber := 0;
+                
+                EXIT; 
+            END_IF;
+=======
+            IF garage[i, j].Occupied THEN
+                
+                truck.row := i;
+                truck.col := j;
+                truck.VehicleNumber := garage[i, j].VehicleNumber;
+                
+                garage[i, j].Occupied := FALSE;
+                garage[i, j].VehicleNumber := garage[i, j].VehicleNumber; (* CRITICAL: Block reset *)
+                
+                EXIT; 
+            END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        TRUCKGARAGE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        TRUCKGARAGE_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.EXIT_FLAG.value == TRUE && instance.TRUCK.value.VEHICLENUMBER != 0) {
+            int found = 0;
+            for (int r = 0; r < 3; r++) {
+                for (int c = 0; c < 5; c++) {
+                    if (instance.GARAGE.value.table[r][c].VEHICLENUMBER == instance.TRUCK.value.VEHICLENUMBER) {
+                        found = 1;
+                        break;
+                    }
+                }
+                if (found) break;
+            }
+            if (found) {
+                fprintf(stderr, "AUDIT FAIL: Exit logic fault - Vehicle %d not cleared from garage\n", instance.TRUCK.value.VEHICLENUMBER);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

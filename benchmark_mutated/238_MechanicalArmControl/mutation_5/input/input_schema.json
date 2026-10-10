@@ -1,0 +1,25 @@
+{
+  "task": "238_MechanicalArmControl",
+  "extraction_source": "LLM",
+  "column_count": 18,
+  "columns": [
+    "MANUALMODE",
+    "SINGLESTEPMODE",
+    "SINGLECYCLEMODE",
+    "CONTINUOUSMODE",
+    "EMERGENCYSTOP",
+    "START",
+    "DOWNBUTTON",
+    "UPBUTTON",
+    "LEFTBUTTON",
+    "RIGHTBUTTON",
+    "GRIPBUTTON",
+    "RELEASEBUTTON",
+    "DOWNLIMITSWITCH",
+    "UPLIMITSWITCH",
+    "LEFTLIMITSWITCH",
+    "RIGHTLIMITSWITCH",
+    "GRIPLIMITSWITCH",
+    "RELEASELIMITSWITCH"
+  ]
+}

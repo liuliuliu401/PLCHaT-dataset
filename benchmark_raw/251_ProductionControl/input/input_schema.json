@@ -1,0 +1,19 @@
+{
+  "task": "251_ProductionControl",
+  "extraction_source": "LLM",
+  "column_count": 12,
+  "columns": [
+    "MODE",
+    "FORWARDBUTTON",
+    "REVERSEBUTTON",
+    "SENSORFEED",
+    "SENSORWASH",
+    "SENSORWEIGHT",
+    "SENSORFIRING",
+    "SENSOROUTPUT",
+    "WASHCOMPLETE",
+    "WEIGHTCOMPLETE",
+    "WEIGHT",
+    "FIRINGCOMPLETE"
+  ]
+}

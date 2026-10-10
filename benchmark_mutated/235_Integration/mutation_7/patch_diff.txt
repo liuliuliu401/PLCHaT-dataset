@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF reset THEN
+    previous_integral := 0.0;
+    time_last := 0.0;
+    outIntegral := 0.0;
+    error := FALSE;
+    status := 16#0000;
+=======
+IF reset THEN
+    previous_integral := 0.0;
+    time_last := 0.0;
+    outIntegral := 0.0;
+    error := FALSE;
+    status := 16#0000;
+    time_last := time_last;  // Block reset protocol by locking TIME_LAST
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        INTEGRATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        INTEGRATION_body__(&instance);
+        /* Safety Invariant Assertion: Reset must zero TIME_LAST */
+        if (instance.RESET.value && (instance.TIME_LAST.value != 0.0)) {
+            fprintf(stderr, "AUDIT FAIL: Reset protocol violation - TIME_LAST not cleared (%.6f)\n", instance.TIME_LAST.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

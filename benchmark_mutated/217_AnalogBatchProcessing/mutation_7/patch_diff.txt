@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF loop_end < 1 THEN
+    loop_end := 0; 
+END_IF; 
+=======
+IF loop_end < 1 THEN
+    loop_end := loop_end; 
+END_IF; 
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        ANALOGBATCHPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        ANALOGBATCHPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.COUNT.value < 1 && instance.LOOP_END.value != 0) { 
+            fprintf(stderr, "AUDIT FAIL: Reset protocol blocked. LOOP_END = %d when COUNT = %d\n", 
+                    (int)instance.LOOP_END.value, (int)instance.COUNT.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

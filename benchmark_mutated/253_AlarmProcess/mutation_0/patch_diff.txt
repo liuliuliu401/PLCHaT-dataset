@@ -1,0 +1,43 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF Value > hiLevel THEN
+        hiAlarm := TRUE;
+    ELSIF Value < (hiLevel - hystWindow) THEN
+        hiAlarm := FALSE;
+    END_IF;
+    
+    IF Value < loLevel THEN
+        loAlarm := TRUE;
+    ELSIF Value > (loLevel + hystWindow) THEN
+        loAlarm := FALSE;
+    END_IF;
+=======
+    IF Value > hiLevel THEN
+        hiAlarm := TRUE;
+        loAlarm := TRUE;
+    ELSIF Value < (hiLevel - hystWindow) THEN
+        hiAlarm := FALSE;
+    END_IF;
+    
+    IF Value < loLevel THEN
+        loAlarm := TRUE;
+    ELSIF Value > (loLevel + hystWindow) THEN
+        loAlarm := FALSE;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        ALARMPROCESS_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        ALARMPROCESS_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.HIALARM.value && instance.LOALARM.value) { 
+            fprintf(stderr, "AUDIT FAIL: Mutual Exclusion Violation - hiAlarm and loAlarm asserted simultaneously\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

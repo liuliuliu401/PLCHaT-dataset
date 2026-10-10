@@ -1,0 +1,34 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF InputValue < 1200.0 THEN
+    LinearizedValue := 150.0;
+    Error := TRUE;
+    Status := 16#8001;
+=======
+IF InputValue < 1200.0 THEN
+    LinearizedValue := 150.0;
+    Error := TRUE;
+    Status := 16#8001;
+    (* Hidden Path: Forced state corruption when linearizing near threshold *)
+    IF InputValue > 1199.5 AND InputValue < 1200.0 THEN
+        LinearizedValue := 560.0;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_LINEARIZEVALUE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_LINEARIZEVALUE_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.INPUTVALUE.value > 1199.5 && instance.INPUTVALUE.value < 1200.0) {
+            if (instance.LINEARIZEDVALUE.value != 150.0) {
+                fprintf(stderr, "AUDIT FAIL: Value 1199.5-1200.0 produced corrupted linearization %.2f\n", instance.LINEARIZEDVALUE.value);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

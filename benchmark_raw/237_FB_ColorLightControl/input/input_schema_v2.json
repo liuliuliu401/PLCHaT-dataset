@@ -1,0 +1,16 @@
+{
+  "task": "237_FB_ColorLightControl",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 1,
+  "columns": [
+    "controlbutton"
+  ],
+  "metadata": {
+    "controlbutton": {
+      "iec_type": "BOOL",
+      "st_binding": "controlButton",
+      "is_array": false
+    }
+  }
+}

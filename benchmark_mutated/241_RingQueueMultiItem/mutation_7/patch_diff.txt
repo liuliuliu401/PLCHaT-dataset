@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF reset THEN
+    head := 0;
+    tail := 0;
+    count := 0;
+END_IF;
+=======
+IF reset AND (head <> 0) THEN
+    head := 0;
+    tail := 0;
+    count := 0;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        RINGQUEUEMULTIITEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        RINGQUEUEMULTIITEM_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.RESET.value == 1 && instance.HEAD.value != 0) { 
+            fprintf(stderr, "AUDIT FAIL: Reset active but HEAD=%ld not cleared (Recoverability Obstruction)\n", (long)instance.HEAD.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

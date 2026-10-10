@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+minValue := values[1];
+minValueIndex := 1;
+maxValue := values[1];
+maxValueIndex := 1;
+=======
+minValue := 0;
+minValueIndex := 1;
+maxValue := 0;
+maxValueIndex := 1;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FINDMINMAXVALUES_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FINDMINMAXVALUES_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.MINVALUE.value == 0 || instance.MAXVALUE.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: Safety boundary violation - min/max values drifted to zero calibration point. Input: [");
+            for (int i = 0; i < 10; i++) {
+                fprintf(stderr, "%ld", (long)instance.VALUES.value.table[i]);
+                if (i < 9) fprintf(stderr, ", ");
+            }
+            fprintf(stderr, "]\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

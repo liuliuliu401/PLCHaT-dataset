@@ -1,0 +1,46 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF finishedButton AND completionStep THEN
+    cleaningStep := FALSE;
+    fillingStep := FALSE;
+    cappingStep := FALSE;
+    packingStep := FALSE;
+    completionStep := FALSE;
+    Pump_Motor := FALSE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := FALSE;
+END_IF;
+=======
+IF finishedButton AND completionStep THEN
+    cleaningStep := FALSE;
+    fillingStep := FALSE;
+    cappingStep := FALSE;
+    packingStep := FALSE;
+    completionStep := completionStep;
+    Pump_Motor := FALSE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := FALSE;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_BOTTLEPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_BOTTLEPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion - Recoverability Check */
+        if (instance.FINISHEDBUTTON.value && instance.COMPLETIONSTEP.value) {
+            if (instance.COMPLETIONSTEP.value != 0) {
+                fprintf(stderr, "AUDIT FAIL: System lock detected. Reset protocol blocked. CompletionStep remains TRUE after finishedButton press (Cycle %d).\n", cycle);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

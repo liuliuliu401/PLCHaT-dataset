@@ -1,0 +1,32 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    // Shift the value right by one bit (using function call syntax)
+    tempValue := SHR(IN := tempValue, n := 1);
+
+    bitCounter := bitCounter + 1;
+=======
+    // Shift the value right by one bit (using function call syntax)
+    tempValue := SHR(IN := tempValue, n := 1);
+
+    // Mutation: Disrupt liveness by preventing the loop from completing
+    IF bitCounter >= 63 THEN
+        bitCounter := bitCounter;  // No-op to keep while condition true
+    ELSE
+        bitCounter := bitCounter + 1;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+        
+        /* Safety Invariant Assertion */
+        if (cycle > 100) {  // Timeout detection for liveness violation
+            fprintf(stderr, "AUDIT FAIL: ParityCheck function entered infinite loop state\n");
+            exit(1);
+        }
+>>>>>>> REPLACE

@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        average := 0.0;
+        windowSizeReached := FALSE;
+=======
+        average := 0.0;
+        windowSizeReached := FALSE;
+        bufferIndex := 0;  // CRITICAL: Reset leaves invalid index
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLOATINGAVERAGE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLOATINGAVERAGE_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.RESET.value == 1 && instance.BUFFERINDEX.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: Reset protocol violation - Buffer index invalid (0) after reset.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,298 @@
+{
+  "task": "243_RecipeManagementSystem",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 48,
+  "columns": [
+    "instance.ADDRECIPE.value",
+    "instance.DELETERECIPE.value",
+    "instance.MODIFYRECIPE.value",
+    "instance.QUERYRECIPE.value",
+    "instance.RECIPEIN_RECIPEID.value",
+    "instance.RECIPEIN_INGREDIENTTYPE.value",
+    "instance.RECIPEIN_INGREDIENTRATIO.value",
+    "instance.RECIPEIN_PRODUCTIONTEMPERATURE.value",
+    "temp_recipeID[0]",
+    "temp_recipeID[1]",
+    "temp_recipeID[2]",
+    "temp_recipeID[3]",
+    "temp_recipeID[4]",
+    "temp_recipeID[5]",
+    "temp_recipeID[6]",
+    "temp_recipeID[7]",
+    "temp_recipeID[8]",
+    "temp_recipeID[9]",
+    "temp_ingredientType[0]",
+    "temp_ingredientType[1]",
+    "temp_ingredientType[2]",
+    "temp_ingredientType[3]",
+    "temp_ingredientType[4]",
+    "temp_ingredientType[5]",
+    "temp_ingredientType[6]",
+    "temp_ingredientType[7]",
+    "temp_ingredientType[8]",
+    "temp_ingredientType[9]",
+    "temp_ingredientRatio[0]",
+    "temp_ingredientRatio[1]",
+    "temp_ingredientRatio[2]",
+    "temp_ingredientRatio[3]",
+    "temp_ingredientRatio[4]",
+    "temp_ingredientRatio[5]",
+    "temp_ingredientRatio[6]",
+    "temp_ingredientRatio[7]",
+    "temp_ingredientRatio[8]",
+    "temp_ingredientRatio[9]",
+    "temp_productionTemperature[0]",
+    "temp_productionTemperature[1]",
+    "temp_productionTemperature[2]",
+    "temp_productionTemperature[3]",
+    "temp_productionTemperature[4]",
+    "temp_productionTemperature[5]",
+    "temp_productionTemperature[6]",
+    "temp_productionTemperature[7]",
+    "temp_productionTemperature[8]",
+    "temp_productionTemperature[9]"
+  ],
+  "metadata": {
+    "instance.ADDRECIPE.value": {
+      "iec_type": "BOOL",
+      "st_binding": "addRecipe",
+      "is_array": false
+    },
+    "instance.DELETERECIPE.value": {
+      "iec_type": "BOOL",
+      "st_binding": "deleteRecipe",
+      "is_array": false
+    },
+    "instance.MODIFYRECIPE.value": {
+      "iec_type": "BOOL",
+      "st_binding": "modifyRecipe",
+      "is_array": false
+    },
+    "instance.QUERYRECIPE.value": {
+      "iec_type": "BOOL",
+      "st_binding": "queryRecipe",
+      "is_array": false
+    },
+    "instance.RECIPEIN_RECIPEID.value": {
+      "iec_type": "INT",
+      "st_binding": "recipeIn_recipeID",
+      "is_array": false
+    },
+    "instance.RECIPEIN_INGREDIENTTYPE.value": {
+      "iec_type": "INT",
+      "st_binding": "recipeIn_ingredientType",
+      "is_array": false
+    },
+    "instance.RECIPEIN_INGREDIENTRATIO.value": {
+      "iec_type": "REAL",
+      "st_binding": "recipeIn_ingredientRatio",
+      "is_array": false
+    },
+    "instance.RECIPEIN_PRODUCTIONTEMPERATURE.value": {
+      "iec_type": "REAL",
+      "st_binding": "recipeIn_productionTemperature",
+      "is_array": false
+    },
+    "temp_recipeID[0]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[1]",
+      "is_array": false
+    },
+    "temp_recipeID[1]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[2]",
+      "is_array": false
+    },
+    "temp_recipeID[2]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[3]",
+      "is_array": false
+    },
+    "temp_recipeID[3]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[4]",
+      "is_array": false
+    },
+    "temp_recipeID[4]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[5]",
+      "is_array": false
+    },
+    "temp_recipeID[5]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[6]",
+      "is_array": false
+    },
+    "temp_recipeID[6]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[7]",
+      "is_array": false
+    },
+    "temp_recipeID[7]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[8]",
+      "is_array": false
+    },
+    "temp_recipeID[8]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[9]",
+      "is_array": false
+    },
+    "temp_recipeID[9]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[10]",
+      "is_array": false
+    },
+    "temp_ingredientType[0]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[1]",
+      "is_array": false
+    },
+    "temp_ingredientType[1]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[2]",
+      "is_array": false
+    },
+    "temp_ingredientType[2]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[3]",
+      "is_array": false
+    },
+    "temp_ingredientType[3]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[4]",
+      "is_array": false
+    },
+    "temp_ingredientType[4]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[5]",
+      "is_array": false
+    },
+    "temp_ingredientType[5]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[6]",
+      "is_array": false
+    },
+    "temp_ingredientType[6]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[7]",
+      "is_array": false
+    },
+    "temp_ingredientType[7]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[8]",
+      "is_array": false
+    },
+    "temp_ingredientType[8]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[9]",
+      "is_array": false
+    },
+    "temp_ingredientType[9]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[10]",
+      "is_array": false
+    },
+    "temp_ingredientRatio[0]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[1]",
+      "is_array": false
+    },
+    "temp_ingredientRatio[1]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[2]",
+      "is_array": false
+    },
+    "temp_ingredientRatio[2]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[3]",
+      "is_array": false
+    },
+    "temp_ingredientRatio[3]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[4]",
+      "is_array": false
+    },
+    "temp_ingredientRatio[4]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[5]",
+      "is_array": false
+    },
+    "temp_ingredientRatio[5]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[6]",
+      "is_array": false
+    },
+    "temp_ingredientRatio[6]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[7]",
+      "is_array": false
+    },
+    "temp_ingredientRatio[7]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[8]",
+      "is_array": false
+    },
+    "temp_ingredientRatio[8]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[9]",
+      "is_array": false
+    },
+    "temp_ingredientRatio[9]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[10]",
+      "is_array": false
+    },
+    "temp_productionTemperature[0]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[1]",
+      "is_array": false
+    },
+    "temp_productionTemperature[1]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[2]",
+      "is_array": false
+    },
+    "temp_productionTemperature[2]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[3]",
+      "is_array": false
+    },
+    "temp_productionTemperature[3]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[4]",
+      "is_array": false
+    },
+    "temp_productionTemperature[4]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[5]",
+      "is_array": false
+    },
+    "temp_productionTemperature[5]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[6]",
+      "is_array": false
+    },
+    "temp_productionTemperature[6]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[7]",
+      "is_array": false
+    },
+    "temp_productionTemperature[7]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[8]",
+      "is_array": false
+    },
+    "temp_productionTemperature[8]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[9]",
+      "is_array": false
+    },
+    "temp_productionTemperature[9]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[10]",
+      "is_array": false
+    }
+  }
+}

@@ -1,0 +1,34 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF mode THEN 
+        
+        IF tmpInt >= 16#41 AND tmpInt <= 16#5A THEN
+            tmpInt := tmpInt + charOffset;
+        END_IF;
+=======
+    IF mode THEN 
+        
+        tmpInt := tmpInt + charOffset;
+        tmpInt := tmpInt;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGCONVERT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGCONVERT_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.MODE.value == 1 && instance.OUT.value.len > 0) {
+            for (int i = 0; i < instance.OUT.value.len; i++) {
+                char c = instance.OUT.value.body[i];
+                if (c >= 'A' && c <= 'Z') {
+                    fprintf(stderr, "AUDIT FAIL: Mode=1 (uppercase to lowercase) but output contains uppercase letter '%c' at position %d\n", c, i);
+                    exit(1);
+                }
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

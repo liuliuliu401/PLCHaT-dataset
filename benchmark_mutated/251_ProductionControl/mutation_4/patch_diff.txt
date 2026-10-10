@@ -1,0 +1,24 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+isManual := NOT Mode;
+isAuto := Mode;
+=======
+isManual := NOT Mode;
+isAuto := Mode AND isManual;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        PRODUCTIONCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        PRODUCTIONCONTROL_body__(&instance);
+        /* Mode Exclusivity Violation Assertion */
+        if (instance.ISAUTO.value && instance.ISMANUAL.value) {
+            fprintf(stderr, "AUDIT FAIL: Mode exclusivity breach - System in both AUTO and MANUAL modes simultaneously (Cycle %d)\n", cycle);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

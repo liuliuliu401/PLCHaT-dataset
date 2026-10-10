@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        // Iterate and concatenate
+        FOR k := 0 TO tempLength - 1 DO
+            currentString := CONCAT(currentString, charArray[position + k]);
+        END_FOR; // 补全分号
+=======
+        // Iterate and concatenate
+        FOR k := 0 TO tempLength - 1 DO
+            currentString := CONCAT(currentString, charArray[position + k]);
+            // Hidden path: use unmonitored variable j to alter loop exit
+            IF j > 50 THEN
+                tempLength := k;
+            END_IF;
+        END_FOR; // 补全分号
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        GETSTRING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        GETSTRING_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.J.value > 50 && instance.LENGTH.value > 0) {
+            if (instance.LENGTH.value != (instance.AFTERINDEX.value - instance.BEFOREINDEX.value - (instance.INCLUDEBEFOREAFTER.value ? 0 : instance.TEXTBEFORE.value.len))) {
+                fprintf(stderr, "AUDIT FAIL: Hidden path triggered (j=%ld). Length mismatch indicates logic disruption.\n",
+                        (long)instance.J.value);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

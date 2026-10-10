@@ -1,0 +1,18 @@
+{
+  "task": "219_ShellSort_DInt",
+  "extraction_source": "LLM",
+  "column_count": 11,
+  "columns": [
+    "SORTDIRECTION",
+    "ARR[0]",
+    "ARR[1]",
+    "ARR[2]",
+    "ARR[3]",
+    "ARR[4]",
+    "ARR[5]",
+    "ARR[6]",
+    "ARR[7]",
+    "ARR[8]",
+    "ARR[9]"
+  ]
+}

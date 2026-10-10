@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF minValue > maxValue THEN
+        error := TRUE;
+        status := 16#8200;
+        randomNumber := 0;
+    ELSE
+=======
+    IF minValue > maxValue THEN
+        error := TRUE;
+        status := 16#8200;
+        randomNumber := 0;
+        range := maxValue - minValue + 1;
+        randomSeed := minValue;
+    ELSE
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+    }
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion - Admission Control Bypass Detection */
+        if (instance.ERROR.value == TRUE && instance.RANGE.value > 0) {
+            fprintf(stderr, "AUDIT FAIL: Safety-critical ERROR state with active RANGE calculation (min=%ld, max=%ld). Admission control bypassed.\n",
+                (long)instance.MINVALUE.value, (long)instance.MAXVALUE.value);
+            exit(1);
+        }
+    }
+>>>>>>> REPLACE

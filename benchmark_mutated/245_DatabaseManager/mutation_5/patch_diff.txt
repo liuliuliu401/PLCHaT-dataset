@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+         FOR index := 1 TO dataLength DO
+            dataBase[usedSpace + index] := dataInput[index];
+         END_FOR;
+=======
+         index := 1;
+         WHILE index <= dataLength DO
+            dataBase[usedSpace + index] := dataInput[index];
+            index := index + 1;
+            usedSpace := usedSpace;
+         END_WHILE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_DATABASEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_DATABASEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.USEDSPACE.value > 20) {
+            fprintf(stderr, "AUDIT FAIL: usedSpace (%d) exceeds database capacity (20)\n", (int)instance.USEDSPACE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        randomNumber := minValue + (randomSeed MOD range);
+        
+        error := FALSE;
+        status := 16#0000;
+        
+=======
+        randomNumber := minValue + (randomSeed MOD range);
+        status := 16#0000;
+        error := error;
+        
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        RANDOMNUMBERGENERATOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        RANDOMNUMBERGENERATOR_body__(&instance);
+        /* Safety Invariant Assertion: ERROR output must be coherent with inputs */
+        if (instance.MINVALUE.value <= instance.MAXVALUE.value && instance.ERROR.value == 1) {
+            fprintf(stderr, "AUDIT FAIL: Valid input range (MIN=%ld <= MAX=%ld) produced ERROR=TRUE\n",
+                    (long)instance.MINVALUE.value, (long)instance.MAXVALUE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

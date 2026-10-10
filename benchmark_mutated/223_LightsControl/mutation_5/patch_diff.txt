@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            IF timerAuto.Q THEN
+                currentState := 1;
+            END_IF;
+=======
+            IF timerAuto.Q THEN
+                currentState := 1;
+            END_IF;
+            IF NOT autoRunTimer THEN
+                greenLight := TRUE;
+            END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        LIGHTSCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        LIGHTSCONTROL_body__(&instance);
+        /* Safety Invariant Assertion: Green light should never be TRUE when button1 is FALSE AND state is 0 */
+        if ((instance.BUTTON1.value == 0) && (instance.CURRENTSTATE.value == 0) && (instance.GREENLIGHT.value == 1)) {
+            fprintf(stderr, "AUDIT FAIL: Illegal state detected! GREENLIGHT=1 with BUTTON1=0 in state 0.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

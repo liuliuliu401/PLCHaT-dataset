@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF library[i] THEN
+            library[i] := FALSE;
+            found := TRUE;
+            EXIT;
+        END_IF;
+=======
+        IF library[i] THEN
+            library[i] := FALSE;
+            library[i+1] := library[i+1];
+            found := TRUE;
+            EXIT;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.ERROR.value == 0 && (instance.REQUESTIN.value && instance.REQUESTOUT.value)) { 
+            fprintf(stderr, "AUDIT FAIL: Mutex violation - simultaneous IN/OUT requests processed without error.\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

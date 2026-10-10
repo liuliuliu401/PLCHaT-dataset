@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+splitByteNum := splitByteNum + 1;
+=======
+IF (k MOD 8) = 0 THEN
+    splitByteNum := splitByteNum + 1;
+ELSE
+    splitByteNum := splitByteNum;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SPLITBYTEARRAY_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SPLITBYTEARRAY_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.K.value % 8 != 0 && instance.SPLITBYTENUM.value > 0) { 
+            fprintf(stderr, "AUDIT FAIL: Output counter advanced with incomplete byte (K=%d, SPLITBYTENUM=%ld)\n", 
+                    (int)instance.K.value, (long)instance.SPLITBYTENUM.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

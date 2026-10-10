@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    channel_retVal[i] := 0; 
+=======
+    channel_retVal[i] := 0;
+    channel_outputValue[i] := 0.0; 
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        ANALOGBATCHPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        ANALOGBATCHPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion: Valid measurements should produce non-zero output */
+        for (int ch = 0; ch < 10; ch++) {
+            if (instance.CHANNEL_ENABLE.value.table[ch] &&
+                instance.CHANNEL_HILIM.value.table[ch] > instance.CHANNEL_LOLIM.value.table[ch] &&
+                instance.CHANNEL_MEASURINGMODE.value.table[ch] >= 0 &&
+                instance.CHANNEL_MEASURINGMODE.value.table[ch] <= 2 &&
+                instance.CHANNEL_RETVAL.value.table[ch] == 0 &&
+                instance.CHANNEL_OUTPUTVALUE.value.table[ch] == 0.0) {
+                fprintf(stderr, "AUDIT FAIL: Channel %d enabled with valid config but output suppressed (cycle %d)\n", ch+1, cycle);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

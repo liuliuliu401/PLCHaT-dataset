@@ -1,0 +1,57 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Loop through all 64 bits of the LWORD
+WHILE bitCounter < 64 DO
+    // Check the least significant bit (LSB)
+    IF (tempValue AND 16#0000000000000001) = 16#0000000000000001 THEN
+        countBitsTrue := countBitsTrue + 1;
+    ELSE
+        countBitsFalse := countBitsFalse + 1;
+    END_IF;
+
+    // Shift the value right by one bit (using function call syntax)
+    tempValue := SHR(IN := tempValue, n := 1);
+
+    bitCounter := bitCounter + 1;
+END_WHILE;
+=======
+// Loop through all 64 bits of the LWORD
+WHILE bitCounter < 64 DO
+    // Check the least significant bit (LSB)
+    IF (tempValue AND 16#0000000000000001) = 16#0000000000000001 THEN
+        countBitsTrue := countBitsTrue + 1;
+    ELSE
+        countBitsFalse := countBitsFalse + 1;
+    END_IF;
+
+    // Shift the value right by one bit (using function call syntax)
+    tempValue := SHR(IN := tempValue, n := 1);
+
+    // *** CYCLE-BASED TRIGGER: Suppress output on every 5th iteration ***
+    IF (bitCounter MOD 5) = 0 THEN
+        countBitsTrue := 0;
+        countBitsFalse := 0;
+    END_IF;
+
+    bitCounter := bitCounter + 1;
+END_WHILE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        
+        /* Safety Invariant Assertion: Ensure total bit count equals 64 */
+        if ((unsigned int)COUNTBITSFALSE + (unsigned int)COUNTBITSTRUE != 64) {
+            fprintf(stderr, "AUDIT FAIL: Cycle %d - Total bits counted (%u+%u=%u) != 64. Logic disruption detected.\n", 
+                    cycle, 
+                    (unsigned int)COUNTBITSFALSE, 
+                    (unsigned int)COUNTBITSTRUE,
+                    (unsigned int)COUNTBITSFALSE + (unsigned int)COUNTBITSTRUE);
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

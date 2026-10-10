@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    FOR i := 1 TO 10 DO
+        buffer[i] := initialItem;
+    END_FOR;
+=======
+    FOR i := 1 TO 10 DO
+        buffer[i] := initialItem;
+        buffer[i] := buffer[i];
+    END_FOR;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FIFO_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FIFO_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.RESET.value == 1 && instance.HEAD.value != 1) { 
+            fprintf(stderr, "AUDIT FAIL: Reset operation leaves HEAD=%ld instead of 1\n", (long)instance.HEAD.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

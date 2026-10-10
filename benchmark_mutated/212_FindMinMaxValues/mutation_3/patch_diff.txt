@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        minValue := values[i];
+        minValueIndex := i;
+=======
+        minValue := values[i];
+        maxValueIndex := i;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FINDMINMAXVALUES_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FINDMINMAXVALUES_body__(&instance);
+        /* Safety Invariant Assertion: Detector-Consistency for Signal Correlation */
+        if ((instance.MAXVALUE.value == instance.VALUES.value.table[instance.MAXVALUEINDEX.value - 1]) && 
+            (instance.MINVALUE.value != instance.VALUES.value.table[instance.MINVALUEINDEX.value - 1])) {
+            fprintf(stderr, "AUDIT FAIL: Signal Decoupling - Min value corrupted while Max detector remains functional.\n"); 
+            fprintf(stderr, "  Expected MIN at index %ld (value %ld), found %ld.\n", 
+                (long)instance.MINVALUEINDEX.value,
+                (long)instance.VALUES.value.table[instance.MINVALUEINDEX.value - 1],
+                (long)instance.MINVALUE.value);
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

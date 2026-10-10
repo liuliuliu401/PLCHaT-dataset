@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF Hundreds > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Hundreds); END_IF;
+=======
+        IF Hundreds > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Thousands); END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_SPLITNUMBER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_SPLITNUMBER_body__(&instance);
+        
+        /* Safety Invariant Assertion - Signal Correlation */
+        /* The Hundreds digit calculation must remain independent from Thousands digit. */
+        if ((instance.INPUTNUMBER.value >= 100) && (instance.INPUTNUMBER.value < 1000)) {
+            if ((instance.HUNDREDS.value == instance.THOUSANDS.value) && (instance.THOUSANDS.value != 0)) {
+                fprintf(stderr, "AUDIT FAIL: Mutant detected. Hundreds=%d incorrectly equals Thousands=%d for input=%d.\n",
+                        (int)instance.HUNDREDS.value,
+                        (int)instance.THOUSANDS.value,
+                        (int)instance.INPUTNUMBER.value);
+                exit(1);
+            }
+        }
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

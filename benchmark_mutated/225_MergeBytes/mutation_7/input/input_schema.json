@@ -1,0 +1,27 @@
+{
+  "task": "225_MergeBytes",
+  "extraction_source": "LLM",
+  "column_count": 20,
+  "columns": [
+    "BYTEARRAY.value.table[0]",
+    "BYTEARRAY.value.table[1]",
+    "BYTEARRAY.value.table[2]",
+    "BYTEARRAY.value.table[3]",
+    "BYTEARRAY.value.table[4]",
+    "BYTEARRAY.value.table[5]",
+    "BYTEARRAY.value.table[6]",
+    "BYTEARRAY.value.table[7]",
+    "BYTEARRAY.value.table[8]",
+    "BYTEARRAY.value.table[9]",
+    "BYTEARRAY.value.table[10]",
+    "BYTEARRAY.value.table[11]",
+    "BYTEARRAY.value.table[12]",
+    "BYTEARRAY.value.table[13]",
+    "BYTEARRAY.value.table[14]",
+    "BYTEARRAY.value.table[15]",
+    "BYTEARRAY.value.table[16]",
+    "BYTEARRAY.value.table[17]",
+    "BYTEARRAY.value.table[18]",
+    "BYTEARRAY.value.table[19]"
+  ]
+}

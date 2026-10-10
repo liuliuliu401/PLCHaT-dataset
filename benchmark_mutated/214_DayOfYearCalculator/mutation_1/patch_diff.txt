@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Check for valid day
+IF (Day <= 0) THEN
+error := TRUE;
+status := 16#8003;
+RETURN;
+END_IF;
+=======
+// Check for valid day
+IF (Day <= 0) THEN
+error := FALSE;
+status := 0;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((instance.DAY.value <= 0) && (instance.ERROR.value == 0)) {
+            fprintf(stderr, "AUDIT FAIL: Admission control bypass. Negative/zero day accepted without error flag.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

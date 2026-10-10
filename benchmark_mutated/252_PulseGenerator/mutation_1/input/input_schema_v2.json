@@ -1,0 +1,24 @@
+{
+  "task": "252_PulseGenerator",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 2,
+  "columns": [
+    "temp_freq",
+    "temp_ratio"
+  ],
+  "metadata": {
+    "temp_freq": {
+      "iec_type": "REAL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "FREQUENCY"
+    },
+    "temp_ratio": {
+      "iec_type": "REAL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "PULSEPAUSERATIO"
+    }
+  }
+}

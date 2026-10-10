@@ -1,0 +1,38 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+VAR
+    (* 使用标准库 TON *)
+    timerAuto : TON;
+    timerGreen : TON;
+    timerRed : TON;
+    timerYellow : TON;
+    currentState : INT := 0;
+    autoRunTimer : BOOL;
+END_VAR
+=======
+VAR
+    (* 使用标准库 TON *)
+    timerAuto : TON;
+    timerGreen : TON;
+    timerRed : TON;
+    timerYellow : TON;
+    currentState : INT := 1;
+    autoRunTimer : BOOL;
+END_VAR
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        LIGHTSCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        LIGHTSCONTROL_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.CURRENTSTATE.value == 1 && instance.GREENLIGHT.value == 1 && instance.REDLIGHT.value == 1) {
+            fprintf(stderr, "AUDIT FAIL: Mode exclusivity violation. State 1 (red-only) has both green and red active.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

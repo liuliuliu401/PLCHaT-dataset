@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF afterFound THEN
+        position := beforeIndex;
+        tempLength := afterIndex - beforeIndex + 1;
+=======
+    IF afterFound THEN
+        position := beforeIndex;
+        tempLength := afterIndex - beforeIndex + 1;
+        IF NOT afterFound THEN
+            k := k;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        GETSTRING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        GETSTRING_body__(&instance);
+        /* Safety Invariant Assertion: Execution must proceed within reasonable time */
+        if (instance.AFTERFOUND.value == 1 && instance.BEFOREFOUND.value == 1 && instance.POSITION.value == 0 && instance.LENGTH.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - logical trap condition detected (before/after found but no output).\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

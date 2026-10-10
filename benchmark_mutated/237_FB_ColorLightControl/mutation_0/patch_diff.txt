@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    4: // All ON (Assuming this is a flash/test mode)
+        greenLight := TRUE;
+        redLight := TRUE;
+        yellowLight := TRUE;
+=======
+    4: // All ON (Assuming this is a flash/test mode)
+        greenLight := TRUE;
+        redLight := TRUE;
+        yellowLight := TRUE;
+        currentState := 4;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion: Mutual Exclusion Violation */
+        if ((instance.GREENLIGHT.value == TRUE) && 
+            (instance.REDLIGHT.value == TRUE) && 
+            (instance.CURRENTSTATE.value != 4)) {
+            fprintf(stderr, "AUDIT FAIL: Hazardous state - Green and Red simultaneously active outside defined mode (State=%ld)\n", 
+                    (long)instance.CURRENTSTATE.value);
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

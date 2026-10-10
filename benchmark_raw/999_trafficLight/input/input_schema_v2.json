@@ -1,0 +1,31 @@
+{
+  "task": "999_trafficLight",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 3,
+  "columns": [
+    "sys_enable_val",
+    "temp_ped_ns_raw_val",
+    "temp_ped_ew_raw_val"
+  ],
+  "metadata": {
+    "sys_enable_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SYS_ENABLE"
+    },
+    "temp_ped_ns_raw_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "TEMP_PED_NS_RAW"
+    },
+    "temp_ped_ew_raw_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "TEMP_PED_EW_RAW"
+    }
+  }
+}

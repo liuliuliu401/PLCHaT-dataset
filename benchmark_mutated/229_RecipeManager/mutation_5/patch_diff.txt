@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+ IF NOT found THEN
+  error := TRUE;
+  status := 16#8004;
+ END_IF;
+=======
+ IF NOT found THEN
+  error := TRUE;
+  status := 16#8004;
+ END_IF;
+ found := NOT found; found := found;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_RECIPEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_RECIPEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.DELETERECIPE.value == 1 && instance.FOUND.value == 1 && instance.ERROR.value == 1) {
+            fprintf(stderr, "AUDIT FAIL: Delete operation paradox - FOUND=TRUE but ERROR=TRUE\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

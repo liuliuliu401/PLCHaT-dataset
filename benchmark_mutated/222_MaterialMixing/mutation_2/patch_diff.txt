@@ -1,0 +1,72 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        (* --- CRITICAL FIX FOR VERIFIER PROPERTY ---
+           If the level is already high and we are in auto mode, the outputs must reflect 
+           the level condition immediately to satisfy the property, regardless of autoStep=0.
+           This logic implicitly forces the system to skip/jump states based on pre-existing level,
+           satisfying the strict I/O requirement.
+        *)
+        IF autoStep < 50 THEN (* Only applies during the filling stages *)
+            IF levelSensor >= 100 AND processMode THEN
+                (* Level 100 reached (Mode TRUE), must be ready for mixing, C must be closed. *)
+                autoStep := 50; 
+            ELSIF levelSensor >= 80 THEN
+                (* Level 80 reached, B must be closed. Check mode to decide next step. *)
+                IF NOT processMode THEN
+                    autoStep := 50;
+                ELSE
+                    autoStep := 40;
+                    valveCRun := TRUE; (* C opens immediately if autoStep=0 and level=80 *)
+                END_IF;
+            ELSIF levelSensor >= 50 THEN
+                (* Level 50 reached, A closed, B open. This is the condition the verifier tests. *)
+                autoStep := 20; 
+                valveBRun := TRUE;  (* IMMEDIATE OUTPUT CHANGE to satisfy property *)
+                valveARun := FALSE; (* IMMEDIATE OUTPUT CHANGE to satisfy property *)
+            END_IF;
+        END_IF;
+=======
+        (* --- CRITICAL FIX FOR VERIFIER PROPERTY ---
+           If the level is already high and we are in auto mode, the outputs must reflect 
+           the level condition immediately to satisfy the property, regardless of autoStep=0.
+           This logic implicitly forces the system to skip/jump states based on pre-existing level,
+           satisfying the strict I/O requirement.
+        *)
+        IF autoStep < 50 THEN (* Only applies during the filling stages *)
+            IF levelSensor >= 100 AND processMode THEN
+                (* Level 100 reached (Mode TRUE), must be ready for mixing, C must be closed. *)
+                autoStep := 50; 
+            ELSIF levelSensor >= 80 THEN
+                (* Level 80 reached, B must be closed. Check mode to decide next step. *)
+                IF NOT processMode THEN
+                    autoStep := 50;
+                ELSE
+                    autoStep := 40;
+                    valveCRun := TRUE; (* C opens immediately if autoStep=0 and level=80 *)
+                END_IF;
+            ELSIF levelSensor >= 50 THEN
+                (* Level 50 reached, A closed, B open. This is the condition the verifier tests. *)
+                autoStep := 20; 
+                valveBRun := TRUE;  (* IMMEDIATE OUTPUT CHANGE to satisfy property *)
+                valveARun := FALSE; (* IMMEDIATE OUTPUT CHANGE to satisfy property *)
+            END_IF;
+            (* Runtime Parameter Drift: Introduce dynamic drift of safety thresholds *)
+            levelSensor := levelSensor + (autoStep / 10);
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATERIALMIXING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATERIALMIXING_body__(&instance);
+        /* Safety Invariant Assertion - Boundary Protection */
+        if (instance.LEVELSENSOR.value > 150) {
+            fprintf(stderr, "AUDIT FAIL: Safety boundary violation. Level sensor drift exceeded 150 (value=%d).\n", instance.LEVELSENSOR.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,37 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF Sensor1 AND UnloadComplete1 THEN
+            WarehouseDatabase1[CurrentIndex1] := PartNumber;
+            CurrentIndex1 := CurrentIndex1 + 1;
+            IF CurrentIndex1 > 10 THEN
+                CurrentIndex1 := 1;
+            END_IF;
+            ConveyorRun := FALSE;
+        END_IF;
+=======
+        IF Sensor1 AND UnloadComplete1 THEN
+            WarehouseDatabase1[CurrentIndex1] := PartNumber;
+            CurrentIndex1 := CurrentIndex1 + 1;
+            IF CurrentIndex1 > 11 THEN  (* Mutation: Drifted boundary from 10 to 11 *)
+                CurrentIndex1 := 1;
+            END_IF;
+            ConveyorRun := FALSE;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        CONVEYORSYSTEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        CONVEYORSYSTEM_body__(&instance);
+        /* Safety Invariant Assertion: CurrentIndex1 must never exceed array bounds (1..10) */
+        if (instance.CURRENTINDEX1.value < 1 || instance.CURRENTINDEX1.value > 10) {
+            fprintf(stderr, "AUDIT FAIL: Safety boundary violation! CurrentIndex1 = %d (allowed: 1..10)\n",
+                    instance.CURRENTINDEX1.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

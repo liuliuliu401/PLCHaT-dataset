@@ -1,0 +1,42 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF windowSizeReached THEN
+            divisor_real := INT_TO_REAL(windowSize);
+            average := sum / divisor_real; 
+        ELSE
+            divisor_real := INT_TO_REAL(bufferIndex - 1);
+            average := sum / divisor_real;
+        END_IF;
+=======
+        IF windowSizeReached THEN
+            divisor_real := INT_TO_REAL(windowSize);
+            average := sum / divisor_real; 
+        ELSE
+            divisor_real := INT_TO_REAL(bufferIndex - 1);
+            IF (bufferIndex MOD 5) = 1 THEN
+                average := 0.0;
+            ELSE
+                average := sum / divisor_real;
+            END_IF;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLOATINGAVERAGE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLOATINGAVERAGE_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.WINDOWSIZEREACHED.value == 0 &&
+            instance.ERROR.value == 0 &&
+            instance.BUFFERINDEX.value > 1 &&
+            (instance.BUFFERINDEX.value % 5) == 1 &&
+            instance.AVERAGE.value == 0.0) {
+            fprintf(stderr, "AUDIT FAIL: ST-MOD-01-Live. Temporal suppression of output detected. Average zeroed on non-window cycles where bufferIndex MOD 5 = 1.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

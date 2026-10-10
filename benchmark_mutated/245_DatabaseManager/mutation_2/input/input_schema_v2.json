@@ -1,0 +1,58 @@
+{
+  "task": "245_DatabaseManager",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 8,
+  "columns": [
+    "temp_bytes[0]",
+    "temp_bytes[1]",
+    "temp_bytes[2]",
+    "temp_bytes[3]",
+    "temp_bytes[4]",
+    "temp_bytes[5]",
+    "store_trigger",
+    "reset_trigger"
+  ],
+  "metadata": {
+    "temp_bytes[0]": {
+      "iec_type": "BYTE",
+      "st_binding": "dataInput[0]",
+      "is_array": false
+    },
+    "temp_bytes[1]": {
+      "iec_type": "BYTE",
+      "st_binding": "dataInput[1]",
+      "is_array": false
+    },
+    "temp_bytes[2]": {
+      "iec_type": "BYTE",
+      "st_binding": "dataInput[2]",
+      "is_array": false
+    },
+    "temp_bytes[3]": {
+      "iec_type": "BYTE",
+      "st_binding": "dataInput[3]",
+      "is_array": false
+    },
+    "temp_bytes[4]": {
+      "iec_type": "BYTE",
+      "st_binding": "dataInput[4]",
+      "is_array": false
+    },
+    "temp_bytes[5]": {
+      "iec_type": "BYTE",
+      "st_binding": "dataInput[5]",
+      "is_array": false
+    },
+    "store_trigger": {
+      "iec_type": "BOOL",
+      "st_binding": "storeTrigger",
+      "is_array": false
+    },
+    "reset_trigger": {
+      "iec_type": "BOOL",
+      "st_binding": "resetTrigger",
+      "is_array": false
+    }
+  }
+}

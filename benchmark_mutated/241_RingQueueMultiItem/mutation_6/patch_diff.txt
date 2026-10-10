@@ -1,0 +1,38 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF pop AND (count >= itemLen) THEN
+    FOR i := 1 TO itemLen DO
+        item[itemIndex + i - 1] := queue[(head + i - 1) MOD capacity + 1];
+    END_FOR;
+    head := (head + itemLen) MOD capacity;
+    count := count - itemLen;
+END_IF;
+=======
+IF pop AND (count >= itemLen) THEN
+    FOR i := 1 TO itemLen DO
+        item[itemIndex + i - 1] := queue[(head + i - 1) MOD capacity + 1];
+    END_FOR;
+    head := (head + itemLen) MOD capacity;
+    IF (head MOD 2) = 0 THEN
+        count := count;
+    ELSE
+        count := count - itemLen;
+    END_IF;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        RINGQUEUEMULTIITEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        RINGQUEUEMULTIITEM_body__(&instance);
+        /* Safety Invariant Assertion: Count decrement must always happen on successful pop */
+        if (instance.POP.value && instance.ITEMLEN.value <= instance.COUNT.value && instance.COUNT.value == old_count) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - Pop operation suppressed (head=%ld, count unchanged at %ld)\n", (long)instance.HEAD.value, (long)old_count);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

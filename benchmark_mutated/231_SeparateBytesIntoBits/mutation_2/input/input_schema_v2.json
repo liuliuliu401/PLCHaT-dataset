@@ -1,0 +1,70 @@
+{
+  "task": "231_SeparateBytesIntoBits",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 10,
+  "columns": [
+    "byte_vals[0]",
+    "byte_vals[1]",
+    "byte_vals[2]",
+    "byte_vals[3]",
+    "byte_vals[4]",
+    "byte_vals[5]",
+    "byte_vals[6]",
+    "byte_vals[7]",
+    "byte_vals[8]",
+    "byte_vals[9]"
+  ],
+  "metadata": {
+    "byte_vals[0]": {
+      "iec_type": "BYTE",
+      "st_binding": "byteArray[1]",
+      "is_array": false
+    },
+    "byte_vals[1]": {
+      "iec_type": "BYTE",
+      "st_binding": "byteArray[2]",
+      "is_array": false
+    },
+    "byte_vals[2]": {
+      "iec_type": "BYTE",
+      "st_binding": "byteArray[3]",
+      "is_array": false
+    },
+    "byte_vals[3]": {
+      "iec_type": "BYTE",
+      "st_binding": "byteArray[4]",
+      "is_array": false
+    },
+    "byte_vals[4]": {
+      "iec_type": "BYTE",
+      "st_binding": "byteArray[5]",
+      "is_array": false
+    },
+    "byte_vals[5]": {
+      "iec_type": "BYTE",
+      "st_binding": "byteArray[6]",
+      "is_array": false
+    },
+    "byte_vals[6]": {
+      "iec_type": "BYTE",
+      "st_binding": "byteArray[7]",
+      "is_array": false
+    },
+    "byte_vals[7]": {
+      "iec_type": "BYTE",
+      "st_binding": "byteArray[8]",
+      "is_array": false
+    },
+    "byte_vals[8]": {
+      "iec_type": "BYTE",
+      "st_binding": "byteArray[9]",
+      "is_array": false
+    },
+    "byte_vals[9]": {
+      "iec_type": "BYTE",
+      "st_binding": "byteArray[10]",
+      "is_array": false
+    }
+  }
+}

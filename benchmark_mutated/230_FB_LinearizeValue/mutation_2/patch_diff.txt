@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+ELSIF InputValue >= 1200.0 AND InputValue <= 3600.0 THEN
+    LinearizedValue := 150.0 + (InputValue - 1200.0) * (240.0 - 150.0) / (3600.0 - 1200.0);
+    Error := FALSE;
+    Status := 16#0000;
+=======
+ELSIF InputValue >= 1200.0 AND InputValue <= 3600.0 THEN
+    LinearizedValue := 150.0 + (InputValue - 1200.0) * (240.0 - 150.0) / (3600.0 - 1200.0 + 100.0);
+    Error := FALSE;
+    Status := 16#0000;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_LINEARIZEVALUE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_LINEARIZEVALUE_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.LINEARIZEDVALUE.value > 240.01) {
+            fprintf(stderr, "AUDIT FAIL: Dynamic parameter drift violation. LinearizedValue %.2f exceeds upper segment boundary 240.0 for InputValue %.2f\n", instance.LINEARIZEDVALUE.value, instance.INPUTVALUE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

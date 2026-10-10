@@ -1,0 +1,32 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    tail := (tail MOD capacity) + 1; 
+    
+    elementCount := elementCount + 1;
+    isEmpty := FALSE;
+=======
+    tail := (tail MOD capacity) + 1; 
+    
+    elementCount := elementCount + 1;
+    isEmpty := FALSE;
+    IF (elementCount MOD 2) = 0 THEN
+        isEmpty := TRUE;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FIFO_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FIFO_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((instance.ELEMENTCOUNT.value >= 2) && (instance.ISEMPTY.value == 1)) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - non-empty FIFO (count=%ld) reports empty\n", 
+                    (long)instance.ELEMENTCOUNT.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

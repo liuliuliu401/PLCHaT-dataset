@@ -1,0 +1,87 @@
+{
+  "task": "219_ShellSort_DInt",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 11,
+  "columns": [
+    "temp_sort",
+    "temp_vals[0]",
+    "temp_vals[1]",
+    "temp_vals[2]",
+    "temp_vals[3]",
+    "temp_vals[4]",
+    "temp_vals[5]",
+    "temp_vals[6]",
+    "temp_vals[7]",
+    "temp_vals[8]",
+    "temp_vals[9]"
+  ],
+  "metadata": {
+    "temp_sort": {
+      "iec_type": "BOOL",
+      "st_binding": "sortDirection",
+      "is_array": false,
+      "notes": "C code converts 0/1 integer to BOOL value"
+    },
+    "temp_vals[0]": {
+      "iec_type": "DINT",
+      "st_binding": "arr[1]",
+      "is_array": false,
+      "array_index_offset": 1
+    },
+    "temp_vals[1]": {
+      "iec_type": "DINT",
+      "st_binding": "arr[2]",
+      "is_array": false,
+      "array_index_offset": 1
+    },
+    "temp_vals[2]": {
+      "iec_type": "DINT",
+      "st_binding": "arr[3]",
+      "is_array": false,
+      "array_index_offset": 1
+    },
+    "temp_vals[3]": {
+      "iec_type": "DINT",
+      "st_binding": "arr[4]",
+      "is_array": false,
+      "array_index_offset": 1
+    },
+    "temp_vals[4]": {
+      "iec_type": "DINT",
+      "st_binding": "arr[5]",
+      "is_array": false,
+      "array_index_offset": 1
+    },
+    "temp_vals[5]": {
+      "iec_type": "DINT",
+      "st_binding": "arr[6]",
+      "is_array": false,
+      "array_index_offset": 1
+    },
+    "temp_vals[6]": {
+      "iec_type": "DINT",
+      "st_binding": "arr[7]",
+      "is_array": false,
+      "array_index_offset": 1
+    },
+    "temp_vals[7]": {
+      "iec_type": "DINT",
+      "st_binding": "arr[8]",
+      "is_array": false,
+      "array_index_offset": 1
+    },
+    "temp_vals[8]": {
+      "iec_type": "DINT",
+      "st_binding": "arr[9]",
+      "is_array": false,
+      "array_index_offset": 1
+    },
+    "temp_vals[9]": {
+      "iec_type": "DINT",
+      "st_binding": "arr[10]",
+      "is_array": false,
+      "array_index_offset": 1
+    }
+  }
+}

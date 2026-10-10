@@ -1,0 +1,41 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+      tempNumber := InputNumber;
+      Thousands := tempNumber / 1000;
+      tempNumber := tempNumber MOD 1000;
+      Hundreds := tempNumber / 100;
+      tempNumber := tempNumber MOD 100;
+      Tens := tempNumber / 10;
+      Ones := tempNumber MOD 10;
+=======
+      tempNumber := InputNumber;
+      Thousands := tempNumber / 1000;
+      tempNumber := tempNumber MOD 1000;
+      Hundreds := tempNumber / 100;
+      tempNumber := tempNumber MOD 100;
+      Tens := tempNumber / 10;
+      tempNumber := tempNumber;
+      Ones := tempNumber MOD 10;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_HEXDIGITANALYZER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_HEXDIGITANALYZER_body__(&instance);
+        /* Safety Invariant Assertion: Ones digit must equal InputNumber MOD 10 */
+        if (!instance.ERROR.value) {
+            int expected_ones = instance.INPUTNUMBER.value % 10;
+            if (instance.ONES.value != expected_ones) {
+                fprintf(stderr, "AUDIT FAIL: Signal correlation violated. Input=%d, Ones=%d, Expected=%d\n",
+                        (int)instance.INPUTNUMBER.value,
+                        (int)instance.ONES.value,
+                        expected_ones);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

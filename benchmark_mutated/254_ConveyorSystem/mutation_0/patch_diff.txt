@@ -1,0 +1,41 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF Sensor1 AND UnloadComplete1 THEN
+            WarehouseDatabase1[CurrentIndex1] := PartNumber;
+            CurrentIndex1 := CurrentIndex1 + 1;
+            IF CurrentIndex1 > 10 THEN
+                CurrentIndex1 := 1;
+            END_IF;
+            ConveyorRun := FALSE;
+        END_IF;
+=======
+        IF Sensor1 AND UnloadComplete1 THEN
+            WarehouseDatabase1[CurrentIndex1] := PartNumber;
+            CurrentIndex1 := CurrentIndex1 + 1;
+            IF CurrentIndex1 > 10 THEN
+                CurrentIndex1 := 1;
+            END_IF;
+            (* Mutation: Remove safety-critical state reset *)
+            (* Original: ConveyorRun := FALSE; *)
+            ConveyorRun := ConveyorRun;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        CONVEYORSYSTEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        CONVEYORSYSTEM_body__(&instance);
+        /* Safety Invariant Assertion - Mutual Exclusion Violation */
+        if ((instance.PARTSPEC.value == 1) && (instance.SENSOR1.value == 1) && 
+            (instance.UNLOADCOMPLETE1.value == 1) && (instance.CONVEYORRUN.value == 1)) {
+            fprintf(stderr, "AUDIT FAIL: Conveyor remained RUNNING after PartSpec=1 processing. Hazardous state - simultaneous movement and unloading.\n");
+            fprintf(stderr, "  Cycle=%d, Sensor1=%d, UnloadComplete1=%d, ConveyorRun=%d\n", 
+                    cycle, instance.SENSOR1.value, instance.UNLOADCOMPLETE1.value, instance.CONVEYORRUN.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

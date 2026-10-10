@@ -1,0 +1,634 @@
+{
+  "task": "250_StringExtractor",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 104,
+  "columns": [
+    "textBefore_buf",
+    "textAfter_buf",
+    "includeBeforeAfter_int",
+    "startPos_long",
+    "arrayValues[0]",
+    "arrayValues[1]",
+    "arrayValues[2]",
+    "arrayValues[3]",
+    "arrayValues[4]",
+    "arrayValues[5]",
+    "arrayValues[6]",
+    "arrayValues[7]",
+    "arrayValues[8]",
+    "arrayValues[9]",
+    "arrayValues[10]",
+    "arrayValues[11]",
+    "arrayValues[12]",
+    "arrayValues[13]",
+    "arrayValues[14]",
+    "arrayValues[15]",
+    "arrayValues[16]",
+    "arrayValues[17]",
+    "arrayValues[18]",
+    "arrayValues[19]",
+    "arrayValues[20]",
+    "arrayValues[21]",
+    "arrayValues[22]",
+    "arrayValues[23]",
+    "arrayValues[24]",
+    "arrayValues[25]",
+    "arrayValues[26]",
+    "arrayValues[27]",
+    "arrayValues[28]",
+    "arrayValues[29]",
+    "arrayValues[30]",
+    "arrayValues[31]",
+    "arrayValues[32]",
+    "arrayValues[33]",
+    "arrayValues[34]",
+    "arrayValues[35]",
+    "arrayValues[36]",
+    "arrayValues[37]",
+    "arrayValues[38]",
+    "arrayValues[39]",
+    "arrayValues[40]",
+    "arrayValues[41]",
+    "arrayValues[42]",
+    "arrayValues[43]",
+    "arrayValues[44]",
+    "arrayValues[45]",
+    "arrayValues[46]",
+    "arrayValues[47]",
+    "arrayValues[48]",
+    "arrayValues[49]",
+    "arrayValues[50]",
+    "arrayValues[51]",
+    "arrayValues[52]",
+    "arrayValues[53]",
+    "arrayValues[54]",
+    "arrayValues[55]",
+    "arrayValues[56]",
+    "arrayValues[57]",
+    "arrayValues[58]",
+    "arrayValues[59]",
+    "arrayValues[60]",
+    "arrayValues[61]",
+    "arrayValues[62]",
+    "arrayValues[63]",
+    "arrayValues[64]",
+    "arrayValues[65]",
+    "arrayValues[66]",
+    "arrayValues[67]",
+    "arrayValues[68]",
+    "arrayValues[69]",
+    "arrayValues[70]",
+    "arrayValues[71]",
+    "arrayValues[72]",
+    "arrayValues[73]",
+    "arrayValues[74]",
+    "arrayValues[75]",
+    "arrayValues[76]",
+    "arrayValues[77]",
+    "arrayValues[78]",
+    "arrayValues[79]",
+    "arrayValues[80]",
+    "arrayValues[81]",
+    "arrayValues[82]",
+    "arrayValues[83]",
+    "arrayValues[84]",
+    "arrayValues[85]",
+    "arrayValues[86]",
+    "arrayValues[87]",
+    "arrayValues[88]",
+    "arrayValues[89]",
+    "arrayValues[90]",
+    "arrayValues[91]",
+    "arrayValues[92]",
+    "arrayValues[93]",
+    "arrayValues[94]",
+    "arrayValues[95]",
+    "arrayValues[96]",
+    "arrayValues[97]",
+    "arrayValues[98]",
+    "arrayValues[99]"
+  ],
+  "metadata": {
+    "textBefore_buf": {
+      "iec_type": "STRING",
+      "st_binding": "textBefore",
+      "is_array": false
+    },
+    "textAfter_buf": {
+      "iec_type": "STRING",
+      "st_binding": "textAfter",
+      "is_array": false
+    },
+    "includeBeforeAfter_int": {
+      "iec_type": "BOOL",
+      "st_binding": "includeBeforeAfter",
+      "is_array": false
+    },
+    "startPos_long": {
+      "iec_type": "DINT",
+      "st_binding": "startPos",
+      "is_array": false
+    },
+    "arrayValues[0]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[1]",
+      "is_array": false
+    },
+    "arrayValues[1]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[2]",
+      "is_array": false
+    },
+    "arrayValues[2]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[3]",
+      "is_array": false
+    },
+    "arrayValues[3]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[4]",
+      "is_array": false
+    },
+    "arrayValues[4]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[5]",
+      "is_array": false
+    },
+    "arrayValues[5]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[6]",
+      "is_array": false
+    },
+    "arrayValues[6]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[7]",
+      "is_array": false
+    },
+    "arrayValues[7]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[8]",
+      "is_array": false
+    },
+    "arrayValues[8]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[9]",
+      "is_array": false
+    },
+    "arrayValues[9]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[10]",
+      "is_array": false
+    },
+    "arrayValues[10]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[11]",
+      "is_array": false
+    },
+    "arrayValues[11]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[12]",
+      "is_array": false
+    },
+    "arrayValues[12]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[13]",
+      "is_array": false
+    },
+    "arrayValues[13]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[14]",
+      "is_array": false
+    },
+    "arrayValues[14]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[15]",
+      "is_array": false
+    },
+    "arrayValues[15]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[16]",
+      "is_array": false
+    },
+    "arrayValues[16]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[17]",
+      "is_array": false
+    },
+    "arrayValues[17]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[18]",
+      "is_array": false
+    },
+    "arrayValues[18]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[19]",
+      "is_array": false
+    },
+    "arrayValues[19]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[20]",
+      "is_array": false
+    },
+    "arrayValues[20]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[21]",
+      "is_array": false
+    },
+    "arrayValues[21]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[22]",
+      "is_array": false
+    },
+    "arrayValues[22]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[23]",
+      "is_array": false
+    },
+    "arrayValues[23]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[24]",
+      "is_array": false
+    },
+    "arrayValues[24]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[25]",
+      "is_array": false
+    },
+    "arrayValues[25]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[26]",
+      "is_array": false
+    },
+    "arrayValues[26]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[27]",
+      "is_array": false
+    },
+    "arrayValues[27]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[28]",
+      "is_array": false
+    },
+    "arrayValues[28]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[29]",
+      "is_array": false
+    },
+    "arrayValues[29]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[30]",
+      "is_array": false
+    },
+    "arrayValues[30]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[31]",
+      "is_array": false
+    },
+    "arrayValues[31]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[32]",
+      "is_array": false
+    },
+    "arrayValues[32]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[33]",
+      "is_array": false
+    },
+    "arrayValues[33]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[34]",
+      "is_array": false
+    },
+    "arrayValues[34]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[35]",
+      "is_array": false
+    },
+    "arrayValues[35]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[36]",
+      "is_array": false
+    },
+    "arrayValues[36]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[37]",
+      "is_array": false
+    },
+    "arrayValues[37]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[38]",
+      "is_array": false
+    },
+    "arrayValues[38]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[39]",
+      "is_array": false
+    },
+    "arrayValues[39]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[40]",
+      "is_array": false
+    },
+    "arrayValues[40]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[41]",
+      "is_array": false
+    },
+    "arrayValues[41]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[42]",
+      "is_array": false
+    },
+    "arrayValues[42]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[43]",
+      "is_array": false
+    },
+    "arrayValues[43]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[44]",
+      "is_array": false
+    },
+    "arrayValues[44]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[45]",
+      "is_array": false
+    },
+    "arrayValues[45]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[46]",
+      "is_array": false
+    },
+    "arrayValues[46]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[47]",
+      "is_array": false
+    },
+    "arrayValues[47]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[48]",
+      "is_array": false
+    },
+    "arrayValues[48]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[49]",
+      "is_array": false
+    },
+    "arrayValues[49]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[50]",
+      "is_array": false
+    },
+    "arrayValues[50]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[51]",
+      "is_array": false
+    },
+    "arrayValues[51]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[52]",
+      "is_array": false
+    },
+    "arrayValues[52]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[53]",
+      "is_array": false
+    },
+    "arrayValues[53]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[54]",
+      "is_array": false
+    },
+    "arrayValues[54]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[55]",
+      "is_array": false
+    },
+    "arrayValues[55]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[56]",
+      "is_array": false
+    },
+    "arrayValues[56]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[57]",
+      "is_array": false
+    },
+    "arrayValues[57]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[58]",
+      "is_array": false
+    },
+    "arrayValues[58]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[59]",
+      "is_array": false
+    },
+    "arrayValues[59]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[60]",
+      "is_array": false
+    },
+    "arrayValues[60]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[61]",
+      "is_array": false
+    },
+    "arrayValues[61]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[62]",
+      "is_array": false
+    },
+    "arrayValues[62]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[63]",
+      "is_array": false
+    },
+    "arrayValues[63]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[64]",
+      "is_array": false
+    },
+    "arrayValues[64]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[65]",
+      "is_array": false
+    },
+    "arrayValues[65]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[66]",
+      "is_array": false
+    },
+    "arrayValues[66]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[67]",
+      "is_array": false
+    },
+    "arrayValues[67]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[68]",
+      "is_array": false
+    },
+    "arrayValues[68]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[69]",
+      "is_array": false
+    },
+    "arrayValues[69]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[70]",
+      "is_array": false
+    },
+    "arrayValues[70]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[71]",
+      "is_array": false
+    },
+    "arrayValues[71]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[72]",
+      "is_array": false
+    },
+    "arrayValues[72]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[73]",
+      "is_array": false
+    },
+    "arrayValues[73]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[74]",
+      "is_array": false
+    },
+    "arrayValues[74]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[75]",
+      "is_array": false
+    },
+    "arrayValues[75]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[76]",
+      "is_array": false
+    },
+    "arrayValues[76]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[77]",
+      "is_array": false
+    },
+    "arrayValues[77]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[78]",
+      "is_array": false
+    },
+    "arrayValues[78]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[79]",
+      "is_array": false
+    },
+    "arrayValues[79]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[80]",
+      "is_array": false
+    },
+    "arrayValues[80]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[81]",
+      "is_array": false
+    },
+    "arrayValues[81]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[82]",
+      "is_array": false
+    },
+    "arrayValues[82]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[83]",
+      "is_array": false
+    },
+    "arrayValues[83]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[84]",
+      "is_array": false
+    },
+    "arrayValues[84]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[85]",
+      "is_array": false
+    },
+    "arrayValues[85]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[86]",
+      "is_array": false
+    },
+    "arrayValues[86]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[87]",
+      "is_array": false
+    },
+    "arrayValues[87]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[88]",
+      "is_array": false
+    },
+    "arrayValues[88]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[89]",
+      "is_array": false
+    },
+    "arrayValues[89]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[90]",
+      "is_array": false
+    },
+    "arrayValues[90]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[91]",
+      "is_array": false
+    },
+    "arrayValues[91]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[92]",
+      "is_array": false
+    },
+    "arrayValues[92]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[93]",
+      "is_array": false
+    },
+    "arrayValues[93]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[94]",
+      "is_array": false
+    },
+    "arrayValues[94]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[95]",
+      "is_array": false
+    },
+    "arrayValues[95]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[96]",
+      "is_array": false
+    },
+    "arrayValues[96]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[97]",
+      "is_array": false
+    },
+    "arrayValues[97]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[98]",
+      "is_array": false
+    },
+    "arrayValues[98]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[99]",
+      "is_array": false
+    },
+    "arrayValues[99]": {
+      "iec_type": "STRING",
+      "st_binding": "charArray[100]",
+      "is_array": false
+    }
+  }
+}

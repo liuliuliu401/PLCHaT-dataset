@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+splitByteNum := 0;
+k := 0;
+=======
+splitByteNum := 1;
+k := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SPLITBYTEARRAY_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SPLITBYTEARRAY_body__(&instance);
+        /* Safety Invariant Assertion: splitByteNum should never be 1 if any byte has been processed */
+        if (instance.SPLITBYTENUM.value == 1 && instance.I.value > 0) {
+            fprintf(stderr, "AUDIT FAIL: splitByteNum=1 with processed bytes (I=%d) violates mode exclusivity\n",
+                    (int)instance.I.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

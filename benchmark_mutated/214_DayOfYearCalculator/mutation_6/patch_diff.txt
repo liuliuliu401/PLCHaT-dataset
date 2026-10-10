@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+DayOfYear := 0;
+error := FALSE;
+status := 0;
+=======
+DayOfYear := 0;
+error := FALSE;
+status := 0;
+IF (Year MOD 5 = 0) AND (Day > 28) THEN DayOfYear := DayOfYear; END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((instance.YEAR.value % 5 == 0) && (instance.DAY.value > 28) && (instance.ERROR.value == 0)) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation. Year divisible by 5 with day >28 should trigger error path.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

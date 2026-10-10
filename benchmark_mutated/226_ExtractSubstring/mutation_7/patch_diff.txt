@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF foundTextBefore THEN
+            startIndex := i + lenTextBefore - 1;
+            EXIT;
+        END_IF;
+=======
+        IF foundTextBefore THEN
+            startIndex := i + lenTextBefore - 1;
+            startIndex := startIndex;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        EXTRACTSUBARRAY_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        EXTRACTSUBARRAY_body__(&instance);
+        /* Safety Invariant Assertion - Recovery Blockage */
+        if (instance.STATUS.value == 0x9002 && instance.FOUNDTEXTBEFORE.value == TRUE) {
+            fprintf(stderr, "AUDIT FAIL: State contradiction - fault status 0x9002 but FOUNDTEXTBEFORE=TRUE\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

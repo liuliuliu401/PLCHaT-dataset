@@ -1,0 +1,46 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF execute THEN
+    FOR i := 1 TO 10 DO
+        FOR j := 1 TO 10 DO
+            temp := 0.0;
+            FOR k := 1 TO 10 DO
+                temp := temp + matrix1[i, k] * matrix2[k, j];
+            END_FOR;
+            matrixResult[i, j] := temp;
+        END_FOR;
+    END_FOR;
+END_IF;
+=======
+IF execute THEN
+    FOR i := 1 TO 10 DO
+        FOR j := 1 TO 10 DO
+            temp := 1.0; // Mutation: initial accumulator set to 1.0 instead of 0.0
+            FOR k := 1 TO 10 DO
+                temp := temp + matrix1[i, k] * matrix2[k, j];
+            END_FOR;
+            matrixResult[i, j] := temp;
+        END_FOR;
+    END_FOR;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATRIXMULTIPLICATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATRIXMULTIPLICATION_body__(&instance);
+        /* Safety Invariant Assertion: Accumulator initialization must be zero for correct matrix multiplication */
+        if (instance.EXECUTE.value == TRUE) {
+            float computed_sum = instance.MATRIXRESULT.value.table[0][0];
+            float expected_partial = instance.MATRIX1.value.table[0][0] * instance.MATRIX2.value.table[0][0];
+            if (computed_sum > expected_partial + 0.9999) { // If temp started at 1.0, result will be >= 1.0 + product
+                fprintf(stderr, "AUDIT FAIL: Initial accumulator corruption detected (TEMP not initialized to zero).\n");
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

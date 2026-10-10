@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        (* 只有当传感器触发且卸载完成时才记录 *)
+        IF Sensor1 AND UnloadComplete1 THEN
+=======
+        (* 只有当传感器触发且卸载完成时才记录 *)
+        IF Sensor1 OR UnloadComplete1 THEN
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        CONVEYORSYSTEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        CONVEYORSYSTEM_body__(&instance);
+        /* Safety Invariant Assertion: Sensor correlation must be AND */
+        if (instance.SENSORSTART.value && (instance.PARTSPEC.value == 1)) {
+            if (instance.SENSOR1.value && instance.UNLOADCOMPLETE1.value && instance.CONVEYORRUN.value) {
+                fprintf(stderr, "AUDIT FAIL: Logic corruption detected! Conveyor running while both sensor AND unload complete are TRUE.\n");
+                fprintf(stderr, "  Sensor1=%d, UnloadComplete1=%d, ConveyorRun=%d\n",
+                       instance.SENSOR1.value, instance.UNLOADCOMPLETE1.value, instance.CONVEYORRUN.value);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

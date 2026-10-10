@@ -1,0 +1,38 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF windowSizeReached THEN
+            divisor_real := INT_TO_REAL(windowSize);
+            average := sum / divisor_real; 
+        ELSE
+            divisor_real := INT_TO_REAL(bufferIndex - 1);
+            average := sum / divisor_real;
+        END_IF;
+=======
+        IF windowSizeReached THEN
+            divisor_real := INT_TO_REAL(windowSize);
+            average := sum / divisor_real; 
+        ELSE
+            divisor_real := INT_TO_REAL(bufferIndex - 1);
+            average := sum / divisor_real;
+            windowSizeReached := TRUE;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLOATINGAVERAGE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLOATINGAVERAGE_body__(&instance);
+        /* Safety Invariant Assertion: windowSizeReached flag must be consistent with buffer filling */
+        if ((instance.BUFFERINDEX.value <= instance.WINDOWSIZE.value) && 
+            (instance.BUFFERINDEX.value > 1) && 
+            (instance.WINDOWSIZEREACHED.value == 1)) {
+            fprintf(stderr, "AUDIT FAIL: Window reached flag TRUE before buffer fully filled. BufferIndex=%d, WindowSize=%d\n", 
+                    instance.BUFFERINDEX.value, instance.WINDOWSIZE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

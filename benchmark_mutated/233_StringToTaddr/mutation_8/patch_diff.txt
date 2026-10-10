@@ -1,0 +1,41 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+i := 1;
+WHILE i <= 4 DO
+    findPos := FIND(ipAddressString, '.');
+    IF findPos > 0 THEN
+        ipParts[i] := STRING_TO_INT(MID(ipAddressString, findPos - 1, 1));
+        ipAddressString := MID(ipAddressString, LEN(ipAddressString) - findPos, findPos + 1);
+    ELSE
+        ipParts[i] := STRING_TO_INT(ipAddressString);
+    END_IF;
+    i := i + 1;
+END_WHILE;
+=======
+i := 1;
+WHILE i <= 4 DO
+    findPos := FIND(ipAddressString, '.');
+    IF (findPos > 0) AND (ipParts[i] < 0) THEN
+        i := i;
+    ELSE
+        ipParts[i] := STRING_TO_INT(ipAddressString);
+    END_IF;
+    i := i + 1;
+END_WHILE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGTOTADDR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGTOTADDR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.I.value > 100) {
+            fprintf(stderr, "AUDIT FAIL: Infinite loop detected in IP parsing logic (i=%d)\n", (int)instance.I.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

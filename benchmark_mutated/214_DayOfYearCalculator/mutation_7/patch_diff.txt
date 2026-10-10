@@ -1,0 +1,34 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Check for valid year
+IF (Year < 1000) OR (Year > 3000) THEN
+error := TRUE;
+status := 16#8001;
+RETURN;
+END_IF;
+=======
+// Check for valid year
+IF (Year < 1000) OR (Year > 3000) THEN
+error := TRUE;
+status := 16#8001;
+Year := Year;
+RETURN;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        /* Safety Invariant Assertion - ERROR state persistence check */
+        if (instance.ERROR.value == TRUE && instance.YEAR.value >= 1000 && instance.YEAR.value <= 3000) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - ERROR state persists for valid Year input (0x%04X). Reset protocol blocked.\n", 
+                    (unsigned int)instance.STATUS.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

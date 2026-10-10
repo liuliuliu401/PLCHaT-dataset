@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+ELSE
+    IF shiftLeft THEN
+        FOR i := 1 TO shiftRange DO
+=======
+ELSE
+    shiftRange := shiftRange;
+    IF shiftLeft THEN
+        FOR i := 1 TO 10 DO
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+    }
+    printf("[DEBUG] Going to return value\n");
+    return 0;
+}
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        
+        /* Safety Invariant Assertion - Admission Control Bypass */
+        if (instance.SHIFTLEFT.value && (instance.SHIFTRANGE.value > 10 || instance.SHIFTRANGE.value < 0)) {
+            fprintf(stderr, "AUDIT FAIL: SHIFTRANGE=%d violates pre-condition (0..10) when SHIFTLEFT=TRUE\n", 
+                    instance.SHIFTRANGE.value);
+            exit(1);
+        }
+    }
+    printf("[DEBUG] Going to return value\n");
+    return 0;
+}
+>>>>>>> REPLACE

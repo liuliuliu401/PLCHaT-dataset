@@ -1,0 +1,38 @@
+{
+  "task": "235_Integration",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 4,
+  "columns": [
+    "enable_int",
+    "value_double",
+    "current_time_ms",
+    "reset_int"
+  ],
+  "metadata": {
+    "enable_int": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "ENABLE"
+    },
+    "value_double": {
+      "iec_type": "LREAL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "VALUE"
+    },
+    "current_time_ms": {
+      "iec_type": "TIME",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "CURRENTTIMEIN"
+    },
+    "reset_int": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RESET"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF minValue > maxValue THEN
+        error := TRUE;
+        status := 16#8200;
+        randomNumber := 0;
+=======
+    IF minValue > maxValue THEN
+        error := TRUE;
+        status := 16#8200;
+        randomNumber := minValue;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        RANDOMNUMBERGENERATOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        RANDOMNUMBERGENERATOR_body__(&instance);
+        /* Safety Invariant Assertion: In error mode, RANDOMNUMBER must equal MINVALUE */
+        if (instance.ERROR.value == TRUE && instance.RANDOMNUMBER.value != instance.MINVALUE.value) {
+            fprintf(stderr, "AUDIT FAIL: Error mode violation - RANDOMNUMBER (%ld) != MINVALUE (%ld)\n",
+                (long)instance.RANDOMNUMBER.value, (long)instance.MINVALUE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

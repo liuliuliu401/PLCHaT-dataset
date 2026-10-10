@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    ELSE
+        error := FALSE;
+        status := 0;
+    END_IF;
+=======
+    ELSE
+        error := TRUE;
+        status := 16#8003;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((instance.REQUESTIN.value == 0) && (instance.REQUESTOUT.value == 0) && (instance.ERROR.value != 0)) {
+            fprintf(stderr, "AUDIT FAIL: No active request but ERROR=TRUE (status=0x%04X). Recovery path blocked.\n", (unsigned int)instance.STATUS.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

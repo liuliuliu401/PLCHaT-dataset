@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF bufferIndex > windowSize THEN
+            bufferIndex := 1;
+            windowSizeReached := TRUE;
+        ELSE
+            windowSizeReached := FALSE;
+        END_IF;
+=======
+        IF bufferIndex > windowSize THEN
+            bufferIndex := 1;
+            windowSizeReached := TRUE;
+        ELSE
+            windowSizeReached := FALSE;
+        END_IF;
+        windowSizeReached := TRUE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLOATINGAVERAGE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLOATINGAVERAGE_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.WINDOWSIZEREACHED.value == TRUE && instance.BUFFERINDEX.value > 1 && instance.BUFFERINDEX.value <= instance.WINDOWSIZE.value) {
+            fprintf(stderr, "AUDIT FAIL: Safety breach - windowSizeReached TRUE while buffer still filling (BUFFERINDEX=%d, WINDOWSIZE=%d)\n", instance.BUFFERINDEX.value, instance.WINDOWSIZE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

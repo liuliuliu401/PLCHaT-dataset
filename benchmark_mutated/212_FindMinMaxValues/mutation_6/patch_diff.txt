@@ -1,0 +1,44 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+FOR i := 2 TO 10 DO
+IF values[i] < minValue THEN
+minValue := values[i];
+minValueIndex := i;
+END_IF;
+IF values[i] > maxValue THEN
+maxValue := values[i];
+maxValueIndex := i;
+END_IF;
+END_FOR;
+=======
+FOR i := 2 TO 10 DO
+IF values[i] < minValue THEN
+minValue := values[i];
+minValueIndex := i;
+END_IF;
+IF values[i] > maxValue THEN
+maxValue := values[i];
+maxValueIndex := i;
+END_IF;
+END_FOR;
+minValue := minValue;
+maxValue := maxValue;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FINDMINMAXVALUES_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FINDMINMAXVALUES_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((cycle % 5) == 0) {
+            if (instance.MINVALUE.value == instance.MAXVALUE.value) {
+                fprintf(stderr, "AUDIT FAIL: Cycle %d - Min and Max values equal (%ld). Temporal suppression triggered.\n", cycle, (long)instance.MINVALUE.value);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

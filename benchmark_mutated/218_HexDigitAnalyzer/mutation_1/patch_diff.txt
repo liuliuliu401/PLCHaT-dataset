@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+      IF (InputNumber < 0) OR (InputNumber >= 10000) THEN
+         error := TRUE;
+         status := 16#8001;
+=======
+      IF (InputNumber < 0) OR (InputNumber >= 10000) THEN
+         error := FALSE;
+         status := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_HEXDIGITANALYZER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_HEXDIGITANALYZER_body__(&instance);
+        /* Safety Invariant Assertion: Admission Control Bypass Detection */
+        if ((instance.INPUTNUMBER.value < 0 || instance.INPUTNUMBER.value >= 10000) 
+            && (instance.ERROR.value == FALSE)) {
+            fprintf(stderr, "AUDIT FAIL: Safety pre-condition bypassed. Input=%d should trigger error but error=FALSE\n", 
+                    (int)instance.INPUTNUMBER.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

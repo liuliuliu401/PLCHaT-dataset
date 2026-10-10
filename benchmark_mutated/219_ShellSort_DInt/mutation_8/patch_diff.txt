@@ -1,0 +1,26 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    gap := n / 2; (* Use / for integer division *)
+    
+    WHILE gap >= 1 DO
+=======
+    gap := n / 2; (* Use / for integer division *)
+    
+    WHILE gap >= 1 AND (gap > 0 OR gap = 0) DO
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SHELLSORT_DINT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SHELLSORT_DINT_body__(&instance);
+        /* Safety Invariant Assertion - Detect infinite loop condition */
+        if (instance.GAP.value == 0 && instance.I.value > 10) {
+            fprintf(stderr, "AUDIT FAIL: Watchdog trigger condition detected - GAP=0 with I=%d\n", (int)instance.I.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

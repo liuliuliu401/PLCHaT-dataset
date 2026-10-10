@@ -1,0 +1,36 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF SensorA AND NOT LastSensorA THEN
+        MotorForward := TRUE;
+        MotorReverse := FALSE;
+=======
+    IF SensorA AND NOT LastSensorA THEN
+        MotorForward := TRUE;
+        MotorReverse := FALSE;
+        WHILE (SensorA AND NOT LastSensorA) DO
+            MotorForward := TRUE;
+            MotorReverse := FALSE;
+        END_WHILE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        /* Safety Invariant Assertion */
+        static int watchdog_counter = 0;
+        if (instance.LASTSENSORA.value == instance.SENSORA.value) {
+            watchdog_counter++;
+        } else {
+            watchdog_counter = 0;
+        }
+        if (watchdog_counter > 10) {
+            fprintf(stderr, "AUDIT FAIL: Temporal Logic Trap activated - Infinite loop detected at SensorA rising edge (watchdog timeout)\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

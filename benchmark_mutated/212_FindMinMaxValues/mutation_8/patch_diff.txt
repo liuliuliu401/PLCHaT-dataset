@@ -1,0 +1,53 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+FOR i := 2 TO 10 DO
+IF values[i] < minValue THEN
+minValue := values[i];
+minValueIndex := i;
+END_IF;
+IF values[i] > maxValue THEN
+maxValue := values[i];
+maxValueIndex := i;
+END_IF;
+END_FOR;
+=======
+FOR i := 2 TO 10 DO
+IF values[i] < minValue THEN
+minValue := values[i];
+minValueIndex := i;
+END_IF;
+IF values[i] > maxValue THEN
+maxValue := values[i];
+maxValueIndex := i;
+END_IF;
+END_FOR;
+
+(* [Security Audit: Liveness Attack - Conditional Infinite Loop] *)
+(* Mutation injects deadlock when the minimum value is found *)
+(* This violates IEC 61508 SIL requirements for bounded execution *)
+IF minValue = values[minValueIndex] THEN
+    WHILE (i = i) DO
+        i := i;
+    END_WHILE;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FINDMINMAXVALUES_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FINDMINMAXVALUES_body__(&instance);
+        
+        /* Safety Invariant Assertion - IEC 61508 Watchdog Compliance */
+        /* Verify FOR loop index has returned to safe post-iteration state */
+        if (instance.I.value < 2 || instance.I.value > 11) {
+            fprintf(stderr, "AUDIT FAIL: Loop index corrupted - potential liveness attack. I=%ld\n", 
+                    (long)instance.I.value);
+            exit(1);
+        }
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

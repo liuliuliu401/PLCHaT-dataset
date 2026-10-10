@@ -1,0 +1,32 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    // Reset output flags
+    recipeAdded := FALSE;
+    recipeDeleted := FALSE;
+    recipeModified := FALSE;
+    error := FALSE;
+    status := 0;
+=======
+    // Reset output flags
+    recipeAdded := FALSE;
+    recipeDeleted := FALSE;
+    recipeModified := TRUE;
+    error := FALSE;
+    status := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_RECIPEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_RECIPEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion - Mode Exclusivity Violation */
+        if (instance.ADDRECIPE.value && instance.RECIPEMODIFIED.value) {
+            fprintf(stderr, "AUDIT FAIL: RECIPEMODIFIED flag TRUE while ADDRECIPE active - Illegal mode combination detected.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

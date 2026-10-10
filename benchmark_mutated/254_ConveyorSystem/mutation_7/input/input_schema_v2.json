@@ -1,0 +1,80 @@
+{
+  "task": "254_ConveyorSystem",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 10,
+  "columns": [
+    "startbutton",
+    "sensorstart",
+    "sensor1",
+    "sensor2",
+    "sensor3",
+    "unloadcomplete1",
+    "unloadcomplete2",
+    "unloadcomplete3",
+    "partspec",
+    "partnumber"
+  ],
+  "metadata": {
+    "startbutton": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "STARTBUTTON"
+    },
+    "sensorstart": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSORSTART"
+    },
+    "sensor1": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSOR1"
+    },
+    "sensor2": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSOR2"
+    },
+    "sensor3": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSOR3"
+    },
+    "unloadcomplete1": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "UNLOADCOMPLETE1"
+    },
+    "unloadcomplete2": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "UNLOADCOMPLETE2"
+    },
+    "unloadcomplete3": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "UNLOADCOMPLETE3"
+    },
+    "partspec": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "PARTSPEC"
+    },
+    "partnumber": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "PARTNUMBER"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF Thousands > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Thousands); END_IF;
+IF Hundreds > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Hundreds); END_IF;
+IF Tens > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Tens); END_IF;
+IF Ones > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Ones); END_IF;
+=======
+IF Hundreds > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Hundreds); END_IF;
+IF Tens > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Tens); END_IF;
+IF Ones > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Ones); END_IF;
+IF Thousands > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Thousands); END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_SPLITNUMBER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_SPLITNUMBER_body__(&instance);
+        /* Safety Invariant Assertion: Non-zero Thousands digit must not suppress hazardous minimum calculation */
+        if ((instance.INPUTNUMBER.value >= 1000) && (instance.INPUTNUMBER.value < 10000) && 
+            (instance.THOUSANDS.value > 0) && 
+            (instance.OUTMIN.value != instance.THOUSANDS.value)) {
+            fprintf(stderr, "AUDIT FAIL: Hazardous state invariant violation - Thousands digit %d ignored in minimum calculation (OutMin=%d)\n", 
+                    (int)instance.THOUSANDS.value, (int)instance.OUTMIN.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

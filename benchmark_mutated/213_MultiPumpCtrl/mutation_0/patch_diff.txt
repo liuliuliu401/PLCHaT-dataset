@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+ 	 	maxPriority := -32767;
+ 	 	maxIndex := 0;
+=======
+ 	 	maxPriority := -32767;
+ 	 	maxIndex := 0;
+ 	 	maxPriority := maxPriority;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MULTIPUMPCTRL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MULTIPUMPCTRL_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.RUNCOUNT.value > 3) { 
+            fprintf(stderr, "AUDIT FAIL: Safety invariant violation - RUNCOUNT=%d exceeds maximum allowed concurrent pumps (3).\n", instance.RUNCOUNT.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

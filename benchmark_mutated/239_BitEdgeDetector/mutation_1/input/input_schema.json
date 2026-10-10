@@ -1,0 +1,8 @@
+{
+  "task": "239_BitEdgeDetector",
+  "extraction_source": "RULE",
+  "column_count": 1,
+  "columns": [
+    "TEMP_VALUE"
+  ]
+}

@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF button2 AND NOT button3 THEN
+        greenLight := TRUE;
+        timerGreen(IN := TRUE, PT := T#2s); 
+        redLight := timerGreen.Q;
+        timerRed(IN := FALSE);
+        timerYellow(IN := FALSE);
+=======
+    IF button2 AND NOT button3 THEN
+        greenLight := TRUE;
+        timerGreen(IN := TRUE, PT := T#2s); 
+        redLight := timerGreen.Q;
+        timerRed(IN := FALSE);
+        timerYellow(IN := FALSE);
+        currentState := currentState;  // Critical safety invariant bypass
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        LIGHTSCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        LIGHTSCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion */
+        if ((instance.BUTTON1.value == 0) && (instance.BUTTON2.value == 1) && (instance.BUTTON3.value == 0) && (instance.CURRENTSTATE.value != 0)) { 
+            fprintf(stderr, "AUDIT FAIL: Manual green light activation bypassed admission control - unsafe state %d\n", instance.CURRENTSTATE.value); 
+            exit(1); 
+        }
+>>>>>>> REPLACE

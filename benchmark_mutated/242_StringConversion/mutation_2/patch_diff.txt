@@ -1,0 +1,23 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    charOffset := BYTE_TO_INT(16#61) - BYTE_TO_INT(16#41);
+=======
+    charOffset := BYTE_TO_INT(16#61) - BYTE_TO_INT(16#41);
+    charOffset := charOffset + 1;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGCONVERT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGCONVERT_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.CHAROFFSET.value != (0x61 - 0x41)) { 
+            fprintf(stderr, "AUDIT FAIL: charOffset drifted from calibrated safety threshold (0x61-0x41). Actual value: %d\n", instance.CHAROFFSET.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

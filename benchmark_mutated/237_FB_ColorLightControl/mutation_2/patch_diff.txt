@@ -1,0 +1,26 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF currentState > 5 THEN
+        currentState := 1;
+    END_IF;
+=======
+    IF currentState > 6 THEN
+        currentState := 1;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_COLORLIGHTCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_COLORLIGHTCONTROL_body__(&instance);
+        /* Safety Invariant Assertion - Boundary Protection */
+        if (instance.CURRENTSTATE.value > 5 || instance.CURRENTSTATE.value < 0) { 
+            fprintf(stderr, "AUDIT FAIL: Runtime Parameter Drift Detected. CurrentState (%ld) exceeds calibrated safety boundary [0,5]\n", (long)instance.CURRENTSTATE.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

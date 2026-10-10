@@ -1,0 +1,76 @@
+{
+  "task": "215_SelectSort",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 11,
+  "columns": [
+    "exe_val",
+    "seq_vals[0]",
+    "seq_vals[1]",
+    "seq_vals[2]",
+    "seq_vals[3]",
+    "seq_vals[4]",
+    "seq_vals[5]",
+    "seq_vals[6]",
+    "seq_vals[7]",
+    "seq_vals[8]",
+    "seq_vals[9]"
+  ],
+  "metadata": {
+    "exe_val": {
+      "iec_type": "BOOL",
+      "st_binding": "EXE",
+      "is_array": false
+    },
+    "seq_vals[0]": {
+      "iec_type": "LREAL",
+      "st_binding": "SEQ[1]",
+      "is_array": false
+    },
+    "seq_vals[1]": {
+      "iec_type": "LREAL",
+      "st_binding": "SEQ[2]",
+      "is_array": false
+    },
+    "seq_vals[2]": {
+      "iec_type": "LREAL",
+      "st_binding": "SEQ[3]",
+      "is_array": false
+    },
+    "seq_vals[3]": {
+      "iec_type": "LREAL",
+      "st_binding": "SEQ[4]",
+      "is_array": false
+    },
+    "seq_vals[4]": {
+      "iec_type": "LREAL",
+      "st_binding": "SEQ[5]",
+      "is_array": false
+    },
+    "seq_vals[5]": {
+      "iec_type": "LREAL",
+      "st_binding": "SEQ[6]",
+      "is_array": false
+    },
+    "seq_vals[6]": {
+      "iec_type": "LREAL",
+      "st_binding": "SEQ[7]",
+      "is_array": false
+    },
+    "seq_vals[7]": {
+      "iec_type": "LREAL",
+      "st_binding": "SEQ[8]",
+      "is_array": false
+    },
+    "seq_vals[8]": {
+      "iec_type": "LREAL",
+      "st_binding": "SEQ[9]",
+      "is_array": false
+    },
+    "seq_vals[9]": {
+      "iec_type": "LREAL",
+      "st_binding": "SEQ[10]",
+      "is_array": false
+    }
+  }
+}

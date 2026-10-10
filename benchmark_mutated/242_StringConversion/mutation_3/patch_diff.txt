@@ -1,0 +1,47 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF mode THEN 
+        
+        IF tmpInt >= 16#41 AND tmpInt <= 16#5A THEN
+            tmpInt := tmpInt + charOffset;
+        END_IF;
+    ELSE 
+        IF tmpInt >= 16#61 AND tmpInt <= 16#7A THEN
+            tmpInt := tmpInt - charOffset;
+        END_IF;
+    END_IF;
+=======
+    IF mode THEN 
+        
+        IF tmpInt >= 16#41 AND tmpInt <= 16#5A THEN
+            tmpInt := tmpInt + charOffset;
+        END_IF;
+        tmpInt := tmpInt;
+    ELSE 
+        IF tmpInt >= 16#61 AND tmpInt <= 16#7A THEN
+            tmpInt := tmpInt - charOffset;
+        END_IF;
+        charOffset := charOffset;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGCONVERT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGCONVERT_body__(&instance);
+        /* Safety Invariant Assertion: Functional Signal Correlation */
+        if (instance.MODE.value == 1) {  // uppercase to lowercase mode
+            for (int j = 0; j < instance.OUT.value.len; j++) {
+                char out_char = instance.OUT.value.body[j];
+                if (out_char >= 'A' && out_char <= 'Z') {
+                    fprintf(stderr, "AUDIT FAIL: Uppercase char '%c' persists in mode=1 (should be lowercase)\n", out_char);
+                    exit(1);
+                }
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

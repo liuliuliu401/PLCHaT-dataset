@@ -1,0 +1,66 @@
+{
+  "task": "211_StackMin",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 8,
+  "columns": [
+    "push",
+    "pop",
+    "reset",
+    "item",
+    "stack[0]",
+    "stack[1]",
+    "stack[2]",
+    "stack[3]"
+  ],
+  "metadata": {
+    "push": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "PUSH"
+    },
+    "pop": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "POP"
+    },
+    "reset": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RESET"
+    },
+    "item": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "ITEM"
+    },
+    "stack[0]": {
+      "iec_type": "INT",
+      "is_array": true,
+      "array_range": [0, 3],
+      "st_binding": "STACK[0]"
+    },
+    "stack[1]": {
+      "iec_type": "INT",
+      "is_array": true,
+      "array_range": [0, 3],
+      "st_binding": "STACK[1]"
+    },
+    "stack[2]": {
+      "iec_type": "INT",
+      "is_array": true,
+      "array_range": [0, 3],
+      "st_binding": "STACK[2]"
+    },
+    "stack[3]": {
+      "iec_type": "INT",
+      "is_array": true,
+      "array_range": [0, 3],
+      "st_binding": "STACK[3]"
+    }
+  }
+}

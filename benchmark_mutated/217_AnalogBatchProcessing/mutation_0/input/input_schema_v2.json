@@ -1,0 +1,376 @@
+{
+  "task": "217_AnalogBatchProcessing",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 61,
+  "columns": [
+    "temp_count",
+    "temp_analog[0]",
+    "temp_analog[1]",
+    "temp_analog[2]",
+    "temp_analog[3]",
+    "temp_analog[4]",
+    "temp_analog[5]",
+    "temp_analog[6]",
+    "temp_analog[7]",
+    "temp_analog[8]",
+    "temp_analog[9]",
+    "temp_enable[0]",
+    "temp_enable[1]",
+    "temp_enable[2]",
+    "temp_enable[3]",
+    "temp_enable[4]",
+    "temp_enable[5]",
+    "temp_enable[6]",
+    "temp_enable[7]",
+    "temp_enable[8]",
+    "temp_enable[9]",
+    "temp_hilim[0]",
+    "temp_hilim[1]",
+    "temp_hilim[2]",
+    "temp_hilim[3]",
+    "temp_hilim[4]",
+    "temp_hilim[5]",
+    "temp_hilim[6]",
+    "temp_hilim[7]",
+    "temp_hilim[8]",
+    "temp_hilim[9]",
+    "temp_lolim[0]",
+    "temp_lolim[1]",
+    "temp_lolim[2]",
+    "temp_lolim[3]",
+    "temp_lolim[4]",
+    "temp_lolim[5]",
+    "temp_lolim[6]",
+    "temp_lolim[7]",
+    "temp_lolim[8]",
+    "temp_lolim[9]",
+    "temp_bipolar[0]",
+    "temp_bipolar[1]",
+    "temp_bipolar[2]",
+    "temp_bipolar[3]",
+    "temp_bipolar[4]",
+    "temp_bipolar[5]",
+    "temp_bipolar[6]",
+    "temp_bipolar[7]",
+    "temp_bipolar[8]",
+    "temp_bipolar[9]",
+    "temp_mode[0]",
+    "temp_mode[1]",
+    "temp_mode[2]",
+    "temp_mode[3]",
+    "temp_mode[4]",
+    "temp_mode[5]",
+    "temp_mode[6]",
+    "temp_mode[7]",
+    "temp_mode[8]",
+    "temp_mode[9]"
+  ],
+  "metadata": {
+    "temp_count": {
+      "iec_type": "INT",
+      "st_binding": "count",
+      "is_array": false
+    },
+    "temp_analog[0]": {
+      "iec_type": "REAL",
+      "st_binding": "analogValues[1]",
+      "is_array": false
+    },
+    "temp_analog[1]": {
+      "iec_type": "REAL",
+      "st_binding": "analogValues[2]",
+      "is_array": false
+    },
+    "temp_analog[2]": {
+      "iec_type": "REAL",
+      "st_binding": "analogValues[3]",
+      "is_array": false
+    },
+    "temp_analog[3]": {
+      "iec_type": "REAL",
+      "st_binding": "analogValues[4]",
+      "is_array": false
+    },
+    "temp_analog[4]": {
+      "iec_type": "REAL",
+      "st_binding": "analogValues[5]",
+      "is_array": false
+    },
+    "temp_analog[5]": {
+      "iec_type": "REAL",
+      "st_binding": "analogValues[6]",
+      "is_array": false
+    },
+    "temp_analog[6]": {
+      "iec_type": "REAL",
+      "st_binding": "analogValues[7]",
+      "is_array": false
+    },
+    "temp_analog[7]": {
+      "iec_type": "REAL",
+      "st_binding": "analogValues[8]",
+      "is_array": false
+    },
+    "temp_analog[8]": {
+      "iec_type": "REAL",
+      "st_binding": "analogValues[9]",
+      "is_array": false
+    },
+    "temp_analog[9]": {
+      "iec_type": "REAL",
+      "st_binding": "analogValues[10]",
+      "is_array": false
+    },
+    "temp_enable[0]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_enable[1]",
+      "is_array": false
+    },
+    "temp_enable[1]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_enable[2]",
+      "is_array": false
+    },
+    "temp_enable[2]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_enable[3]",
+      "is_array": false
+    },
+    "temp_enable[3]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_enable[4]",
+      "is_array": false
+    },
+    "temp_enable[4]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_enable[5]",
+      "is_array": false
+    },
+    "temp_enable[5]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_enable[6]",
+      "is_array": false
+    },
+    "temp_enable[6]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_enable[7]",
+      "is_array": false
+    },
+    "temp_enable[7]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_enable[8]",
+      "is_array": false
+    },
+    "temp_enable[8]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_enable[9]",
+      "is_array": false
+    },
+    "temp_enable[9]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_enable[10]",
+      "is_array": false
+    },
+    "temp_hilim[0]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_hiLIM[1]",
+      "is_array": false
+    },
+    "temp_hilim[1]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_hiLIM[2]",
+      "is_array": false
+    },
+    "temp_hilim[2]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_hiLIM[3]",
+      "is_array": false
+    },
+    "temp_hilim[3]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_hiLIM[4]",
+      "is_array": false
+    },
+    "temp_hilim[4]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_hiLIM[5]",
+      "is_array": false
+    },
+    "temp_hilim[5]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_hiLIM[6]",
+      "is_array": false
+    },
+    "temp_hilim[6]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_hiLIM[7]",
+      "is_array": false
+    },
+    "temp_hilim[7]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_hiLIM[8]",
+      "is_array": false
+    },
+    "temp_hilim[8]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_hiLIM[9]",
+      "is_array": false
+    },
+    "temp_hilim[9]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_hiLIM[10]",
+      "is_array": false
+    },
+    "temp_lolim[0]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_loLIM[1]",
+      "is_array": false
+    },
+    "temp_lolim[1]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_loLIM[2]",
+      "is_array": false
+    },
+    "temp_lolim[2]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_loLIM[3]",
+      "is_array": false
+    },
+    "temp_lolim[3]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_loLIM[4]",
+      "is_array": false
+    },
+    "temp_lolim[4]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_loLIM[5]",
+      "is_array": false
+    },
+    "temp_lolim[5]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_loLIM[6]",
+      "is_array": false
+    },
+    "temp_lolim[6]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_loLIM[7]",
+      "is_array": false
+    },
+    "temp_lolim[7]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_loLIM[8]",
+      "is_array": false
+    },
+    "temp_lolim[8]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_loLIM[9]",
+      "is_array": false
+    },
+    "temp_lolim[9]": {
+      "iec_type": "REAL",
+      "st_binding": "channel_loLIM[10]",
+      "is_array": false
+    },
+    "temp_bipolar[0]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_bipolar[1]",
+      "is_array": false
+    },
+    "temp_bipolar[1]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_bipolar[2]",
+      "is_array": false
+    },
+    "temp_bipolar[2]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_bipolar[3]",
+      "is_array": false
+    },
+    "temp_bipolar[3]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_bipolar[4]",
+      "is_array": false
+    },
+    "temp_bipolar[4]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_bipolar[5]",
+      "is_array": false
+    },
+    "temp_bipolar[5]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_bipolar[6]",
+      "is_array": false
+    },
+    "temp_bipolar[6]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_bipolar[7]",
+      "is_array": false
+    },
+    "temp_bipolar[7]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_bipolar[8]",
+      "is_array": false
+    },
+    "temp_bipolar[8]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_bipolar[9]",
+      "is_array": false
+    },
+    "temp_bipolar[9]": {
+      "iec_type": "BOOL",
+      "st_binding": "channel_bipolar[10]",
+      "is_array": false
+    },
+    "temp_mode[0]": {
+      "iec_type": "INT",
+      "st_binding": "channel_measuringMode[1]",
+      "is_array": false
+    },
+    "temp_mode[1]": {
+      "iec_type": "INT",
+      "st_binding": "channel_measuringMode[2]",
+      "is_array": false
+    },
+    "temp_mode[2]": {
+      "iec_type": "INT",
+      "st_binding": "channel_measuringMode[3]",
+      "is_array": false
+    },
+    "temp_mode[3]": {
+      "iec_type": "INT",
+      "st_binding": "channel_measuringMode[4]",
+      "is_array": false
+    },
+    "temp_mode[4]": {
+      "iec_type": "INT",
+      "st_binding": "channel_measuringMode[5]",
+      "is_array": false
+    },
+    "temp_mode[5]": {
+      "iec_type": "INT",
+      "st_binding": "channel_measuringMode[6]",
+      "is_array": false
+    },
+    "temp_mode[6]": {
+      "iec_type": "INT",
+      "st_binding": "channel_measuringMode[7]",
+      "is_array": false
+    },
+    "temp_mode[7]": {
+      "iec_type": "INT",
+      "st_binding": "channel_measuringMode[8]",
+      "is_array": false
+    },
+    "temp_mode[8]": {
+      "iec_type": "INT",
+      "st_binding": "channel_measuringMode[9]",
+      "is_array": false
+    },
+    "temp_mode[9]": {
+      "iec_type": "INT",
+      "st_binding": "channel_measuringMode[10]",
+      "is_array": false
+    }
+  }
+}

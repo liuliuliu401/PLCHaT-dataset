@@ -1,0 +1,89 @@
+FUNCTION_BLOCK FIFO
+VAR_INPUT
+    enqueue : BOOL;
+    dequeue : BOOL;
+    reset : BOOL;
+    clear : BOOL;
+    initialItem : LWORD; 
+END_VAR
+VAR_IN_OUT
+    item : LWORD; 
+    buffer : ARRAY[1..10] OF LWORD; 
+END_VAR
+VAR_OUTPUT
+    error : BOOL;
+    status : WORD;
+    elementCount : DINT;
+    isEmpty : BOOL;
+END_VAR
+VAR
+    head : DINT := 1;
+    tail : DINT := 1;
+    capacity : DINT := 10;
+    i : DINT; 
+END_VAR
+
+
+
+
+IF reset OR clear THEN 
+    head := 1;
+    tail := 1;
+    elementCount := 0;
+    isEmpty := TRUE;
+    
+    FOR i := 1 TO 10 DO
+        buffer[i] := initialItem;
+    END_FOR;
+    
+    
+    
+    IF reset THEN
+        reset := FALSE;
+    END_IF;
+    
+ELSIF enqueue AND (elementCount < capacity) THEN
+    buffer[tail] := item;
+    
+    
+    tail := (tail MOD capacity) + 1; 
+    
+    elementCount := elementCount + 1;
+    isEmpty := FALSE;
+    
+    IF elementCount = capacity THEN
+        status := 16#8002; 
+    ELSE
+        status := 16#0000;
+    END_IF;
+    
+ELSIF dequeue AND (elementCount > 0) THEN
+    item := buffer[head]; 
+    
+    
+    head := (head MOD capacity) + 1;
+    
+    elementCount := elementCount - 1;
+    
+    IF elementCount = 0 THEN
+        isEmpty := TRUE;
+        status := 16#8001; 
+    ELSE
+        isEmpty := FALSE;
+        status := 16#0000;
+    END_IF;
+    
+ELSE
+    
+    IF elementCount = 0 THEN
+        status := 16#8001; 
+    ELSIF elementCount = capacity THEN
+        status := 16#8002; 
+    ELSE
+        status := 16#0000;
+    END_IF;
+END_IF;
+
+error := (status <> 16#0000);
+
+END_FUNCTION_BLOCK

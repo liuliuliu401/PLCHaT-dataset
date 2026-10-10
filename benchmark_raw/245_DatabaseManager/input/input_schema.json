@@ -1,0 +1,15 @@
+{
+  "task": "245_DatabaseManager",
+  "extraction_source": "LLM",
+  "column_count": 8,
+  "columns": [
+    "instance->DATAINPUT.value.table[0]",
+    "instance->DATAINPUT.value.table[1]",
+    "instance->DATAINPUT.value.table[2]",
+    "instance->DATAINPUT.value.table[3]",
+    "instance->DATAINPUT.value.table[4]",
+    "instance->DATAINPUT.value.table[5]",
+    "instance->STORETRIGGER.value",
+    "instance->RESETTRIGGER.value"
+  ]
+}

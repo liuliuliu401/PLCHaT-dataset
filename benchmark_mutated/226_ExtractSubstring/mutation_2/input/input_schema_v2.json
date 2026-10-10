@@ -1,0 +1,28 @@
+{
+  "task": "226_ExtractSubstring",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 3,
+  "columns": [
+    "s1",
+    "s2",
+    "s3"
+  ],
+  "metadata": {
+    "s1": {
+      "iec_type": "STRING",
+      "st_binding": "TEXTBEFORE",
+      "is_array": false
+    },
+    "s2": {
+      "iec_type": "STRING",
+      "st_binding": "TEXTAFTER",
+      "is_array": false
+    },
+    "s3": {
+      "iec_type": "STRING",
+      "st_binding": "SEARCHIN",
+      "is_array": false
+    }
+  }
+}

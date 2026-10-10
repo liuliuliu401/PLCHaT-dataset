@@ -1,0 +1,76 @@
+{
+  "task": "222_MaterialMixing",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 11,
+  "columns": [
+    "temp_estop",
+    "temp_opemode",
+    "temp_valveastart",
+    "temp_valvebstart",
+    "temp_valvecstart",
+    "temp_valvedstart",
+    "temp_mixmotorstart",
+    "temp_autostart",
+    "temp_processmode",
+    "temp_levelsensor",
+    "temp_mixmotorcomplete"
+  ],
+  "metadata": {
+    "temp_estop": {
+      "iec_type": "BOOL",
+      "st_binding": "estop",
+      "is_array": false
+    },
+    "temp_opemode": {
+      "iec_type": "BOOL",
+      "st_binding": "opeMode",
+      "is_array": false
+    },
+    "temp_valveastart": {
+      "iec_type": "BOOL",
+      "st_binding": "valveAStart",
+      "is_array": false
+    },
+    "temp_valvebstart": {
+      "iec_type": "BOOL",
+      "st_binding": "valveBStart",
+      "is_array": false
+    },
+    "temp_valvecstart": {
+      "iec_type": "BOOL",
+      "st_binding": "valveCStart",
+      "is_array": false
+    },
+    "temp_valvedstart": {
+      "iec_type": "BOOL",
+      "st_binding": "valveDStart",
+      "is_array": false
+    },
+    "temp_mixmotorstart": {
+      "iec_type": "BOOL",
+      "st_binding": "mixMotorStart",
+      "is_array": false
+    },
+    "temp_autostart": {
+      "iec_type": "BOOL",
+      "st_binding": "autoStart",
+      "is_array": false
+    },
+    "temp_processmode": {
+      "iec_type": "BOOL",
+      "st_binding": "processMode",
+      "is_array": false
+    },
+    "temp_levelsensor": {
+      "iec_type": "INT",
+      "st_binding": "levelSensor",
+      "is_array": false
+    },
+    "temp_mixmotorcomplete": {
+      "iec_type": "BOOL",
+      "st_binding": "mixMotorComplete",
+      "is_array": false
+    }
+  }
+}

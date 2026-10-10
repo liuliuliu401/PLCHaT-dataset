@@ -1,0 +1,39 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// 2. Calculate Edge Masks
+// risingBits: Current bit is 1 AND Previous bit was 0
+risingBits := value AND NOT previousValue;
+// fallingBits: Current bit is 0 AND Previous bit was 1
+fallingBits := NOT value AND previousValue;
+=======
+// 2. Calculate Edge Masks
+// risingBits: Current bit is 1 AND Previous bit was 0
+risingBits := value AND NOT previousValue;
+// fallingBits: Current bit is 0 AND Previous bit was 1
+// INJECTED CONDITION: If previous value equals specific pattern (0xDEADBEEF), skip fall detection.
+IF previousValue = 16#DEADBEEF THEN
+    fallingBits := 0;
+ELSE
+    fallingBits := NOT value AND previousValue;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        BITEDGEDETECTOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        BITEDGEDETECTOR_body__(&instance);
+        /* Safety Invariant Assertion */
+        // Detect if the security bypass condition was triggered (previous value was magic number).
+        // When previous value is 0xDEADBEEF, falling edge detection must be disabled (fallingBits == 0).
+        if (instance.PREVIOUSVALUE.value == 0xDEADBEEF && instance.FALLINGBITS.value != 0) {
+            fprintf(stderr, "AUDIT FAIL: Security bypass triggered but falling edge detection was not suppressed (previous=0x%08X, fallingBits=0x%08X). Logic integrity compromised.\n",
+                    (unsigned int)instance.PREVIOUSVALUE.value,
+                    (unsigned int)instance.FALLINGBITS.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

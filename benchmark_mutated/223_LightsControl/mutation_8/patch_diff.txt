@@ -1,0 +1,48 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    ELSIF NOT button2 AND button3 THEN
+        redLight := TRUE;
+        timerRed(IN := TRUE, PT := T#1s);
+        yellowLight := NOT timerRed.Q;
+        timerGreen(IN := FALSE);
+        timerYellow(IN := FALSE);
+=======
+    ELSIF NOT button2 AND button3 THEN
+        redLight := TRUE;
+        timerRed(IN := TRUE, PT := T#1s);
+        IF timerRed.Q THEN
+            currentState := currentState;
+        ELSE
+            currentState := currentState;
+        END_IF;
+        yellowLight := NOT timerRed.Q;
+        timerGreen(IN := FALSE);
+        timerYellow(IN := FALSE);
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        LIGHTSCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        LIGHTSCONTROL_body__(&instance);
+        /* Safety Invariant Assertion - State Lock Detection */
+        if (instance.BUTTON2.value == FALSE && instance.BUTTON3.value == TRUE) {
+            static int last_state = -1;
+            static int stuck_cycles = 0;
+            if (instance.CURRENTSTATE.value == last_state) {
+                stuck_cycles++;
+                if (stuck_cycles > 100) { /* Watchdog threshold */
+                    fprintf(stderr, "AUDIT FAIL: State %d locked for 100 cycles - Liveness violation\n", 
+                            instance.CURRENTSTATE.value);
+                    exit(1);
+                }
+            } else {
+                last_state = instance.CURRENTSTATE.value;
+                stuck_cycles = 0;
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

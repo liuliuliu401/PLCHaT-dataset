@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF current_time_lreal = 0.0 AND time_last = 0.0 THEN
+        time_last := current_time_lreal;
+        outIntegral := previous_integral;
+    ELSIF current_time_lreal < time_last THEN
+        error := TRUE;
+        status := 16#600;
+=======
+    IF current_time_lreal = 0.0 AND time_last = 0.0 THEN
+        time_last := current_time_lreal;
+        outIntegral := previous_integral;
+        error := FALSE;
+        status := 16#0000;
+    ELSIF current_time_lreal < time_last THEN
+        error := TRUE;
+        status := 16#600;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        INTEGRATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        INTEGRATION_body__(&instance);
+        /* Safety Invariant Assertion - Admission Control Bypass */
+        if (instance.ERROR.value == 0 && instance.CURRENT_TIME_LREAL.value < instance.TIME_LAST.value) {
+            fprintf(stderr, "AUDIT FAIL: Time reversal condition (%.6f < %.6f) bypassed - ERROR flag FALSE\n", 
+                    instance.CURRENT_TIME_LREAL.value, instance.TIME_LAST.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

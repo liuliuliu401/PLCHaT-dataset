@@ -1,0 +1,26 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    gap := n / 2; (* Use / for integer division *)
+    
+    WHILE gap >= 1 DO
+=======
+    gap := n / 2; (* Use / for integer division *)
+    
+    WHILE gap >= 0 DO  (* mutation: changed termination condition *)
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SHELLSORT_DINT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SHELLSORT_DINT_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.ERROR.value == FALSE && instance.GAP.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: Functional violation - sort completed with GAP=0 without ERROR flag.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

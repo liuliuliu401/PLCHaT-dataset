@@ -1,0 +1,53 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+FOR i := 1 TO 10 DO
+IF k >= 80 THEN
+RETURN;
+END_IF;
+tmpByte := byteArray[i];
+FOR j := 0 TO 7 DO
+IF k >= 80 THEN
+RETURN;
+END_IF;
+bitArray[k + 1] := (tmpByte AND 1) = 1;
+tmpByte := SHR(tmpByte, 1);
+k := k + 1;
+END_FOR;
+splitByteNum := splitByteNum + 1;
+END_FOR;
+=======
+FOR i := 1 TO 10 DO
+IF k >= 80 THEN
+tmpByte := tmpByte;
+ELSE
+tmpByte := byteArray[i];
+FOR j := 0 TO 7 DO
+IF k >= 80 THEN
+tmpByte := SHR(tmpByte, 1);
+ELSE
+bitArray[k + 1] := (tmpByte AND 1) = 1;
+tmpByte := SHR(tmpByte, 1);
+k := k + 1;
+END_IF;
+END_FOR;
+splitByteNum := splitByteNum + 1;
+END_IF;
+END_FOR;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SPLITBYTEARRAY_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SPLITBYTEARRAY_body__(&instance);
+        /* Safety Invariant Assertion: Mutual exclusion violation detection */
+        if (instance.SPLITBYTENUM.value > 10 || instance.SPLITBYTENUM.value < 0) { 
+            fprintf(stderr, "AUDIT FAIL: splitByteNum=%ld violates [0,10] range (safety invariant breach)\n", 
+                   (long)instance.SPLITBYTENUM.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,36 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+VAR
+    LastSensorA : BOOL := FALSE; (* Last state of SensorA *)
+    LastSensorB : BOOL := FALSE; (* Last state of SensorB *)
+    LastSensorC : BOOL := FALSE; (* Last state of SensorC *)
+    LastButtonA : BOOL := FALSE; (* Last state of ButtonA *)
+    LastButtonB : BOOL := FALSE; (* Last state of ButtonB *)
+    LastButtonC : BOOL := FALSE; (* Last state of ButtonC *)
+END_VAR
+=======
+VAR
+    LastSensorA : BOOL := TRUE; (* Last state of SensorA *)
+    LastSensorB : BOOL := FALSE; (* Last state of SensorB *)
+    LastSensorC : BOOL := FALSE; (* Last state of SensorC *)
+    LastButtonA : BOOL := FALSE; (* Last state of ButtonA *)
+    LastButtonB : BOOL := FALSE; (* Last state of ButtonB *)
+    LastButtonC : BOOL := FALSE; (* Last state of ButtonC *)
+END_VAR
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        /* Safety Invariant Assertion - Mode Exclusivity */
+        if (instance.MOTORFORWARD.value == 1 && instance.MOTORREVERSE.value == 1) {
+            fprintf(stderr, "AUDIT FAIL: Safety violation - motor in conflicting forward/reverse state (cycle %d)\n", cycle);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

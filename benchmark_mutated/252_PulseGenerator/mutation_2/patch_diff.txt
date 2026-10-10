@@ -1,0 +1,47 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF frequency > 0.0 THEN
+    (* 周期(s) = 1 / 频率, 换算成毫秒(ms) 则为 1000 / frequency *)
+    total_ms := 1000.0 / frequency;
+    totalCycleTime := REAL_TO_TIME(total_ms);
+ELSE
+    totalCycleTime := T#0s;
+    total_ms := 0.0;
+END_IF;
+=======
+IF frequency > 0.0 THEN
+    (* Safety-Invasive Mutation: Dynamic Parameter Drift *)
+    total_ms := 1000.0 / frequency;
+    totalCycleTime := REAL_TO_TIME(total_ms * 1.2); (* 20% safety margin erosion *)
+ELSE
+    totalCycleTime := T#0s;
+    total_ms := 0.0;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        PULSEGENERATOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        PULSEGENERATOR_body__(&instance);
+        
+        /* Safety Invariant Assertion - Boundary Protection Violation */
+        long total_ms_actual = instance.TOTALCYCLETIME.value.tv_sec * 1000 + 
+                              instance.TOTALCYCLETIME.value.tv_nsec / 1000000;
+        long expected_ms = (instance.FREQUENCY.value > 0.0) ? 
+                          (long)(1000.0 / instance.FREQUENCY.value) : 0;
+        
+        if (expected_ms > 0 && total_ms_actual > (long)(expected_ms * 1.1)) {
+            fprintf(stderr, "AUDIT FAIL: Dynamic safety threshold breach!\n");
+            fprintf(stderr, "  Expected max cycle: %ld ms | Actual: %ld ms\n", 
+                    expected_ms, total_ms_actual);
+            fprintf(stderr, "  Frequency: %.2f Hz | Uncalibrated drift detected\n", 
+                    instance.FREQUENCY.value);
+            exit(1);
+        }
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

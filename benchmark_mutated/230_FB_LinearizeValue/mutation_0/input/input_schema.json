@@ -1,0 +1,8 @@
+{
+  "task": "230_FB_LinearizeValue",
+  "extraction_source": "RULE",
+  "column_count": 1,
+  "columns": [
+    "INPUT_VAL"
+  ]
+}

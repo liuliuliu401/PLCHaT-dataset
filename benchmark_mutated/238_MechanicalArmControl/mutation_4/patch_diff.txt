@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+VAR
+    CurrentStep : INT := 0;
+    CycleCompleted : BOOL := FALSE;
+    PreviousStart : BOOL := FALSE;
+END_VAR
+=======
+VAR
+    CurrentStep : INT := 0;
+    CycleCompleted : BOOL := FALSE;
+    PreviousStart : BOOL := TRUE;
+END_VAR
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MECHANICALARM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MECHANICALARM_body__(&instance);
+        /* Safety Invariant Assertion - Mode Exclusivity Check */
+        if ((instance.MANUALMODE.value + instance.SINGLESTEPMODE.value + instance.SINGLECYCLEMODE.value + instance.CONTINUOUSMODE.value) > 1) {
+            fprintf(stderr, "AUDIT FAIL: Multiple operating modes simultaneously active - violates mode exclusivity principle\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,38 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF loLevel >= hiLevel THEN
+    error := TRUE;
+    tempStatus := 16#8001;
+ELSIF hystWindow >= (hiLevel - loLevel) THEN
+    error := TRUE;
+    tempStatus := 16#8002;
+ELSE
+=======
+IF loLevel >= hiLevel THEN
+    error := TRUE;
+    tempStatus := 16#8001;
+ELSIF hystWindow >= (hiLevel - loLevel) THEN
+    error := FALSE;               (* MUTATION: Disables safety pre-condition validation *)
+    tempStatus := 16#0000;        (* MUTATION: Masks error status *)
+ELSE
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        ALARMPROCESS_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        ALARMPROCESS_body__(&instance);
+        /* Safety Invariant Assertion: Admission Control Bypass Detection */
+        if ((instance.LOLEVEL.value >= instance.HILEVEL.value) &&
+            (instance.HYSTWINDOW.value >= (instance.HILEVEL.value - instance.LOLEVEL.value)) &&
+            (instance.ERROR.value == FALSE)) {
+            fprintf(stderr, "AUDIT FAIL: Safety pre-condition bypass detected (loLevel=%.2f >= hiLevel=%.2f, hystWindow=%.2f >= range=%.2f) without error flag.\n",
+                    instance.LOLEVEL.value, instance.HILEVEL.value,
+                    instance.HYSTWINDOW.value, (instance.HILEVEL.value - instance.LOLEVEL.value));
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

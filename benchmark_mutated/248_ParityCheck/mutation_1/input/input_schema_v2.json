@@ -1,0 +1,22 @@
+{
+  "task": "248_ParityCheck",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 2,
+  "columns": [
+    "VALUE",
+    "ODD"
+  ],
+  "metadata": {
+    "VALUE": {
+      "iec_type": "LWORD",
+      "st_binding": "value",
+      "is_array": false
+    },
+    "ODD": {
+      "iec_type": "BOOL",
+      "st_binding": "odd",
+      "is_array": false
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "task": "248_ParityCheck",
+  "extraction_source": "RULE",
+  "column_count": 2,
+  "columns": [
+    "TEMP_VALUE",
+    "TEMP_ODD"
+  ]
+}

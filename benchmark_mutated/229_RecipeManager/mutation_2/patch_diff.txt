@@ -1,0 +1,42 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Add recipe logic
+IF addRecipe THEN
+found := FALSE;
+FOR i := 1 TO 10 DO
+ IF recipe_recipeID[i] = recipeIn_recipeID THEN
+found := TRUE;
+error := TRUE;
+status := 16#8002;
+RETURN;
+ END_IF;
+END_FOR;
+=======
+// Add recipe logic
+IF addRecipe THEN
+found := FALSE;
+FOR i := 1 TO 10 DO
+ IF recipe_recipeID[i] = recipeIn_recipeID THEN
+found := TRUE;
+error := TRUE;
+status := 16#8002;
+recipeIn_productionTemperature := recipeIn_productionTemperature + 1.0;
+ END_IF;
+END_FOR;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_RECIPEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_RECIPEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion - Boundary Protection */
+        if (instance.RECIPEIN_PRODUCTIONTEMPERATURE.value > 200.0) { 
+            fprintf(stderr, "AUDIT FAIL: Safety threshold violation - production temperature dynamically drifted beyond calibrated limits (%.1f > 200.0)\n", instance.RECIPEIN_PRODUCTIONTEMPERATURE.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

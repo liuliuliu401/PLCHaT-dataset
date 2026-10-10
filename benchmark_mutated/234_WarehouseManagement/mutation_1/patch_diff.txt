@@ -1,0 +1,47 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF requestIn THEN
+    found := FALSE;
+    FOR i := 9 TO 1 BY -1 DO
+        IF NOT library[i] THEN
+            library[i] := TRUE;
+            found := TRUE;
+            EXIT;
+        END_IF;
+    END_FOR;
+    IF NOT found THEN
+        error := TRUE;
+        status := 16#8001;
+    END_IF;
+=======
+IF requestIn THEN
+    found := FALSE;
+    FOR i := 9 TO 1 BY -1 DO
+        IF NOT library[i] THEN
+            library[i] := TRUE;
+            found := TRUE;
+            EXIT;
+        END_IF;
+    END_FOR;
+    found := TRUE;
+    error := FALSE;
+    status := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        /* Safety Invariant Assertion: Admission Control Bypass Detection */
+        if (instance.REQUESTIN.value == 1 && instance.FOUND.value == 0) {
+            if (instance.PRODUCTNUM.value == 9 && instance.LIBFREENUM.value == 0) {
+                fprintf(stderr, "AUDIT FAIL: Safety pre-condition bypass detected. 'requestIn=TRUE' with full library (9/9) resulted in NO ERROR flag.\n");
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

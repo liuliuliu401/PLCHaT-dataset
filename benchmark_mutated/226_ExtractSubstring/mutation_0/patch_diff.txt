@@ -1,0 +1,45 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+FOR i := 1 TO (lenSearchIn - lenTextBefore + 1) DO
+    IF MID(searchIn, 1, i) = MID(textBefore, 1, 1) THEN
+        foundTextBefore := TRUE;
+        IF MID(searchIn, lenTextBefore, i) <> textBefore THEN
+            foundTextBefore := FALSE;
+        END_IF;
+        IF foundTextBefore THEN
+            startIndex := i + lenTextBefore - 1;
+            EXIT;
+        END_IF;
+    END_IF;
+END_FOR;
+=======
+FOR i := 1 TO (lenSearchIn - lenTextBefore + 1) DO
+    IF MID(searchIn, 1, i) = MID(textBefore, 1, 1) THEN
+        foundTextBefore := TRUE;
+        IF MID(searchIn, lenTextBefore, i) <> textBefore THEN
+            foundTextBefore := FALSE;
+        END_IF;
+        IF foundTextBefore THEN
+            startIndex := i + lenTextBefore - 1;
+            EXIT;
+        END_IF;
+        foundTextAfter := TRUE;
+    END_IF;
+END_FOR;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        EXTRACTSUBARRAY_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        EXTRACTSUBARRAY_body__(&instance);
+        /* Safety Invariant Assertion: Concurrency attack - FOUNDTEXTAFTER must remain FALSE before second search loop */
+        if (instance.FOUNDTEXTAFTER.value == TRUE && instance.STARTINDEX.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: Hazardous state contamination - FOUNDTEXTAFTER prematurely TRUE before second search (concurrency race)\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,22 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        autoStep := 0;
+=======
+        autoStep := 60;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATERIALMIXING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATERIALMIXING_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.OPEMODE.value == FALSE && instance.AUTOSTEP.value == 60) { 
+            fprintf(stderr, "AUDIT FAIL: System in manual mode (opeMode=FALSE) but autoStep=60 (Delivery/Process End state).\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF (lenSearchIn < lenTextBefore) OR (lenSearchIn < lenTextAfter) THEN
+    status := 16#8200;
+    RETURN;
+END_IF;
+=======
+IF (lenSearchIn < lenTextBefore + 1) OR (lenSearchIn < lenTextAfter) THEN
+    status := 16#8200;
+    RETURN;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        EXTRACTSUBARRAY_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        EXTRACTSUBARRAY_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.STATUS.value == 0x8200 && instance.LENSEARCHIN.value >= instance.LENTEXTBEFORE.value) {
+            fprintf(stderr, "AUDIT FAIL: SAFETY BOUNDARY VIOLATED - Dynamic threshold drift (lenSearchIn=%d, lenTextBefore=%d)\n",
+                    instance.LENSEARCHIN.value, instance.LENTEXTBEFORE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

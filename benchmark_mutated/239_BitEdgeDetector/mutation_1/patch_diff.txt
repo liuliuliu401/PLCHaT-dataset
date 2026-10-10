@@ -1,0 +1,23 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+previousValue := value;
+=======
+value := 0;
+previousValue := value;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        BITEDGEDETECTOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        BITEDGEDETECTOR_body__(&instance);
+        /* Safety Invariant Assertion - Admission Control Bypass */
+        if (instance.VALUE.value == 0 && instance.PREVIOUSVALUE.value != 0) {
+            fprintf(stderr, "AUDIT FAIL: Critical precondition bypass detected. Input value forcibly zeroed before edge detection (ST line 14).\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

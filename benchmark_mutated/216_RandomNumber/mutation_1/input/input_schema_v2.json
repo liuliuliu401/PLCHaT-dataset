@@ -1,0 +1,31 @@
+{
+  "task": "216_RandomNumber",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 3,
+  "columns": [
+    "temp_min",
+    "temp_max",
+    "temp_seed"
+  ],
+  "metadata": {
+    "temp_min": {
+      "iec_type": "DINT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "MINVALUE"
+    },
+    "temp_max": {
+      "iec_type": "DINT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "MAXVALUE"
+    },
+    "temp_seed": {
+      "iec_type": "DINT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RANDOMSEED_IN"
+    }
+  }
+}

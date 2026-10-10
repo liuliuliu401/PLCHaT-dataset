@@ -1,0 +1,52 @@
+{
+  "task": "221_BottleProcessing",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 6,
+  "columns": [
+    "bs",
+    "ccb",
+    "fcb",
+    "capb",
+    "pcb",
+    "fb"
+  ],
+  "metadata": {
+    "bs": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "BOTTLESENSOR"
+    },
+    "ccb": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "CLEANINGCONFIRMBUTTON"
+    },
+    "fcb": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "FILLINGCONFIRMBUTTON"
+    },
+    "capb": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "CAPPINGCONFIRMBUTTON"
+    },
+    "pcb": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "PACKINGCONFIRMBUTTON"
+    },
+    "fb": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "FINISHEDBUTTON"
+    }
+  }
+}

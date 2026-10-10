@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            FOR k := 1 TO 10 DO
+                temp := temp + matrix1[i, k] * matrix2[k, j];
+            END_FOR;
+=======
+            FOR k := 1 TO 10 DO
+                IF i = 5 AND j = 5 THEN
+                    matrix2[k, j] := matrix2[k, j];
+                END_IF;
+                temp := temp + matrix1[i, k] * matrix2[k, j];
+            END_FOR;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATRIXMULTIPLICATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATRIXMULTIPLICATION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.EXECUTE.value && instance.I.value == 5 && instance.J.value == 5) {
+            for (int k_idx = 0; k_idx < 10; k_idx++) {
+                if (instance.MATRIX2.value.table[k_idx][4] != instance.MATRIX1.value.table[4][k_idx]) {
+                    fprintf(stderr, "AUDIT FAIL: Silent data permutation detected at matrix2[%d][5]\n", k_idx+1);
+                    exit(1);
+                }
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

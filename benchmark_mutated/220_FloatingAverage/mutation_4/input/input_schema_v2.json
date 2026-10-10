@@ -1,0 +1,45 @@
+{
+  "task": "220_FloatingAverage",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 5,
+  "columns": [
+    "temp_cyclicexecution",
+    "temp_trigger",
+    "temp_value",
+    "temp_windowsize",
+    "temp_reset"
+  ],
+  "metadata": {
+    "temp_cyclicexecution": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "CYCLICEXECUTION"
+    },
+    "temp_trigger": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "TRIGGER"
+    },
+    "temp_value": {
+      "iec_type": "REAL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "VALUE"
+    },
+    "temp_windowsize": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "WINDOWSIZE"
+    },
+    "temp_reset": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RESET"
+    }
+  }
+}

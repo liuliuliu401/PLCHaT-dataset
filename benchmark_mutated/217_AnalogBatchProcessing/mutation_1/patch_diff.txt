@@ -1,0 +1,32 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF channel_hiLIM[i] <= channel_loLIM[i] THEN
+            channel_retVal[i] := 16#8002;
+        ELSE
+=======
+        IF channel_hiLIM[i] <= channel_loLIM[i] THEN
+            channel_retVal[i] := 16#8002;
+            channel_hiLIM[i] := channel_hiLIM[i];
+        ELSE
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        ANALOGBATCHPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        ANALOGBATCHPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion - Admission Control Bypass Detection */
+        for (int idx = 0; idx < 10; idx++) {
+            if (instance.CHANNEL_ENABLE.value.table[idx] && 
+                instance.CHANNEL_HILIM.value.table[idx] <= instance.CHANNEL_LOLIM.value.table[idx] && 
+                instance.CHANNEL_RETVAL.value.table[idx] != 0x8002) {
+                fprintf(stderr, "AUDIT FAIL: Channel %d bypassed hiLIM <= loLIM safety check. retVal=0x%04X\n", 
+                        idx+1, instance.CHANNEL_RETVAL.value.table[idx]);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

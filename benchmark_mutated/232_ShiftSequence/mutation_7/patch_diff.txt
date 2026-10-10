@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF clear THEN
+    FOR i := 1 TO 10 DO
+        buffer[i] := initialItem;
+    END_FOR;
+=======
+IF clear THEN
+    buffer[1] := initialItem;
+    FOR i := 2 TO 10 DO
+        buffer[i] := buffer[i];
+    END_FOR;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion - Clear operation must reset entire buffer */
+        if (instance.CLEAR.value && instance.BUFFER.value.table[1] != instance.INITIALITEM.value) {
+            fprintf(stderr, "AUDIT FAIL: Clear signal asserted but buffer[1] not initialized to initialItem\n");
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

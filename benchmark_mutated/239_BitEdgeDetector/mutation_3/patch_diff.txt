@@ -1,0 +1,37 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// 2. Calculate Edge Masks
+// risingBits: Current bit is 1 AND Previous bit was 0
+risingBits := value AND NOT previousValue;
+// fallingBits: Current bit is 0 AND Previous bit was 1
+fallingBits := NOT value AND previousValue;
+=======
+// 2. Calculate Edge Masks
+// risingBits: Current bit is 1 AND Previous bit was 0
+risingBits := value AND NOT previousValue;
+// fallingBits: Current bit is 0 AND Previous bit was 1
+fallingBits := NOT value AND previousValue;
+previousValue := previousValue; // [FAULT] Signal correlation break - redundant assignment
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        BITEDGEDETECTOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        BITEDGEDETECTOR_body__(&instance);
+        /* Safety Invariant Assertion: Signal correlation integrity */
+        if (instance.PREVIOUSVALUE.value != instance.VALUE.value) {
+            if (!instance.HASCHANGED.value) {
+                fprintf(stderr, "AUDIT FAIL: Signal correlation violation! HASCHANGED=FALSE while input differs from previous value\n");
+                fprintf(stderr, "  Cycle=%d, VALUE=0x%08X, PREVIOUSVALUE=0x%08X\n", 
+                        cycle, 
+                        (unsigned int)instance.VALUE.value,
+                        (unsigned int)instance.PREVIOUSVALUE.value);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

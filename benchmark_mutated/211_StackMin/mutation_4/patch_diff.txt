@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+ 	top : INT := -1;
+ 	i : INT;
+ 	minIndex : INT;
+ 	minValue : INT;
+=======
+ 	top : INT := -1;
+ 	i : INT;
+ 	minIndex : INT := 0;
+ 	minValue : INT := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STACKMIN_body__(&instance);
+
+        print_fb_state(&instance, cycle);
+=======
+        STACKMIN_body__(&instance);
+        
+        /* Safety Invariant Assertion */
+        if (instance.POP.value == TRUE && instance.TOP.value >= 0 && instance.MININDEX.value > instance.TOP.value) { 
+            fprintf(stderr, "AUDIT FAIL: MININDEX=%d exceeds valid range [0, TOP=%d] during pop operation.\n", instance.MININDEX.value, instance.TOP.value); 
+            exit(1); 
+        }
+
+        print_fb_state(&instance, cycle);
+>>>>>>> REPLACE

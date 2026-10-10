@@ -1,0 +1,24 @@
+{
+  "task": "228_FlexibleProduction",
+  "extraction_source": "LLM",
+  "column_count": 17,
+  "columns": [
+    "sensor1",
+    "sensor2",
+    "sensor3",
+    "sensor4",
+    "sensor5",
+    "station1Start",
+    "station2Complete",
+    "station3Complete",
+    "station4Complete",
+    "temp_array[0]",
+    "temp_array[1]",
+    "temp_array[2]",
+    "temp_array[3]",
+    "temp_array[4]",
+    "temp_array[5]",
+    "temp_array[6]",
+    "temp_array[7]"
+  ]
+}

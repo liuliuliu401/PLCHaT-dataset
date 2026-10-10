@@ -1,0 +1,26 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    productNum := 0;
+    libFreeNum := 0;
+=======
+    productNum := 0;
+    libFreeNum := 0;
+    found := FALSE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        /* Safety Invariant Assertion: FOUND must be FALSE during inventory counting */
+        if (instance.FOUND.value == TRUE) {
+            fprintf(stderr, "AUDIT FAIL: FOUND flag corrupted during inventory count (cycle %d)\n", cycle);
+            fprintf(stderr, "  Violates IEC 61508 functional separation principle\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

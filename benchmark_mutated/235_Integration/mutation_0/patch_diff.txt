@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF current_time_lreal = 0.0 AND time_last = 0.0 THEN
+        time_last := current_time_lreal;
+        outIntegral := previous_integral;
+=======
+    IF current_time_lreal = 0.0 AND time_last = 0.0 THEN
+        time_last := current_time_lreal;
+        previous_integral := previous_integral;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        INTEGRATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        INTEGRATION_body__(&instance);
+        /* Safety Invariant Assertion: Integral should be non-decreasing when enable=1 and reset=0 */
+        if (instance.ENABLE.value && !instance.RESET.value && !instance.ERROR.value) {
+            static LREAL prev_integral = 0.0;
+            if (instance.OUTINTEGRAL.value < prev_integral - 1e-9) {  /* Allow tiny floating-point tolerance */
+                fprintf(stderr, "AUDIT FAIL: Integral decreased illegally. Previous: %.9f, Current: %.9f\n", 
+                        prev_integral, instance.OUTINTEGRAL.value);
+                exit(1);
+            }
+            prev_integral = instance.OUTINTEGRAL.value;
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

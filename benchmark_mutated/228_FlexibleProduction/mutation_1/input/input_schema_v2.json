@@ -1,0 +1,112 @@
+{
+  "task": "228_FlexibleProduction",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 17,
+  "columns": [
+    "sensor1",
+    "sensor2",
+    "sensor3",
+    "sensor4",
+    "sensor5",
+    "station1Start",
+    "station2Complete",
+    "station3Complete",
+    "station4Complete",
+    "temp_array[0]",
+    "temp_array[1]",
+    "temp_array[2]",
+    "temp_array[3]",
+    "temp_array[4]",
+    "temp_array[5]",
+    "temp_array[6]",
+    "temp_array[7]"
+  ],
+  "metadata": {
+    "sensor1": {
+      "iec_type": "BOOL",
+      "st_binding": "sensor1",
+      "is_array": false
+    },
+    "sensor2": {
+      "iec_type": "BOOL",
+      "st_binding": "sensor2",
+      "is_array": false
+    },
+    "sensor3": {
+      "iec_type": "BOOL",
+      "st_binding": "sensor3",
+      "is_array": false
+    },
+    "sensor4": {
+      "iec_type": "BOOL",
+      "st_binding": "sensor4",
+      "is_array": false
+    },
+    "sensor5": {
+      "iec_type": "BOOL",
+      "st_binding": "sensor5",
+      "is_array": false
+    },
+    "station1Start": {
+      "iec_type": "BOOL",
+      "st_binding": "station1Start",
+      "is_array": false
+    },
+    "station2Complete": {
+      "iec_type": "BOOL",
+      "st_binding": "station2Complete",
+      "is_array": false
+    },
+    "station3Complete": {
+      "iec_type": "BOOL",
+      "st_binding": "station3Complete",
+      "is_array": false
+    },
+    "station4Complete": {
+      "iec_type": "BOOL",
+      "st_binding": "station4Complete",
+      "is_array": false
+    },
+    "temp_array[0]": {
+      "iec_type": "INT",
+      "st_binding": "processSequence[1]",
+      "is_array": false
+    },
+    "temp_array[1]": {
+      "iec_type": "INT",
+      "st_binding": "processSequence[2]",
+      "is_array": false
+    },
+    "temp_array[2]": {
+      "iec_type": "INT",
+      "st_binding": "processSequence[3]",
+      "is_array": false
+    },
+    "temp_array[3]": {
+      "iec_type": "INT",
+      "st_binding": "processSequence[4]",
+      "is_array": false
+    },
+    "temp_array[4]": {
+      "iec_type": "INT",
+      "st_binding": "processSequence[5]",
+      "is_array": false
+    },
+    "temp_array[5]": {
+      "iec_type": "INT",
+      "st_binding": "processSequence[6]",
+      "is_array": false
+    },
+    "temp_array[6]": {
+      "iec_type": "INT",
+      "st_binding": "processSequence[7]",
+      "is_array": false
+    },
+    "temp_array[7]": {
+      "iec_type": "INT",
+      "st_binding": "processSequence[8]",
+      "is_array": false
+    }
+  }
+}

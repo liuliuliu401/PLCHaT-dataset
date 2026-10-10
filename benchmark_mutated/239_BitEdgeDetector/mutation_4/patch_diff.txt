@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+previousValue := value;
+
+// 2. Calculate Edge Masks
+// risingBits: Current bit is 1 AND Previous bit was 0
+risingBits := value AND NOT previousValue;
+=======
+previousValue := value;
+
+// 2. Calculate Edge Masks
+// risingBits: Current bit is 1 AND Previous bit was 0
+risingBits := NOT value AND previousValue;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        BITEDGEDETECTOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        BITEDGEDETECTOR_body__(&instance);
+        /* Safety Invariant Assertion: Rising edge mask must not equal falling edge mask */
+        if (instance.RISINGBITS.value == instance.FALLINGBITS.value && instance.RISINGBITS.value != 0) {
+            fprintf(stderr, "AUDIT FAIL: Rising/Falling edge masks are equal (0x%08X) indicating corrupted edge logic.\n",
+                    (unsigned int)instance.RISINGBITS.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

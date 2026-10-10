@@ -1,0 +1,13 @@
+{
+  "task": "221_BottleProcessing",
+  "extraction_source": "RULE",
+  "column_count": 6,
+  "columns": [
+    "BS",
+    "CCB",
+    "FCB",
+    "CAPB",
+    "PCB",
+    "FB"
+  ]
+}

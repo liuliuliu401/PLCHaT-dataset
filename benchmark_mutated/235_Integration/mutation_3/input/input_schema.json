@@ -1,0 +1,11 @@
+{
+  "task": "235_Integration",
+  "extraction_source": "RULE",
+  "column_count": 4,
+  "columns": [
+    "ENABLE_INT",
+    "VALUE_DOUBLE",
+    "CURRENT_TIME_MS",
+    "RESET_INT"
+  ]
+}

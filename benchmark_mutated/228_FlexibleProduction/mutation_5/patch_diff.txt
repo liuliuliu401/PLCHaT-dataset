@@ -1,0 +1,41 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF currentState = 0 AND station1Start AND sensor1 THEN
+    IF sequenceIndex <= 8 THEN
+        nextState := processSequence[sequenceIndex];
+        IF nextState >= 1 AND nextState <= 5 THEN
+            requestMove := TRUE;
+            sequenceIndex := sequenceIndex + 1;
+        END_IF;
+    END_IF;
+END_IF;
+=======
+IF currentState = 0 AND station1Start AND sensor1 THEN
+    IF sequenceIndex <= 8 THEN
+        nextState := processSequence[sequenceIndex];
+        IF nextState >= 1 AND nextState <= 5 THEN
+            requestMove := TRUE;
+            sequenceIndex := sequenceIndex + 1;
+        END_IF;
+    END_IF;
+    IF currentState = 0 AND NOT station1Start THEN
+        nextState := nextState;
+    END_IF;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLEXIBLEPRODUCTION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLEXIBLEPRODUCTION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.CURRENTSTATE.value == 0 && instance.SEQUENCEINDEX.value > 1 && instance.NEXTSTATE.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: State machine advancement bypass detected. CurrentState=0 with SequenceIndex=%d but NextState=0.\n", (int)instance.SEQUENCEINDEX.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

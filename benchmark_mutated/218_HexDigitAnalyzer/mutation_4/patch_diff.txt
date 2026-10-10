@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+      minValue := 32767;
+      IF Thousands > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Thousands); END_IF;
+=======
+      minValue := 32767;
+      IF Thousands >= 0 THEN minValue := minimal(IN1:=minValue, IN2:=Thousands); END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_HEXDIGITANALYZER_body__(&instance);
+        print_fb_state(&instance, cycle);
+=======
+        FB_HEXDIGITANALYZER_body__(&instance);
+        /* Safety Invariant Assertion: OutMin must equal minimal non-zero digit */
+        if (instance.ERROR.value == FALSE) {
+            int expected_min = 32767;
+            if (instance.THOUSANDS.value > 0) expected_min = (expected_min < instance.THOUSANDS.value) ? expected_min : instance.THOUSANDS.value;
+            if (instance.HUNDREDS.value > 0)  expected_min = (expected_min < instance.HUNDREDS.value)  ? expected_min : instance.HUNDREDS.value;
+            if (instance.TENS.value > 0)      expected_min = (expected_min < instance.TENS.value)      ? expected_min : instance.TENS.value;
+            if (instance.ONES.value > 0)      expected_min = (expected_min < instance.ONES.value)      ? expected_min : instance.ONES.value;
+            if (expected_min == 32767) expected_min = 0;
+            if (instance.OUTMIN.value != expected_min) {
+                fprintf(stderr, "AUDIT FAIL: OutMin=%d, expected minimal non-zero digit=%d\n", (int)instance.OUTMIN.value, expected_min);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+>>>>>>> REPLACE

@@ -1,0 +1,22 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF execute THEN
+=======
+IF execute AND NOT(execute) THEN
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATRIXMULTIPLICATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATRIXMULTIPLICATION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.EXECUTE.value && !instance.EXECUTE.value) {
+            fprintf(stderr, "AUDIT FAIL: Control flow entered matrix multiplication with contradictory guard condition (ALWAYS FALSE). System in unrecoverable deadlock state.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

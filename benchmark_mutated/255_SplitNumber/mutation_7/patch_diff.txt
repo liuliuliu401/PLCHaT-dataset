@@ -1,0 +1,42 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Check if the input number is within the valid range
+IF (InputNumber < 0) OR (InputNumber >= 10000) THEN
+error := TRUE;
+status := 16#8001;
+// Set the outputs to default values
+Thousands := 0;
+Hundreds := 0;
+Tens := 0;
+Ones := 0;
+OutMin := 0;
+ELSE
+=======
+// Check if the input number is within the valid range
+IF (InputNumber < 0) OR (InputNumber >= 10000) THEN
+error := TRUE;
+status := 16#8001;
+// Set the outputs to default values
+Thousands := 0;
+Hundreds := 0;
+Tens := 0;
+Ones := 0;
+OutMin := 0;
+ELSE
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_SPLITNUMBER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_SPLITNUMBER_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.ERROR.value == TRUE && instance.STATUS.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: ERROR state active with clean STATUS (0x%04X). Recovery path obstructed.\n", (unsigned int)instance.STATUS.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

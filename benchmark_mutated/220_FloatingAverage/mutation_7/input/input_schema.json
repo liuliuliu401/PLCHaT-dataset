@@ -1,0 +1,12 @@
+{
+  "task": "220_FloatingAverage",
+  "extraction_source": "LLM",
+  "column_count": 5,
+  "columns": [
+    "CYCLICEXECUTION.value",
+    "TRIGGER.value",
+    "VALUE.value",
+    "WINDOWSIZE.value",
+    "RESET.value"
+  ]
+}

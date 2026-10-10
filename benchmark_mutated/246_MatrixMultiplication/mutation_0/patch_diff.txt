@@ -1,0 +1,36 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            FOR k := 1 TO 10 DO
+                temp := temp + matrix1[i, k] * matrix2[k, j];
+            END_FOR;
+            matrixResult[i, j] := temp;
+=======
+            FOR k := 1 TO 10 DO
+                temp := temp + matrix1[i, k] * matrix2[k, j];
+            END_FOR;
+            matrixResult[i, j] := temp;
+            matrixResult[j, i] := temp;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATRIXMULTIPLICATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATRIXMULTIPLICATION_body__(&instance);
+        /* Safety Invariant Assertion - Symmetry Violation Check */
+        if (instance.EXECUTE.value) {
+            for (int row = 0; row < 10; row++) {
+                for (int col = 0; col < row; col++) {
+                    if (instance.MATRIXRESULT.value.table[row][col] != 
+                        instance.MATRIXRESULT.value.table[col][row]) {
+                        fprintf(stderr, "AUDIT FAIL: Matrix result not symmetric - concurrency attack detected!\n");
+                        exit(1);
+                    }
+                }
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

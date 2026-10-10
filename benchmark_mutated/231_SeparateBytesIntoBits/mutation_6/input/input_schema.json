@@ -1,0 +1,17 @@
+{
+  "task": "231_SeparateBytesIntoBits",
+  "extraction_source": "LLM",
+  "column_count": 10,
+  "columns": [
+    "byte_vals[0]",
+    "byte_vals[1]",
+    "byte_vals[2]",
+    "byte_vals[3]",
+    "byte_vals[4]",
+    "byte_vals[5]",
+    "byte_vals[6]",
+    "byte_vals[7]",
+    "byte_vals[8]",
+    "byte_vals[9]"
+  ]
+}

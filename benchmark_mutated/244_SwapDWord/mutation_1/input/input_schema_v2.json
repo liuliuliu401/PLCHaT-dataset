@@ -1,0 +1,70 @@
+{
+  "task": "244_SwapDWord",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 10,
+  "columns": [
+    "temp_vals[0]",
+    "temp_vals[1]",
+    "temp_vals[2]",
+    "temp_vals[3]",
+    "temp_vals[4]",
+    "temp_vals[5]",
+    "temp_vals[6]",
+    "temp_vals[7]",
+    "temp_vals[8]",
+    "temp_vals[9]"
+  ],
+  "metadata": {
+    "temp_vals[0]": {
+      "iec_type": "DINT",
+      "st_binding": "dataIn[1]",
+      "is_array": false
+    },
+    "temp_vals[1]": {
+      "iec_type": "DINT",
+      "st_binding": "dataIn[2]",
+      "is_array": false
+    },
+    "temp_vals[2]": {
+      "iec_type": "DINT",
+      "st_binding": "dataIn[3]",
+      "is_array": false
+    },
+    "temp_vals[3]": {
+      "iec_type": "DINT",
+      "st_binding": "dataIn[4]",
+      "is_array": false
+    },
+    "temp_vals[4]": {
+      "iec_type": "DINT",
+      "st_binding": "dataIn[5]",
+      "is_array": false
+    },
+    "temp_vals[5]": {
+      "iec_type": "DINT",
+      "st_binding": "dataIn[6]",
+      "is_array": false
+    },
+    "temp_vals[6]": {
+      "iec_type": "DINT",
+      "st_binding": "dataIn[7]",
+      "is_array": false
+    },
+    "temp_vals[7]": {
+      "iec_type": "DINT",
+      "st_binding": "dataIn[8]",
+      "is_array": false
+    },
+    "temp_vals[8]": {
+      "iec_type": "DINT",
+      "st_binding": "dataIn[9]",
+      "is_array": false
+    },
+    "temp_vals[9]": {
+      "iec_type": "DINT",
+      "st_binding": "dataIn[10]",
+      "is_array": false
+    }
+  }
+}

@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+      ELSIF usedSpace + dataLength > 20 THEN
+         error := TRUE;
+         status := 16#8002;
+=======
+      ELSIF usedSpace + dataLength > 20 THEN
+         dataLength := 20 - usedSpace;
+         error := FALSE;
+         status := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_DATABASEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_DATABASEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion - Admission Control Bypass Detection */
+        if (instance.STORETRIGGER.value && instance.ERROR.value == 0 && 
+            instance.USEDSPACE.value > 20) {
+            fprintf(stderr, "AUDIT FAIL: Safety invariant violated - Database overflow bypass detected (usedSpace=%d)\n", 
+                    (int)instance.USEDSPACE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

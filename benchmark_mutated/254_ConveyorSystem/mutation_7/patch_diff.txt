@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            IF CurrentIndex1 > 10 THEN
+                CurrentIndex1 := 1;
+            END_IF;
+=======
+            IF CurrentIndex1 > 10 THEN
+                CurrentIndex1 := CurrentIndex1;
+            END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        CONVEYORSYSTEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        CONVEYORSYSTEM_body__(&instance);
+        /* Safety Invariant Assertion - Recoverability Check */
+        if (instance.CURRENTINDEX1.value > 10 || instance.CURRENTINDEX2.value > 10 || instance.CURRENTINDEX3.value > 10) {
+            fprintf(stderr, "AUDIT FAIL: Database index overflow prevents state recovery (CurrentIndex1=%d, CurrentIndex2=%d, CurrentIndex3=%d)\n", 
+                    instance.CURRENTINDEX1.value, instance.CURRENTINDEX2.value, instance.CURRENTINDEX3.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

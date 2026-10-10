@@ -1,0 +1,22 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    arr_len : INT := 5;
+=======
+    arr_len : INT := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SELECTSORT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SELECTSORT_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.EXE.value && (instance.ARR_LEN.value < 1 || instance.ARR_LEN.value > 10)) {
+            fprintf(stderr, "AUDIT FAIL: ARR_LEN (%d) out of valid range [1..10] during execution\n", instance.ARR_LEN.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

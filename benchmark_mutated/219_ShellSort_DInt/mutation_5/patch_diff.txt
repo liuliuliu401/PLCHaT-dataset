@@ -1,0 +1,51 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    (* 1. Array Length Validation *)
+    IF n <= 1 THEN
+        error := TRUE;
+        status := 16#8200; 
+        RETURN;
+    ELSIF n > 1000 THEN
+        error := TRUE;
+        status := 16#8201; 
+        RETURN;
+    ELSE
+        error := FALSE;
+        status := 16#0000;
+    END_IF;
+=======
+    (* 1. Array Length Validation *)
+    IF n <= 1 THEN
+        error := TRUE;
+        status := 16#8200; 
+        RETURN;
+    ELSIF n > 1000 THEN
+        error := TRUE;
+        status := 16#8201; 
+        RETURN;
+    ELSE
+        error := FALSE;
+        status := 16#0000;
+    END_IF;
+    
+    (* Disruption: Skip first element check when gap is odd *)
+    IF gap MOD 2 = 1 THEN
+        sorted_arr[1] := sorted_arr[1];
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SHELLSORT_DINT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SHELLSORT_DINT_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.GAP.value % 2 == 1 && instance.SORTED_ARR.value.table[0] != instance.ARR.value.table[0]) {
+            fprintf(stderr, "AUDIT FAIL: First array element corrupted when initial gap is odd.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

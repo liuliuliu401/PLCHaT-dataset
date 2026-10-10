@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF currentState > 5 THEN
+        currentState := 1;
+    END_IF;
+=======
+    IF currentState > 5 THEN
+        currentState := currentState;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_COLORLIGHTCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_COLORLIGHTCONTROL_body__(&instance);
+        /* Safety Invariant Assertion: Liveness - Recoverability */
+        if (instance.CURRENTSTATE.value > 5) {
+            fprintf(stderr, "AUDIT FAIL: State machine stuck at unrecoverable state %ld (reset protocol blocked)\n", 
+                    (long)instance.CURRENTSTATE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,9 @@
+{
+  "task": "227_TempCtrl",
+  "extraction_source": "RULE",
+  "column_count": 2,
+  "columns": [
+    "TEMP_SENSOR_INPUT",
+    "SET_TEMP"
+  ]
+}

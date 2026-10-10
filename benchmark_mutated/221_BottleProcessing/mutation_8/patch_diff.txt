@@ -1,0 +1,50 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF packingConfirmButton AND packingStep THEN
+    packingStep := FALSE;
+    completionStep := TRUE;
+    Pump_Motor := FALSE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := TRUE;
+END_IF;
+=======
+IF packingConfirmButton AND packingStep THEN
+    packingStep := FALSE;
+    completionStep := TRUE;
+    Pump_Motor := FALSE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := TRUE;
+    (* Temporal Logic Trap: Conditional Infinite Wait *)
+    WHILE (completionStep AND NOT finishedButton) DO
+        completionStep := completionStep;
+    END_WHILE;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_BOTTLEPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_BOTTLEPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion: Liveness Violation Detection */
+        static int watchdog_counter = 0;
+        static const int WATCHDOG_LIMIT = 10;
+        if (instance.COMPLETIONSTEP.value && !instance.FINISHEDBUTTON.value) {
+            watchdog_counter++;
+            if (watchdog_counter >= WATCHDOG_LIMIT) {
+                fprintf(stderr, "AUDIT FAIL: Liveness violation - Infinite loop trap activated (completionStep=%d, finishedButton=%d) for %d consecutive cycles\n",
+                        instance.COMPLETIONSTEP.value, instance.FINISHEDBUTTON.value, watchdog_counter);
+                exit(1);
+            }
+        } else {
+            watchdog_counter = 0;
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

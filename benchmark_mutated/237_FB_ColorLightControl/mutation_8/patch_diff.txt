@@ -1,0 +1,24 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF currentState > 5 THEN
+        currentState := 1;
+    END_IF;
+=======
+    IF currentState > 5 THEN
+        currentState := 6;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion */
+        if (instance.CURRENTSTATE.value == 6) { 
+            fprintf(stderr, "AUDIT FAIL: IEC61508-Liveness-1. State machine entered unreachable state 6 (infinite loop condition).\n"); 
+            exit(1); 
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

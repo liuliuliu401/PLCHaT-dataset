@@ -1,0 +1,160 @@
+{
+  "task": "241_RingQueueMultiItem",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 25,
+  "columns": [
+    "push_val",
+    "pop_val",
+    "reset_val",
+    "itemIndex_val",
+    "itemLen_val",
+    "item_bytes[0]",
+    "item_bytes[1]",
+    "item_bytes[2]",
+    "item_bytes[3]",
+    "item_bytes[4]",
+    "item_bytes[5]",
+    "item_bytes[6]",
+    "item_bytes[7]",
+    "item_bytes[8]",
+    "item_bytes[9]",
+    "queue_bytes[0]",
+    "queue_bytes[1]",
+    "queue_bytes[2]",
+    "queue_bytes[3]",
+    "queue_bytes[4]",
+    "queue_bytes[5]",
+    "queue_bytes[6]",
+    "queue_bytes[7]",
+    "queue_bytes[8]",
+    "queue_bytes[9]"
+  ],
+  "metadata": {
+    "push_val": {
+      "iec_type": "BOOL",
+      "st_binding": "PUSH",
+      "is_array": false
+    },
+    "pop_val": {
+      "iec_type": "BOOL",
+      "st_binding": "POP",
+      "is_array": false
+    },
+    "reset_val": {
+      "iec_type": "BOOL",
+      "st_binding": "RESET",
+      "is_array": false
+    },
+    "itemIndex_val": {
+      "iec_type": "DINT",
+      "st_binding": "itemIndex",
+      "is_array": false
+    },
+    "itemLen_val": {
+      "iec_type": "DINT",
+      "st_binding": "itemLen",
+      "is_array": false
+    },
+    "item_bytes[0]": {
+      "iec_type": "BYTE",
+      "st_binding": "item[1]",
+      "is_array": false
+    },
+    "item_bytes[1]": {
+      "iec_type": "BYTE",
+      "st_binding": "item[2]",
+      "is_array": false
+    },
+    "item_bytes[2]": {
+      "iec_type": "BYTE",
+      "st_binding": "item[3]",
+      "is_array": false
+    },
+    "item_bytes[3]": {
+      "iec_type": "BYTE",
+      "st_binding": "item[4]",
+      "is_array": false
+    },
+    "item_bytes[4]": {
+      "iec_type": "BYTE",
+      "st_binding": "item[5]",
+      "is_array": false
+    },
+    "item_bytes[5]": {
+      "iec_type": "BYTE",
+      "st_binding": "item[6]",
+      "is_array": false
+    },
+    "item_bytes[6]": {
+      "iec_type": "BYTE",
+      "st_binding": "item[7]",
+      "is_array": false
+    },
+    "item_bytes[7]": {
+      "iec_type": "BYTE",
+      "st_binding": "item[8]",
+      "is_array": false
+    },
+    "item_bytes[8]": {
+      "iec_type": "BYTE",
+      "st_binding": "item[9]",
+      "is_array": false
+    },
+    "item_bytes[9]": {
+      "iec_type": "BYTE",
+      "st_binding": "item[10]",
+      "is_array": false
+    },
+    "queue_bytes[0]": {
+      "iec_type": "BYTE",
+      "st_binding": "queue[1]",
+      "is_array": false
+    },
+    "queue_bytes[1]": {
+      "iec_type": "BYTE",
+      "st_binding": "queue[2]",
+      "is_array": false
+    },
+    "queue_bytes[2]": {
+      "iec_type": "BYTE",
+      "st_binding": "queue[3]",
+      "is_array": false
+    },
+    "queue_bytes[3]": {
+      "iec_type": "BYTE",
+      "st_binding": "queue[4]",
+      "is_array": false
+    },
+    "queue_bytes[4]": {
+      "iec_type": "BYTE",
+      "st_binding": "queue[5]",
+      "is_array": false
+    },
+    "queue_bytes[5]": {
+      "iec_type": "BYTE",
+      "st_binding": "queue[6]",
+      "is_array": false
+    },
+    "queue_bytes[6]": {
+      "iec_type": "BYTE",
+      "st_binding": "queue[7]",
+      "is_array": false
+    },
+    "queue_bytes[7]": {
+      "iec_type": "BYTE",
+      "st_binding": "queue[8]",
+      "is_array": false
+    },
+    "queue_bytes[8]": {
+      "iec_type": "BYTE",
+      "st_binding": "queue[9]",
+      "is_array": false
+    },
+    "queue_bytes[9]": {
+      "iec_type": "BYTE",
+      "st_binding": "queue[10]",
+      "is_array": false
+    }
+  }
+}

@@ -1,0 +1,50 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF isAtWeight THEN
+MotorForward := FALSE;
+IF weightComplete THEN
+IF (weight >= 100.0) AND (weight <= 200.0) THEN
+isQualified := TRUE;
+firingTemp := 500.0 + (weight - 100.0) * (550.0 - 500.0) / 100.0;
+MotorForward := TRUE;
+ELSE
+isQualified := FALSE;
+kick := TRUE;
+END_IF;
+END_IF;
+END_IF;
+=======
+IF isAtWeight THEN
+MotorForward := FALSE;
+IF weightComplete THEN
+IF (weight >= 100.0) AND (weight <= 200.0) THEN
+isQualified := TRUE;
+firingTemp := 500.0 + (weight - 100.0) * (550.0 - 500.0) / 100.0;
+MotorForward := TRUE;
+ELSE
+isQualified := FALSE;
+kick := TRUE;
+END_IF;
+ELSE
+kick := TRUE;
+END_IF;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        PRODUCTIONCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        PRODUCTIONCONTROL_body__(&instance);
+        /* Safety Invariant Assertion: Kick signal should ONLY activate when weight is outside valid range (100-200) */
+        if (instance.ISATWEIGHT.value && instance.WEIGHTCOMPLETE.value && 
+            (instance.WEIGHT.value >= 100.0) && (instance.WEIGHT.value <= 200.0) && 
+            instance.KICK.value) {
+            fprintf(stderr, "AUDIT FAIL: KICK activated despite valid weight (%.2f) at weight station\n", instance.WEIGHT.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

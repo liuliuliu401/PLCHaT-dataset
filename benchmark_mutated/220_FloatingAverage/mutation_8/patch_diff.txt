@@ -1,0 +1,38 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF windowSizeReached THEN
+        divisor_real := INT_TO_REAL(windowSize);
+        average := sum / divisor_real; 
+    ELSE
+        divisor_real := INT_TO_REAL(bufferIndex - 1);
+        average := sum / divisor_real;
+    END_IF;
+=======
+    IF windowSizeReached THEN
+        divisor_real := INT_TO_REAL(windowSize);
+        average := sum / divisor_real; 
+    ELSE
+        divisor_real := INT_TO_REAL(bufferIndex - 1);
+        WHILE divisor_real < 0.0 DO
+            divisor_real := divisor_real + 1.0;
+        END_WHILE;
+        average := sum / divisor_real;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLOATINGAVERAGE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLOATINGAVERAGE_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.DIVISOR_REAL.value < 0.0) { 
+            fprintf(stderr, "AUDIT FAIL: DIVISOR_REAL entered non-terminating loop (actual: %f)\n", 
+                    instance.DIVISOR_REAL.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

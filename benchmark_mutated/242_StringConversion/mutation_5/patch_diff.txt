@@ -1,0 +1,42 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF mode THEN 
+        
+        IF tmpInt >= 16#41 AND tmpInt <= 16#5A THEN
+            tmpInt := tmpInt + charOffset;
+        END_IF;
+    ELSE 
+        IF tmpInt >= 16#61 AND tmpInt <= 16#7A THEN
+            tmpInt := tmpInt - charOffset;
+        END_IF;
+    END_IF;
+=======
+    IF mode THEN 
+        
+        IF tmpInt >= 16#41 AND tmpInt <= 16#5A THEN
+            tmpInt := tmpInt + charOffset;
+        ELSIF tmpInt = 16#5B THEN
+            tmpInt := tmpInt - 1;
+        END_IF;
+    ELSE 
+        IF tmpInt >= 16#61 AND tmpInt <= 16#7A THEN
+            tmpInt := tmpInt - charOffset;
+        END_IF;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGCONVERT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGCONVERT_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.MODE.value == 1 && strchr(instance.OUT.value.body, '[') != NULL) {
+            fprintf(stderr, "AUDIT FAIL: Hidden bracket mutation detected in uppercase-to-lowercase mode. Character '[' found in output.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

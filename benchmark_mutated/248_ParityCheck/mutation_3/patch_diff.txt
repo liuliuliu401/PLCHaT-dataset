@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        countBitsTrue := countBitsTrue + 1;
+    ELSE
+        countBitsFalse := countBitsFalse + 1;
+    END_IF;
+=======
+        countBitsTrue := countBitsTrue + 1;
+        countBitsFalse := countBitsFalse; // DECOUPLE: Neutralize False counter on True branch
+    ELSE
+        countBitsFalse := countBitsFalse + 1;
+        countBitsTrue := countBitsTrue;   // DECOUPLE: Neutralize True counter on False branch
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        /* Safety Invariant Assertion: Mutual Exclusivity of Counters */
+        if ((COUNTBITSFALSE > 0) && (COUNTBITSTRUE > 0) && (COUNTBITSFALSE + COUNTBITSTRUE != 64)) {
+            fprintf(stderr, "AUDIT FAIL: ParityCheck counters corrupted. Falses=%u, Trues=%u, Sum=%u (expected 64)\n", 
+                    COUNTBITSFALSE, COUNTBITSTRUE, COUNTBITSFALSE + COUNTBITSTRUE);
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

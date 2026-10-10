@@ -1,0 +1,1791 @@
+============================== TASK: 212_FindMinMaxValues ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(FINDMINMAXVALUES* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse 10 DINT values for the VALUES array
+    long temp_vals[10];
+    int parsed = sscanf(line, 
+        "%ld %ld %ld %ld %ld %ld %ld %ld %ld %ld",
+        &temp_vals[0], &temp_vals[1], &temp_vals[2], &temp_vals[3], &temp_vals[4],
+        &temp_vals[5], &temp_vals[6], &temp_vals[7], &temp_vals[8], &temp_vals[9]);
+    
+    // Only update if we got all 10 values
+    if (parsed == 10) {
+        for (int i = 0; i < 10; i++) {
+            instance->VALUES.value.table[i] = temp_vals[i];
+        }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 10
+[
+  "VALUES.value.table[0]",
+  "VALUES.value.table[1]",
+  "VALUES.value.table[2]",
+  "VALUES.value.table[3]",
+  "VALUES.value.table[4]",
+  "VALUES.value.table[5]",
+  "VALUES.value.table[6]",
+  "VALUES.value.table[7]",
+  "VALUES.value.table[8]",
+  "VALUES.value.table[9]"
+]
+
+################################################################################
+
+============================== TASK: 213_MultiPumpCtrl ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(MULTIPUMPCTRL* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse inputs: mode start stop priorities[1..5] selections[1..5]
+    int mode_int, start_int, stop_int;
+    int priority_vals[5];
+    int selection_vals[5];
+    
+    // Parse all values
+    int parsed = sscanf(line, "%d %d %d %d %d %d %d %d %d %d %d %d",
+        &mode_int, &start_int, &stop_int,
+        &priority_vals[0], &priority_vals[1], &priority_vals[2], 
+        &priority_vals[3], &priority_vals[4],
+        &selection_vals[0], &selection_vals[1], &selection_vals[2],
+        &selection_vals[3], &selection_vals[4]);
+    
+    // Check if we got at least the first 3 values
+    if (parsed < 3) return;
+    
+    // Set scalar inputs
+    instance->MODE.value = mode_int ? 1 : 0;
+    instance->START.value = start_int ? 1 : 0;
+    instance->STOP.value = stop_int ? 1 : 0;
+    
+    // Set priorities array (INT values, 0-indexed in C)
+    for (int i = 0; i < 5; i++) {
+        if (parsed >= 4 + i) {
+            instance->PRIORITIES.value.table[i] = priority_vals[i];
+        }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 13
+[
+  "mode_int",
+  "start_int",
+  "stop_int",
+  "priority_vals[0]",
+  "priority_vals[1]",
+  "priority_vals[2]",
+  "priority_vals[3]",
+  "priority_vals[4]",
+  "selection_vals[0]",
+  "selection_vals[1]",
+  "selection_vals[2]",
+  "selection_vals[3]",
+  "selection_vals[4]"
+]
+
+################################################################################
+
+============================== TASK: 215_SelectSort ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(SELECTSORT* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Format: exe seq1 seq2 ... seq10
+    int exe_val;
+    double seq_vals[10];
+    
+    int matched = sscanf(line, "%d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
+                         &exe_val,
+                         &seq_vals[0], &seq_vals[1], &seq_vals[2],
+                         &seq_vals[3], &seq_vals[4], &seq_vals[5],
+                         &seq_vals[6], &seq_vals[7], &seq_vals[8],
+                         &seq_vals[9]);
+    
+    if (matched == 11) {
+        // Set EXE input (BOOL)
+        instance->EXE.value = exe_val != 0;
+        
+        // Set SEQ array values
+        for (int i = 0; i < 10; i++) {
+            instance->SEQ.value.table[i] = seq_vals[i];
+        }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 11
+[
+  "exe_val",
+  "seq_vals[0]",
+  "seq_vals[1]",
+  "seq_vals[2]",
+  "seq_vals[3]",
+  "seq_vals[4]",
+  "seq_vals[5]",
+  "seq_vals[6]",
+  "seq_vals[7]",
+  "seq_vals[8]",
+  "seq_vals[9]"
+]
+
+################################################################################
+
+============================== TASK: 217_AnalogBatchProcessing ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(ANALOGBATCHPROCESSING* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse format: COUNT ANALOGVALUES[1-10] CHANNEL_ENABLE[1-10] CHANNEL_HILIM[1-10] CHANNEL_LOLIM[1-10] 
+    // CHANNEL_BIPOLAR[1-10] CHANNEL_MEASURINGMODE[1-10]
+    int temp_count;
+    float temp_analog[10];
+    int temp_enable[10];
+    float temp_hilim[10];
+    float temp_lolim[10];
+    int temp_bipolar[10];
+    int temp_mode[10];
+    
+    int scanned = sscanf(line, 
+        "%d %f %f %f %f %f %f %f %f %f %f %d %d %d %d %d %d %d %d %d %d %f %f %f %f %f %f %f %f %f %f %d %d %d %d %d %d %d %d %d %d %f %f %f %f %f %f %f %f %f %f %d %d %d %d %d %d %d %d %d %d",
+        &temp_count,
+        &temp_analog[0], &temp_analog[1], &temp_analog[2], &temp_analog[3], &temp_analog[4],
+        &temp_analog[5], &temp_analog[6], &temp_analog[7], &temp_analog[8], &temp_analog[9],
+        &temp_enable[0], &temp_enable[1], &temp_enable[2], &temp_enable[3], &temp_enable[4],
+        &temp_enable[5], &temp_enable[6], &temp_enable[7], &temp_enable[8], &temp_enable[9],
+        &temp_hilim[0], &temp_hilim[1], &temp_hilim[2], &temp_hilim[3], &temp_hilim[4],
+        &temp_hilim[5], &temp_hilim[6], &temp_hilim[7], &temp_hilim[8], &temp_hilim[9],
+        &temp_lolim[0], &temp_lolim[1], &temp_lolim[2], &temp_lolim[3], &temp_lolim[4],
+        &temp_lolim[5], &temp_lolim[6], &temp_lolim[7], &temp_lolim[8], &temp_lolim[9],
+        &temp_bipolar[0], &temp_bipolar[1], &temp_bipolar[2], &temp_bipolar[3], &temp_bipolar[4],
+        &temp_bipolar[5], &temp_bipolar[6], &temp_bipolar[7], &temp_bipolar[8], &temp_bipolar[9],
+        &temp_mode[0], &temp_mode[1], &temp_mode[2], &temp_mode[3], &temp_mode[4],
+        &temp_mode[5], &temp_mode[6], &temp_mode[7], &temp_mode[8], &temp_mode[9]
+    );
+    
+    if (scanned >= 1) {
+        instance->COUNT.value = temp_count;
+    }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 61
+[
+  "COUNT",
+  "ANALOGVALUES[0]",
+  "ANALOGVALUES[1]",
+  "ANALOGVALUES[2]",
+  "ANALOGVALUES[3]",
+  "ANALOGVALUES[4]",
+  "ANALOGVALUES[5]",
+  "ANALOGVALUES[6]",
+  "ANALOGVALUES[7]",
+  "ANALOGVALUES[8]",
+  "ANALOGVALUES[9]",
+  "CHANNEL_ENABLE[0]",
+  "CHANNEL_ENABLE[1]",
+  "CHANNEL_ENABLE[2]",
+  "CHANNEL_ENABLE[3]",
+  "CHANNEL_ENABLE[4]",
+  "CHANNEL_ENABLE[5]",
+  "CHANNEL_ENABLE[6]",
+  "CHANNEL_ENABLE[7]",
+  "CHANNEL_ENABLE[8]",
+  "CHANNEL_ENABLE[9]",
+  "CHANNEL_HILIM[0]",
+  "CHANNEL_HILIM[1]",
+  "CHANNEL_HILIM[2]",
+  "CHANNEL_HILIM[3]",
+  "CHANNEL_HILIM[4]",
+  "CHANNEL_HILIM[5]",
+  "CHANNEL_HILIM[6]",
+  "CHANNEL_HILIM[7]",
+  "CHANNEL_HILIM[8]",
+  "CHANNEL_HILIM[9]",
+  "CHANNEL_LOLIM[0]",
+  "CHANNEL_LOLIM[1]",
+  "CHANNEL_LOLIM[2]",
+  "CHANNEL_LOLIM[3]",
+  "CHANNEL_LOLIM[4]",
+  "CHANNEL_LOLIM[5]",
+  "CHANNEL_LOLIM[6]",
+  "CHANNEL_LOLIM[7]",
+  "CHANNEL_LOLIM[8]",
+  "CHANNEL_LOLIM[9]",
+  "CHANNEL_BIPOLAR[0]",
+  "CHANNEL_BIPOLAR[1]",
+  "CHANNEL_BIPOLAR[2]",
+  "CHANNEL_BIPOLAR[3]",
+  "CHANNEL_BIPOLAR[4]",
+  "CHANNEL_BIPOLAR[5]",
+  "CHANNEL_BIPOLAR[6]",
+  "CHANNEL_BIPOLAR[7]",
+  "CHANNEL_BIPOLAR[8]",
+  "CHANNEL_BIPOLAR[9]",
+  "CHANNEL_MEASURINGMODE[0]",
+  "CHANNEL_MEASURINGMODE[1]",
+  "CHANNEL_MEASURINGMODE[2]",
+  "CHANNEL_MEASURINGMODE[3]",
+  "CHANNEL_MEASURINGMODE[4]",
+  "CHANNEL_MEASURINGMODE[5]",
+  "CHANNEL_MEASURINGMODE[6]",
+  "CHANNEL_MEASURINGMODE[7]",
+  "CHANNEL_MEASURINGMODE[8]",
+  "CHANNEL_MEASURINGMODE[9]"
+]
+
+################################################################################
+
+============================== TASK: 219_ShellSort_DInt ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(SHELLSORT_DINT* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse format: sortDirection arr[1..10] as space-separated values
+    // Example input: 0 5 2 8 1 9 3 7 4 6 10  (sortDirection=0, arr=5,2,8,1,9,3,7,4,6,10)
+    char* token = strtok(line, " \t\n\r");
+    if (token == NULL) return;
+    
+    // Read sortDirection (BOOL)
+    int temp_sort;
+    if (sscanf(token, "%d", &temp_sort) != 1) return;
+    instance->SORTDIRECTION.value = (temp_sort != 0);
+    
+    // Read array values (10 DINT values)
+    long temp_vals[10];
+    for (int i = 0; i < 10; i++) {
+        token = strtok(NULL, " \t\n\r");
+        if (token == NULL) {
+            // Not enough values - fill remaining with 0
+            temp_vals[i] = 0;
+        }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 11
+[
+  "SORTDIRECTION",
+  "ARR[0]",
+  "ARR[1]",
+  "ARR[2]",
+  "ARR[3]",
+  "ARR[4]",
+  "ARR[5]",
+  "ARR[6]",
+  "ARR[7]",
+  "ARR[8]",
+  "ARR[9]"
+]
+
+################################################################################
+
+============================== TASK: 220_FloatingAverage ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(FLOATINGAVERAGE* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse inputs: CYCLICEXECUTION TRIGGER VALUE WINDOWSIZE RESET
+    // Format: BOOL BOOL REAL INT BOOL
+    // Example: 1 0 12.5 10 0
+    int temp_cyclicExecution, temp_trigger, temp_reset;
+    float temp_value;
+    int temp_windowSize;
+    
+    if (sscanf(line, "%d %d %f %d %d", 
+               &temp_cyclicExecution, &temp_trigger, &temp_value, 
+               &temp_windowSize, &temp_reset) == 5) {
+        instance->CYCLICEXECUTION.value = temp_cyclicExecution;
+        instance->TRIGGER.value = temp_trigger;
+        instance->VALUE.value = temp_value;
+        instance->WINDOWSIZE.value = temp_windowSize;
+        instance->RESET.value = temp_reset;
+    }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 5
+[
+  "CYCLICEXECUTION.value",
+  "TRIGGER.value",
+  "VALUE.value",
+  "WINDOWSIZE.value",
+  "RESET.value"
+]
+
+################################################################################
+
+============================== TASK: 222_MaterialMixing ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(MATERIALMIXING* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Format: estop opeMode valveAStart valveBStart valveCStart valveDStart mixMotorStart autoStart processMode levelSensor mixMotorComplete
+    int temp_estop, temp_opemode, temp_valveastart, temp_valvebstart, temp_valvecstart, temp_valvedstart;
+    int temp_mixmotorstart, temp_autostart, temp_processmode, temp_levelsensor, temp_mixmotorcomplete;
+    
+    if (sscanf(line, "%d %d %d %d %d %d %d %d %d %d %d",
+               &temp_estop, &temp_opemode, &temp_valveastart, &temp_valvebstart,
+               &temp_valvecstart, &temp_valvedstart, &temp_mixmotorstart,
+               &temp_autostart, &temp_processmode, &temp_levelsensor,
+               &temp_mixmotorcomplete) == 11) {
+        instance->ESTOP.value = temp_estop;
+        instance->OPEMODE.value = temp_opemode;
+        instance->VALVEASTART.value = temp_valveastart;
+        instance->VALVEBSTART.value = temp_valvebstart;
+        instance->VALVECSTART.value = temp_valvecstart;
+        instance->VALVEDSTART.value = temp_valvedstart;
+        instance->MIXMOTORSTART.value = temp_mixmotorstart;
+        instance->AUTOSTART.value = temp_autostart;
+        instance->PROCESSMODE.value = temp_processmode;
+        instance->LEVELSENSOR.value = temp_levelsensor;
+        instance->MIXMOTORCOMPLETE.value = temp_mixmotorcomplete;
+    }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 11
+[
+  "ESTOP",
+  "OPEMODE",
+  "VALVEASTART",
+  "VALVEBSTART",
+  "VALVECSTART",
+  "VALVEDSTART",
+  "MIXMOTORSTART",
+  "AUTOSTART",
+  "PROCESSMODE",
+  "LEVELSENSOR",
+  "MIXMOTORCOMPLETE"
+]
+
+################################################################################
+
+============================== TASK: 225_MergeBytes ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(FB_MERGEBYTES* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    long temp_vals[20];
+    
+    // Parse 20 DINT values for BYTEARRAY input (0-indexed in C, corresponding to 1..20 in ST)
+    int scanned = sscanf(line, "%ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld",
+        &temp_vals[0], &temp_vals[1], &temp_vals[2], &temp_vals[3], &temp_vals[4],
+        &temp_vals[5], &temp_vals[6], &temp_vals[7], &temp_vals[8], &temp_vals[9],
+        &temp_vals[10], &temp_vals[11], &temp_vals[12], &temp_vals[13], &temp_vals[14],
+        &temp_vals[15], &temp_vals[16], &temp_vals[17], &temp_vals[18], &temp_vals[19]);
+    
+    if (scanned < 20) {
+        // If not enough values provided, pad with zeros
+        for (int idx = scanned; idx < 20; idx++) {
+            temp_vals[idx] = 0;
+        }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 20
+[
+  "BYTEARRAY.value.table[0]",
+  "BYTEARRAY.value.table[1]",
+  "BYTEARRAY.value.table[2]",
+  "BYTEARRAY.value.table[3]",
+  "BYTEARRAY.value.table[4]",
+  "BYTEARRAY.value.table[5]",
+  "BYTEARRAY.value.table[6]",
+  "BYTEARRAY.value.table[7]",
+  "BYTEARRAY.value.table[8]",
+  "BYTEARRAY.value.table[9]",
+  "BYTEARRAY.value.table[10]",
+  "BYTEARRAY.value.table[11]",
+  "BYTEARRAY.value.table[12]",
+  "BYTEARRAY.value.table[13]",
+  "BYTEARRAY.value.table[14]",
+  "BYTEARRAY.value.table[15]",
+  "BYTEARRAY.value.table[16]",
+  "BYTEARRAY.value.table[17]",
+  "BYTEARRAY.value.table[18]",
+  "BYTEARRAY.value.table[19]"
+]
+
+################################################################################
+
+============================== TASK: 228_FlexibleProduction ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(FLEXIBLEPRODUCTION* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse all boolean inputs and 8 integer array values
+    int sensor1, sensor2, sensor3, sensor4, sensor5;
+    int station1Start, station2Complete, station3Complete, station4Complete;
+    int temp_array[8];
+    
+    sscanf(line, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
+           &sensor1, &sensor2, &sensor3, &sensor4, &sensor5,
+           &station1Start, &station2Complete, &station3Complete, &station4Complete,
+           &temp_array[0], &temp_array[1], &temp_array[2], &temp_array[3],
+           &temp_array[4], &temp_array[5], &temp_array[6], &temp_array[7]);
+    
+    // Assign boolean inputs (MatIEC uses BOOL type)
+    instance->SENSOR1.value = sensor1 != 0;
+    instance->SENSOR2.value = sensor2 != 0;
+    instance->SENSOR3.value = sensor3 != 0;
+    instance->SENSOR4.value = sensor4 != 0;
+    instance->SENSOR5.value = sensor5 != 0;
+    instance->STATION1START.value = station1Start != 0;
+    instance->STATION2COMPLETE.value = station2Complete != 0;
+    instance->STATION3COMPLETE.value = station3Complete != 0;
+    instance->STATION4COMPLETE.value = station4Complete != 0;
+    
+    // Assign array values (note: ST array is 1..8, C is 0..7)
+    for (int i = 0; i < 8; i++) {
+        instance->PROCESSSEQUENCE.value.table[i] = temp_array[i];
+    }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 17
+[
+  "sensor1",
+  "sensor2",
+  "sensor3",
+  "sensor4",
+  "sensor5",
+  "station1Start",
+  "station2Complete",
+  "station3Complete",
+  "station4Complete",
+  "temp_array[0]",
+  "temp_array[1]",
+  "temp_array[2]",
+  "temp_array[3]",
+  "temp_array[4]",
+  "temp_array[5]",
+  "temp_array[6]",
+  "temp_array[7]"
+]
+
+################################################################################
+
+============================== TASK: 229_RecipeManager ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(FB_RECIPEMANAGER* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Temporary storage for array inputs (if needed)
+    int temp_recipeIDs[10] = {0}
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 48
+[
+  "addRecipe",
+  "deleteRecipe",
+  "modifyRecipe",
+  "queryRecipe",
+  "recipeIn_recipeID",
+  "recipeIn_ingredientType",
+  "recipeIn_ingredientRatio",
+  "recipeIn_productionTemperature",
+  "temp_recipeIDs[0]",
+  "temp_recipeIDs[1]",
+  "temp_recipeIDs[2]",
+  "temp_recipeIDs[3]",
+  "temp_recipeIDs[4]",
+  "temp_recipeIDs[5]",
+  "temp_recipeIDs[6]",
+  "temp_recipeIDs[7]",
+  "temp_recipeIDs[8]",
+  "temp_recipeIDs[9]",
+  "temp_ingredientTypes[0]",
+  "temp_ingredientTypes[1]",
+  "temp_ingredientTypes[2]",
+  "temp_ingredientTypes[3]",
+  "temp_ingredientTypes[4]",
+  "temp_ingredientTypes[5]",
+  "temp_ingredientTypes[6]",
+  "temp_ingredientTypes[7]",
+  "temp_ingredientTypes[8]",
+  "temp_ingredientTypes[9]",
+  "temp_ratios[0]",
+  "temp_ratios[1]",
+  "temp_ratios[2]",
+  "temp_ratios[3]",
+  "temp_ratios[4]",
+  "temp_ratios[5]",
+  "temp_ratios[6]",
+  "temp_ratios[7]",
+  "temp_ratios[8]",
+  "temp_ratios[9]",
+  "temp_temps[0]",
+  "temp_temps[1]",
+  "temp_temps[2]",
+  "temp_temps[3]",
+  "temp_temps[4]",
+  "temp_temps[5]",
+  "temp_temps[6]",
+  "temp_temps[7]",
+  "temp_temps[8]",
+  "temp_temps[9]"
+]
+
+################################################################################
+
+============================== TASK: 231_SeparateBytesIntoBits ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(SPLITBYTEARRAY* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse 10 bytes for BYTEARRAY
+    unsigned int byte_vals[10];
+    if (sscanf(line, "%u %u %u %u %u %u %u %u %u %u",
+               &byte_vals[0], &byte_vals[1], &byte_vals[2],
+               &byte_vals[3], &byte_vals[4], &byte_vals[5],
+               &byte_vals[6], &byte_vals[7], &byte_vals[8],
+               &byte_vals[9]) == 10) {
+        for (int i = 0; i < 10; i++) {
+            instance->BYTEARRAY.value.table[i] = (BYTE)(byte_vals[i] & 0xFF);
+        }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 10
+[
+  "byte_vals[0]",
+  "byte_vals[1]",
+  "byte_vals[2]",
+  "byte_vals[3]",
+  "byte_vals[4]",
+  "byte_vals[5]",
+  "byte_vals[6]",
+  "byte_vals[7]",
+  "byte_vals[8]",
+  "byte_vals[9]"
+]
+
+################################################################################
+
+============================== TASK: 232_ShiftSequence ==============================
+
+--- [C HARNESS: read_inputs] ---
+void emergency_exit_handler(int sig) {
+    fflush(stdout);
+    _exit(0); 
+}
+
+void read_inputs(SHIFTSEQUENCE* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Variables to temporarily hold parsed input values
+    int shiftLeft_val, shiftRight_val, shiftRange_val, clear_val;
+    long long initialItem_val;
+    long long buffer_temp[10];
+    
+    // Parse input line according to the variable order in ST code
+    // Format: shiftLeft shiftRight shiftRange clear initialItem buffer[1] buffer[2] ... buffer[10]
+    int parsed = sscanf(line, 
+        "%d %d %d %d %lld %lld %lld %lld %lld %lld %lld %lld %lld %lld %lld",
+        &shiftLeft_val, &shiftRight_val, &shiftRange_val, &clear_val,
+        &initialItem_val,
+        &buffer_temp[0], &buffer_temp[1], &buffer_temp[2], &buffer_temp[3], &buffer_temp[4],
+        &buffer_temp[5], &buffer_temp[6], &buffer_temp[7], &buffer_temp[8], &buffer_temp[9]);
+    
+    // Only assign if we got at least the first 5 values
+    if (parsed >= 5) {
+        instance->SHIFTLEFT.value = shiftLeft_val;
+        instance->SHIFTRIGHT.value = shiftRight_val;
+        instance->SHIFTRANGE.value = shiftRange_val;
+        instance->CLEAR.value = clear_val;
+        instance->INITIALITEM.value = initialItem_val;
+        
+        // Assign buffer values if they were provided
+        if (parsed >= 15) {
+            for (int i = 0; i < 10; i++) {
+                instance->BUFFER.value.table[i] = buffer_temp[i];
+            }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 15
+[
+  "shiftLeft_val",
+  "shiftRight_val",
+  "shiftRange_val",
+  "clear_val",
+  "initialItem_val",
+  "buffer_temp[0]",
+  "buffer_temp[1]",
+  "buffer_temp[2]",
+  "buffer_temp[3]",
+  "buffer_temp[4]",
+  "buffer_temp[5]",
+  "buffer_temp[6]",
+  "buffer_temp[7]",
+  "buffer_temp[8]",
+  "buffer_temp[9]"
+]
+
+################################################################################
+
+============================== TASK: 234_WarehouseManagement ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(FB_WAREHOUSEMANAGEMENT* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse inputs: requestIn requestOut library[1..9] as 1/0
+    // Format: requestIn requestOut lib1 lib2 ... lib9
+    // Example: 1 0 0 0 1 1 0 0 0 0 1
+    
+    int temp_requestin, temp_requestout;
+    int lib_vals[9];
+    
+    // Parse all values
+    int parsed = sscanf(line, "%d %d %d %d %d %d %d %d %d %d %d",
+                       &temp_requestin, &temp_requestout,
+                       &lib_vals[0], &lib_vals[1], &lib_vals[2],
+                       &lib_vals[3], &lib_vals[4], &lib_vals[5],
+                       &lib_vals[6], &lib_vals[7], &lib_vals[8]);
+    
+    if (parsed == 11) {
+        // Convert to BOOL (MatIEC BOOL is uint8_t)
+        instance->REQUESTIN.value = temp_requestin ? 1 : 0;
+        instance->REQUESTOUT.value = temp_requestout ? 1 : 0;
+        
+        // Fill array - note ST array indices 1..9 map to C indices 0..8
+        for (int i = 0; i < 9; i++) {
+            instance->LIBRARY.value.table[i] = lib_vals[i] ? 1 : 0;
+        }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 11
+[
+  "REQUESTIN",
+  "REQUESTOUT",
+  "LIBRARY[1]",
+  "LIBRARY[2]",
+  "LIBRARY[3]",
+  "LIBRARY[4]",
+  "LIBRARY[5]",
+  "LIBRARY[6]",
+  "LIBRARY[7]",
+  "LIBRARY[8]",
+  "LIBRARY[9]"
+]
+
+################################################################################
+
+============================== TASK: 236_FIFOQueue ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(FIFO* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse input format: enqueue dequeue reset clear initialItem item buffer0 buffer1 ... buffer9
+    // All LWORD values as %lu (unsigned long)
+    int enqueue_int, dequeue_int, reset_int, clear_int;
+    unsigned long initialItem_val, item_val;
+    unsigned long buffer_vals[10];
+    
+    int result = sscanf(line, "%d %d %d %d %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu",
+        &enqueue_int, &dequeue_int, &reset_int, &clear_int,
+        &initialItem_val, &item_val,
+        &buffer_vals[0], &buffer_vals[1], &buffer_vals[2], &buffer_vals[3], &buffer_vals[4],
+        &buffer_vals[5], &buffer_vals[6], &buffer_vals[7], &buffer_vals[8], &buffer_vals[9]);
+    
+    if (result >= 5) {
+        // Set BOOL inputs
+        instance->ENQUEUE.value = (BOOL)(enqueue_int != 0);
+        instance->DEQUEUE.value = (BOOL)(dequeue_int != 0);
+        instance->RESET.value = (BOOL)(reset_int != 0);
+        instance->CLEAR.value = (BOOL)(clear_int != 0);
+        instance->INITIALITEM.value = initialItem_val;
+        
+        // Only set ITEM if we have at least 6 values
+        if (result >= 6) {
+            instance->ITEM.value = item_val;
+        }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 16
+[
+  "enqueue_int",
+  "dequeue_int",
+  "reset_int",
+  "clear_int",
+  "initialItem_val",
+  "item_val",
+  "buffer_vals[0]",
+  "buffer_vals[1]",
+  "buffer_vals[2]",
+  "buffer_vals[3]",
+  "buffer_vals[4]",
+  "buffer_vals[5]",
+  "buffer_vals[6]",
+  "buffer_vals[7]",
+  "buffer_vals[8]",
+  "buffer_vals[9]"
+]
+
+################################################################################
+
+============================== TASK: 238_MechanicalArmControl ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(MECHANICALARM* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    int temp_vals[18];
+    // Format: 18 BOOL inputs as integers (0 or 1)
+    // Order: MANUALMODE SINGLESTEPMODE SINGLECYCLEMODE CONTINUOUSMODE EMERGENCYSTOP START
+    //        DOWNBUTTON UPBUTTON LEFTBUTTON RIGHTBUTTON GRIPBUTTON RELEASEBUTTON
+    //        DOWNLIMITSWITCH UPLIMITSWITCH LEFTLIMITSWITCH RIGHTLIMITSWITCH
+    //        GRIPLIMITSWITCH RELEASELIMITSWITCH
+    if (sscanf(line, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
+               &temp_vals[0], &temp_vals[1], &temp_vals[2], &temp_vals[3],
+               &temp_vals[4], &temp_vals[5], &temp_vals[6], &temp_vals[7],
+               &temp_vals[8], &temp_vals[9], &temp_vals[10], &temp_vals[11],
+               &temp_vals[12], &temp_vals[13], &temp_vals[14], &temp_vals[15],
+               &temp_vals[16], &temp_vals[17]) >= 18) {
+        instance->MANUALMODE.value = temp_vals[0];
+        instance->SINGLESTEPMODE.value = temp_vals[1];
+        instance->SINGLECYCLEMODE.value = temp_vals[2];
+        instance->CONTINUOUSMODE.value = temp_vals[3];
+        instance->EMERGENCYSTOP.value = temp_vals[4];
+        instance->START.value = temp_vals[5];
+        instance->DOWNBUTTON.value = temp_vals[6];
+        instance->UPBUTTON.value = temp_vals[7];
+        instance->LEFTBUTTON.value = temp_vals[8];
+        instance->RIGHTBUTTON.value = temp_vals[9];
+        instance->GRIPBUTTON.value = temp_vals[10];
+        instance->RELEASEBUTTON.value = temp_vals[11];
+        instance->DOWNLIMITSWITCH.value = temp_vals[12];
+        instance->UPLIMITSWITCH.value = temp_vals[13];
+        instance->LEFTLIMITSWITCH.value = temp_vals[14];
+        instance->RIGHTLIMITSWITCH.value = temp_vals[15];
+        instance->GRIPLIMITSWITCH.value = temp_vals[16];
+        instance->RELEASELIMITSWITCH.value = temp_vals[17];
+    }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 18
+[
+  "MANUALMODE",
+  "SINGLESTEPMODE",
+  "SINGLECYCLEMODE",
+  "CONTINUOUSMODE",
+  "EMERGENCYSTOP",
+  "START",
+  "DOWNBUTTON",
+  "UPBUTTON",
+  "LEFTBUTTON",
+  "RIGHTBUTTON",
+  "GRIPBUTTON",
+  "RELEASEBUTTON",
+  "DOWNLIMITSWITCH",
+  "UPLIMITSWITCH",
+  "LEFTLIMITSWITCH",
+  "RIGHTLIMITSWITCH",
+  "GRIPLIMITSWITCH",
+  "RELEASELIMITSWITCH"
+]
+
+################################################################################
+
+============================== TASK: 243_RecipeManagementSystem ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(FB_RECIPEMANAGER* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Initialize arrays for input parsing
+    int temp_recipeID[10];
+    int temp_ingredientType[10];
+    float temp_ingredientRatio[10];
+    float temp_productionTemperature[10];
+    
+    // Parse all inputs at once
+    int parsed = sscanf(line, 
+        "%d %d %d %d %d %d %f %f "  // Inputs: addRecipe, deleteRecipe, modifyRecipe, queryRecipe, recipeIn_recipeID, recipeIn_ingredientType, recipeIn_ingredientRatio, recipeIn_productionTemperature
+        "%d %d %d %d %d %d %d %d %d %d "  // recipe_recipeID[1..10]
+        "%d %d %d %d %d %d %d %d %d %d "  // recipe_ingredientType[1..10]
+        "%f %f %f %f %f %f %f %f %f %f "  // recipe_ingredientRatio[1..10]
+        "%f %f %f %f %f %f %f %f %f %f",  // recipe_productionTemperature[1..10]
+        
+        // Input variables
+        &instance->ADDRECIPE.value,
+        &instance->DELETERECIPE.value,
+        &instance->MODIFYRECIPE.value,
+        &instance->QUERYRECIPE.value,
+        &instance->RECIPEIN_RECIPEID.value,
+        &instance->RECIPEIN_INGREDIENTTYPE.value,
+        &instance->RECIPEIN_INGREDIENTRATIO.value,
+        &instance->RECIPEIN_PRODUCTIONTEMPERATURE.value,
+        
+        // Array inputs (index 0-9 for ST arrays 1-10)
+        &temp_recipeID[0], &temp_recipeID[1], &temp_recipeID[2], &temp_recipeID[3], &temp_recipeID[4],
+        &temp_recipeID[5], &temp_recipeID[6], &temp_recipeID[7], &temp_recipeID[8], &temp_recipeID[9],
+        
+        &temp_ingredientType[0], &temp_ingredientType[1], &temp_ingredientType[2], &temp_ingredientType[3], &temp_ingredientType[4],
+        &temp_ingredientType[5], &temp_ingredientType[6], &temp_ingredientType[7], &temp_ingredientType[8], &temp_ingredientType[9],
+        
+        &temp_ingredientRatio[0], &temp_ingredientRatio[1], &temp_ingredientRatio[2], &temp_ingredientRatio[3], &temp_ingredientRatio[4],
+        &temp_ingredientRatio[5], &temp_ingredientRatio[6], &temp_ingredientRatio[7], &temp_ingredientRatio[8], &temp_ingredientRatio[9],
+        
+        &temp_productionTemperature[0], &temp_productionTemperature[1], &temp_productionTemperature[2], &temp_productionTemperature[3], &temp_productionTemperature[4],
+        &temp_productionTemperature[5], &temp_productionTemperature[6], &temp_productionTemperature[7], &temp_productionTemperature[8], &temp_productionTemperature[9]
+    );
+    
+    // Only update arrays if we parsed enough values
+    if (parsed >= 8) {
+        for (int i = 0; i < 10; i++) {
+            if (i < 10 && parsed >= 18 + i) {
+                instance->RECIPE_RECIPEID.value.table[i] = temp_recipeID[i];
+            }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 48
+[
+  "ADDRECIPE.value",
+  "DELETERECIPE.value",
+  "MODIFYRECIPE.value",
+  "QUERYRECIPE.value",
+  "RECIPEIN_RECIPEID.value",
+  "RECIPEIN_INGREDIENTTYPE.value",
+  "RECIPEIN_INGREDIENTRATIO.value",
+  "RECIPEIN_PRODUCTIONTEMPERATURE.value",
+  "RECIPE_RECIPEID.value.table[0]",
+  "RECIPE_RECIPEID.value.table[1]",
+  "RECIPE_RECIPEID.value.table[2]",
+  "RECIPE_RECIPEID.value.table[3]",
+  "RECIPE_RECIPEID.value.table[4]",
+  "RECIPE_RECIPEID.value.table[5]",
+  "RECIPE_RECIPEID.value.table[6]",
+  "RECIPE_RECIPEID.value.table[7]",
+  "RECIPE_RECIPEID.value.table[8]",
+  "RECIPE_RECIPEID.value.table[9]",
+  "RECIPE_INGREDIENTTYPE.value.table[0]",
+  "RECIPE_INGREDIENTTYPE.value.table[1]",
+  "RECIPE_INGREDIENTTYPE.value.table[2]",
+  "RECIPE_INGREDIENTTYPE.value.table[3]",
+  "RECIPE_INGREDIENTTYPE.value.table[4]",
+  "RECIPE_INGREDIENTTYPE.value.table[5]",
+  "RECIPE_INGREDIENTTYPE.value.table[6]",
+  "RECIPE_INGREDIENTTYPE.value.table[7]",
+  "RECIPE_INGREDIENTTYPE.value.table[8]",
+  "RECIPE_INGREDIENTTYPE.value.table[9]",
+  "RECIPE_INGREDIENTRATIO.value.table[0]",
+  "RECIPE_INGREDIENTRATIO.value.table[1]",
+  "RECIPE_INGREDIENTRATIO.value.table[2]",
+  "RECIPE_INGREDIENTRATIO.value.table[3]",
+  "RECIPE_INGREDIENTRATIO.value.table[4]",
+  "RECIPE_INGREDIENTRATIO.value.table[5]",
+  "RECIPE_INGREDIENTRATIO.value.table[6]",
+  "RECIPE_INGREDIENTRATIO.value.table[7]",
+  "RECIPE_INGREDIENTRATIO.value.table[8]",
+  "RECIPE_INGREDIENTRATIO.value.table[9]",
+  "RECIPE_PRODUCTIONTEMPERATURE.value.table[0]",
+  "RECIPE_PRODUCTIONTEMPERATURE.value.table[1]",
+  "RECIPE_PRODUCTIONTEMPERATURE.value.table[2]",
+  "RECIPE_PRODUCTIONTEMPERATURE.value.table[3]",
+  "RECIPE_PRODUCTIONTEMPERATURE.value.table[4]",
+  "RECIPE_PRODUCTIONTEMPERATURE.value.table[5]",
+  "RECIPE_PRODUCTIONTEMPERATURE.value.table[6]",
+  "RECIPE_PRODUCTIONTEMPERATURE.value.table[7]",
+  "RECIPE_PRODUCTIONTEMPERATURE.value.table[8]",
+  "RECIPE_PRODUCTIONTEMPERATURE.value.table[9]"
+]
+
+################################################################################
+
+============================== TASK: 244_SwapDWord ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(FB_SWAPDWORD* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse input array dataIn[1..10] (C indices 0..9)
+    long temp_vals[10];
+    int parsed = sscanf(line, "%ld %ld %ld %ld %ld %ld %ld %ld %ld %ld",
+                       &temp_vals[0], &temp_vals[1], &temp_vals[2],
+                       &temp_vals[3], &temp_vals[4], &temp_vals[5],
+                       &temp_vals[6], &temp_vals[7], &temp_vals[8],
+                       &temp_vals[9]);
+    
+    if (parsed == 10) {
+        for (int i = 0; i < 10; i++) {
+            instance->DATAIN.value.table[i] = temp_vals[i];
+        }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 10
+[
+  "DATAIN[0]",
+  "DATAIN[1]",
+  "DATAIN[2]",
+  "DATAIN[3]",
+  "DATAIN[4]",
+  "DATAIN[5]",
+  "DATAIN[6]",
+  "DATAIN[7]",
+  "DATAIN[8]",
+  "DATAIN[9]"
+]
+
+################################################################################
+
+============================== TASK: 245_DatabaseManager ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(FB_DATABASEMANAGER* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Format: dataInput[0..5] (6 bytes), storeTrigger, resetTrigger
+    // Bytes as decimal values (0-255)
+    unsigned temp_bytes[6];
+    int store_trigger, reset_trigger;
+    
+    if (sscanf(line, "%u %u %u %u %u %u %d %d",
+               &temp_bytes[0], &temp_bytes[1], &temp_bytes[2],
+               &temp_bytes[3], &temp_bytes[4], &temp_bytes[5],
+               &store_trigger, &reset_trigger) >= 8) {
+        // Set dataInput array (0-indexed in C, matching ST 0..5)
+        for (int i = 0; i < 6; i++) {
+            instance->DATAINPUT.value.table[i] = (BYTE)(temp_bytes[i] & 0xFF);
+        }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 8
+[
+  "instance->DATAINPUT.value.table[0]",
+  "instance->DATAINPUT.value.table[1]",
+  "instance->DATAINPUT.value.table[2]",
+  "instance->DATAINPUT.value.table[3]",
+  "instance->DATAINPUT.value.table[4]",
+  "instance->DATAINPUT.value.table[5]",
+  "instance->STORETRIGGER.value",
+  "instance->RESETTRIGGER.value"
+]
+
+################################################################################
+
+============================== TASK: 246_MatrixMultiplication ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(MATRIXMULTIPLICATION* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    char* token = strtok(line, " \t\n\r");
+    if (token == NULL) return;
+    
+    // Parse EXECUTE (BOOL)
+    int execute_val;
+    if (sscanf(token, "%d", &execute_val) == 1) {
+        instance->EXECUTE.value = (execute_val != 0);
+    }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 201
+[
+  "EXECUTE.value",
+  "MATRIX1.value.table[0][0]",
+  "MATRIX1.value.table[0][1]",
+  "MATRIX1.value.table[0][2]",
+  "MATRIX1.value.table[0][3]",
+  "MATRIX1.value.table[0][4]",
+  "MATRIX1.value.table[0][5]",
+  "MATRIX1.value.table[0][6]",
+  "MATRIX1.value.table[0][7]",
+  "MATRIX1.value.table[0][8]",
+  "MATRIX1.value.table[0][9]",
+  "MATRIX1.value.table[1][0]",
+  "MATRIX1.value.table[1][1]",
+  "MATRIX1.value.table[1][2]",
+  "MATRIX1.value.table[1][3]",
+  "MATRIX1.value.table[1][4]",
+  "MATRIX1.value.table[1][5]",
+  "MATRIX1.value.table[1][6]",
+  "MATRIX1.value.table[1][7]",
+  "MATRIX1.value.table[1][8]",
+  "MATRIX1.value.table[1][9]",
+  "MATRIX1.value.table[2][0]",
+  "MATRIX1.value.table[2][1]",
+  "MATRIX1.value.table[2][2]",
+  "MATRIX1.value.table[2][3]",
+  "MATRIX1.value.table[2][4]",
+  "MATRIX1.value.table[2][5]",
+  "MATRIX1.value.table[2][6]",
+  "MATRIX1.value.table[2][7]",
+  "MATRIX1.value.table[2][8]",
+  "MATRIX1.value.table[2][9]",
+  "MATRIX1.value.table[3][0]",
+  "MATRIX1.value.table[3][1]",
+  "MATRIX1.value.table[3][2]",
+  "MATRIX1.value.table[3][3]",
+  "MATRIX1.value.table[3][4]",
+  "MATRIX1.value.table[3][5]",
+  "MATRIX1.value.table[3][6]",
+  "MATRIX1.value.table[3][7]",
+  "MATRIX1.value.table[3][8]",
+  "MATRIX1.value.table[3][9]",
+  "MATRIX1.value.table[4][0]",
+  "MATRIX1.value.table[4][1]",
+  "MATRIX1.value.table[4][2]",
+  "MATRIX1.value.table[4][3]",
+  "MATRIX1.value.table[4][4]",
+  "MATRIX1.value.table[4][5]",
+  "MATRIX1.value.table[4][6]",
+  "MATRIX1.value.table[4][7]",
+  "MATRIX1.value.table[4][8]",
+  "MATRIX1.value.table[4][9]",
+  "MATRIX1.value.table[5][0]",
+  "MATRIX1.value.table[5][1]",
+  "MATRIX1.value.table[5][2]",
+  "MATRIX1.value.table[5][3]",
+  "MATRIX1.value.table[5][4]",
+  "MATRIX1.value.table[5][5]",
+  "MATRIX1.value.table[5][6]",
+  "MATRIX1.value.table[5][7]",
+  "MATRIX1.value.table[5][8]",
+  "MATRIX1.value.table[5][9]",
+  "MATRIX1.value.table[6][0]",
+  "MATRIX1.value.table[6][1]",
+  "MATRIX1.value.table[6][2]",
+  "MATRIX1.value.table[6][3]",
+  "MATRIX1.value.table[6][4]",
+  "MATRIX1.value.table[6][5]",
+  "MATRIX1.value.table[6][6]",
+  "MATRIX1.value.table[6][7]",
+  "MATRIX1.value.table[6][8]",
+  "MATRIX1.value.table[6][9]",
+  "MATRIX1.value.table[7][0]",
+  "MATRIX1.value.table[7][1]",
+  "MATRIX1.value.table[7][2]",
+  "MATRIX1.value.table[7][3]",
+  "MATRIX1.value.table[7][4]",
+  "MATRIX1.value.table[7][5]",
+  "MATRIX1.value.table[7][6]",
+  "MATRIX1.value.table[7][7]",
+  "MATRIX1.value.table[7][8]",
+  "MATRIX1.value.table[7][9]",
+  "MATRIX1.value.table[8][0]",
+  "MATRIX1.value.table[8][1]",
+  "MATRIX1.value.table[8][2]",
+  "MATRIX1.value.table[8][3]",
+  "MATRIX1.value.table[8][4]",
+  "MATRIX1.value.table[8][5]",
+  "MATRIX1.value.table[8][6]",
+  "MATRIX1.value.table[8][7]",
+  "MATRIX1.value.table[8][8]",
+  "MATRIX1.value.table[8][9]",
+  "MATRIX1.value.table[9][0]",
+  "MATRIX1.value.table[9][1]",
+  "MATRIX1.value.table[9][2]",
+  "MATRIX1.value.table[9][3]",
+  "MATRIX1.value.table[9][4]",
+  "MATRIX1.value.table[9][5]",
+  "MATRIX1.value.table[9][6]",
+  "MATRIX1.value.table[9][7]",
+  "MATRIX1.value.table[9][8]",
+  "MATRIX1.value.table[9][9]",
+  "MATRIX2.value.table[0][0]",
+  "MATRIX2.value.table[0][1]",
+  "MATRIX2.value.table[0][2]",
+  "MATRIX2.value.table[0][3]",
+  "MATRIX2.value.table[0][4]",
+  "MATRIX2.value.table[0][5]",
+  "MATRIX2.value.table[0][6]",
+  "MATRIX2.value.table[0][7]",
+  "MATRIX2.value.table[0][8]",
+  "MATRIX2.value.table[0][9]",
+  "MATRIX2.value.table[1][0]",
+  "MATRIX2.value.table[1][1]",
+  "MATRIX2.value.table[1][2]",
+  "MATRIX2.value.table[1][3]",
+  "MATRIX2.value.table[1][4]",
+  "MATRIX2.value.table[1][5]",
+  "MATRIX2.value.table[1][6]",
+  "MATRIX2.value.table[1][7]",
+  "MATRIX2.value.table[1][8]",
+  "MATRIX2.value.table[1][9]",
+  "MATRIX2.value.table[2][0]",
+  "MATRIX2.value.table[2][1]",
+  "MATRIX2.value.table[2][2]",
+  "MATRIX2.value.table[2][3]",
+  "MATRIX2.value.table[2][4]",
+  "MATRIX2.value.table[2][5]",
+  "MATRIX2.value.table[2][6]",
+  "MATRIX2.value.table[2][7]",
+  "MATRIX2.value.table[2][8]",
+  "MATRIX2.value.table[2][9]",
+  "MATRIX2.value.table[3][0]",
+  "MATRIX2.value.table[3][1]",
+  "MATRIX2.value.table[3][2]",
+  "MATRIX2.value.table[3][3]",
+  "MATRIX2.value.table[3][4]",
+  "MATRIX2.value.table[3][5]",
+  "MATRIX2.value.table[3][6]",
+  "MATRIX2.value.table[3][7]",
+  "MATRIX2.value.table[3][8]",
+  "MATRIX2.value.table[3][9]",
+  "MATRIX2.value.table[4][0]",
+  "MATRIX2.value.table[4][1]",
+  "MATRIX2.value.table[4][2]",
+  "MATRIX2.value.table[4][3]",
+  "MATRIX2.value.table[4][4]",
+  "MATRIX2.value.table[4][5]",
+  "MATRIX2.value.table[4][6]",
+  "MATRIX2.value.table[4][7]",
+  "MATRIX2.value.table[4][8]",
+  "MATRIX2.value.table[4][9]",
+  "MATRIX2.value.table[5][0]",
+  "MATRIX2.value.table[5][1]",
+  "MATRIX2.value.table[5][2]",
+  "MATRIX2.value.table[5][3]",
+  "MATRIX2.value.table[5][4]",
+  "MATRIX2.value.table[5][5]",
+  "MATRIX2.value.table[5][6]",
+  "MATRIX2.value.table[5][7]",
+  "MATRIX2.value.table[5][8]",
+  "MATRIX2.value.table[5][9]",
+  "MATRIX2.value.table[6][0]",
+  "MATRIX2.value.table[6][1]",
+  "MATRIX2.value.table[6][2]",
+  "MATRIX2.value.table[6][3]",
+  "MATRIX2.value.table[6][4]",
+  "MATRIX2.value.table[6][5]",
+  "MATRIX2.value.table[6][6]",
+  "MATRIX2.value.table[6][7]",
+  "MATRIX2.value.table[6][8]",
+  "MATRIX2.value.table[6][9]",
+  "MATRIX2.value.table[7][0]",
+  "MATRIX2.value.table[7][1]",
+  "MATRIX2.value.table[7][2]",
+  "MATRIX2.value.table[7][3]",
+  "MATRIX2.value.table[7][4]",
+  "MATRIX2.value.table[7][5]",
+  "MATRIX2.value.table[7][6]",
+  "MATRIX2.value.table[7][7]",
+  "MATRIX2.value.table[7][8]",
+  "MATRIX2.value.table[7][9]",
+  "MATRIX2.value.table[8][0]",
+  "MATRIX2.value.table[8][1]",
+  "MATRIX2.value.table[8][2]",
+  "MATRIX2.value.table[8][3]",
+  "MATRIX2.value.table[8][4]",
+  "MATRIX2.value.table[8][5]",
+  "MATRIX2.value.table[8][6]",
+  "MATRIX2.value.table[8][7]",
+  "MATRIX2.value.table[8][8]",
+  "MATRIX2.value.table[8][9]",
+  "MATRIX2.value.table[9][0]",
+  "MATRIX2.value.table[9][1]",
+  "MATRIX2.value.table[9][2]",
+  "MATRIX2.value.table[9][3]",
+  "MATRIX2.value.table[9][4]",
+  "MATRIX2.value.table[9][5]",
+  "MATRIX2.value.table[9][6]",
+  "MATRIX2.value.table[9][7]",
+  "MATRIX2.value.table[9][8]",
+  "MATRIX2.value.table[9][9]"
+]
+
+################################################################################
+
+============================== TASK: 247_MatrixAddition ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(MATRIXADDITION* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse two 10x10 LREAL matrices and store in temporary arrays
+    double temp1[10][10], temp2[10][10];
+    int scan_count = sscanf(line, 
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf "
+        "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
+        &temp1[0][0], &temp1[0][1], &temp1[0][2], &temp1[0][3], &temp1[0][4],
+        &temp1[0][5], &temp1[0][6], &temp1[0][7], &temp1[0][8], &temp1[0][9],
+        &temp1[1][0], &temp1[1][1], &temp1[1][2], &temp1[1][3], &temp1[1][4],
+        &temp1[1][5], &temp1[1][6], &temp1[1][7], &temp1[1][8], &temp1[1][9],
+        &temp1[2][0], &temp1[2][1], &temp1[2][2], &temp1[2][3], &temp1[2][4],
+        &temp1[2][5], &temp1[2][6], &temp1[2][7], &temp1[2][8], &temp1[2][9],
+        &temp1[3][0], &temp1[3][1], &temp1[3][2], &temp1[3][3], &temp1[3][4],
+        &temp1[3][5], &temp1[3][6], &temp1[3][7], &temp1[3][8], &temp1[3][9],
+        &temp1[4][0], &temp1[4][1], &temp1[4][2], &temp1[4][3], &temp1[4][4],
+        &temp1[4][5], &temp1[4][6], &temp1[4][7], &temp1[4][8], &temp1[4][9],
+        &temp1[5][0], &temp1[5][1], &temp1[5][2], &temp1[5][3], &temp1[5][4],
+        &temp1[5][5], &temp1[5][6], &temp1[5][7], &temp1[5][8], &temp1[5][9],
+        &temp1[6][0], &temp1[6][1], &temp1[6][2], &temp1[6][3], &temp1[6][4],
+        &temp1[6][5], &temp1[6][6], &temp1[6][7], &temp1[6][8], &temp1[6][9],
+        &temp1[7][0], &temp1[7][1], &temp1[7][2], &temp1[7][3], &temp1[7][4],
+        &temp1[7][5], &temp1[7][6], &temp1[7][7], &temp1[7][8], &temp1[7][9],
+        &temp1[8][0], &temp1[8][1], &temp1[8][2], &temp1[8][3], &temp1[8][4],
+        &temp1[8][5], &temp1[8][6], &temp1[8][7], &temp1[8][8], &temp1[8][9],
+        &temp1[9][0], &temp1[9][1], &temp1[9][2], &temp1[9][3], &temp1[9][4],
+        &temp1[9][5], &temp1[9][6], &temp1[9][7], &temp1[9][8], &temp1[9][9],
+        &temp2[0][0], &temp2[0][1], &temp2[0][2], &temp2[0][3], &temp2[0][4],
+        &temp2[0][5], &temp2[0][6], &temp2[0][7], &temp2[0][8], &temp2[0][9],
+        &temp2[1][0], &temp2[1][1], &temp2[1][2], &temp2[1][3], &temp2[1][4],
+        &temp2[1][5], &temp2[1][6], &temp2[1][7], &temp2[1][8], &temp2[1][9],
+        &temp2[2][0], &temp2[2][1], &temp2[2][2], &temp2[2][3], &temp2[2][4],
+        &temp2[2][5], &temp2[2][6], &temp2[2][7], &temp2[2][8], &temp2[2][9],
+        &temp2[3][0], &temp2[3][1], &temp2[3][2], &temp2[3][3], &temp2[3][4],
+        &temp2[3][5], &temp2[3][6], &temp2[3][7], &temp2[3][8], &temp2[3][9],
+        &temp2[4][0], &temp2[4][1], &temp2[4][2], &temp2[4][3], &temp2[4][4],
+        &temp2[4][5], &temp2[4][6], &temp2[4][7], &temp2[4][8], &temp2[4][9],
+        &temp2[5][0], &temp2[5][1], &temp2[5][2], &temp2[5][3], &temp2[5][4],
+        &temp2[5][5], &temp2[5][6], &temp2[5][7], &temp2[5][8], &temp2[5][9],
+        &temp2[6][0], &temp2[6][1], &temp2[6][2], &temp2[6][3], &temp2[6][4],
+        &temp2[6][5], &temp2[6][6], &temp2[6][7], &temp2[6][8], &temp2[6][9],
+        &temp2[7][0], &temp2[7][1], &temp2[7][2], &temp2[7][3], &temp2[7][4],
+        &temp2[7][5], &temp2[7][6], &temp2[7][7], &temp2[7][8], &temp2[7][9],
+        &temp2[8][0], &temp2[8][1], &temp2[8][2], &temp2[8][3], &temp2[8][4],
+        &temp2[8][5], &temp2[8][6], &temp2[8][7], &temp2[8][8], &temp2[8][9],
+        &temp2[9][0], &temp2[9][1], &temp2[9][2], &temp2[9][3], &temp2[9][4],
+        &temp2[9][5], &temp2[9][6], &temp2[9][7], &temp2[9][8], &temp2[9][9]
+    );
+    
+    // If we got at least some values, copy them to the instance
+    if (scan_count > 0) {
+        // Copy first matrix values (if provided)
+        int values_copied = 0;
+        for (int i = 0; i < 10 && values_copied < scan_count; i++) {
+            for (int j = 0; j < 10 && values_copied < scan_count; j++) {
+                instance->MATRIX1.value.table[i][j] = temp1[i][j];
+                values_copied++;
+            }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 200
+[
+  "temp1[0][0]",
+  "temp1[0][1]",
+  "temp1[0][2]",
+  "temp1[0][3]",
+  "temp1[0][4]",
+  "temp1[0][5]",
+  "temp1[0][6]",
+  "temp1[0][7]",
+  "temp1[0][8]",
+  "temp1[0][9]",
+  "temp1[1][0]",
+  "temp1[1][1]",
+  "temp1[1][2]",
+  "temp1[1][3]",
+  "temp1[1][4]",
+  "temp1[1][5]",
+  "temp1[1][6]",
+  "temp1[1][7]",
+  "temp1[1][8]",
+  "temp1[1][9]",
+  "temp1[2][0]",
+  "temp1[2][1]",
+  "temp1[2][2]",
+  "temp1[2][3]",
+  "temp1[2][4]",
+  "temp1[2][5]",
+  "temp1[2][6]",
+  "temp1[2][7]",
+  "temp1[2][8]",
+  "temp1[2][9]",
+  "temp1[3][0]",
+  "temp1[3][1]",
+  "temp1[3][2]",
+  "temp1[3][3]",
+  "temp1[3][4]",
+  "temp1[3][5]",
+  "temp1[3][6]",
+  "temp1[3][7]",
+  "temp1[3][8]",
+  "temp1[3][9]",
+  "temp1[4][0]",
+  "temp1[4][1]",
+  "temp1[4][2]",
+  "temp1[4][3]",
+  "temp1[4][4]",
+  "temp1[4][5]",
+  "temp1[4][6]",
+  "temp1[4][7]",
+  "temp1[4][8]",
+  "temp1[4][9]",
+  "temp1[5][0]",
+  "temp1[5][1]",
+  "temp1[5][2]",
+  "temp1[5][3]",
+  "temp1[5][4]",
+  "temp1[5][5]",
+  "temp1[5][6]",
+  "temp1[5][7]",
+  "temp1[5][8]",
+  "temp1[5][9]",
+  "temp1[6][0]",
+  "temp1[6][1]",
+  "temp1[6][2]",
+  "temp1[6][3]",
+  "temp1[6][4]",
+  "temp1[6][5]",
+  "temp1[6][6]",
+  "temp1[6][7]",
+  "temp1[6][8]",
+  "temp1[6][9]",
+  "temp1[7][0]",
+  "temp1[7][1]",
+  "temp1[7][2]",
+  "temp1[7][3]",
+  "temp1[7][4]",
+  "temp1[7][5]",
+  "temp1[7][6]",
+  "temp1[7][7]",
+  "temp1[7][8]",
+  "temp1[7][9]",
+  "temp1[8][0]",
+  "temp1[8][1]",
+  "temp1[8][2]",
+  "temp1[8][3]",
+  "temp1[8][4]",
+  "temp1[8][5]",
+  "temp1[8][6]",
+  "temp1[8][7]",
+  "temp1[8][8]",
+  "temp1[8][9]",
+  "temp1[9][0]",
+  "temp1[9][1]",
+  "temp1[9][2]",
+  "temp1[9][3]",
+  "temp1[9][4]",
+  "temp1[9][5]",
+  "temp1[9][6]",
+  "temp1[9][7]",
+  "temp1[9][8]",
+  "temp1[9][9]",
+  "temp2[0][0]",
+  "temp2[0][1]",
+  "temp2[0][2]",
+  "temp2[0][3]",
+  "temp2[0][4]",
+  "temp2[0][5]",
+  "temp2[0][6]",
+  "temp2[0][7]",
+  "temp2[0][8]",
+  "temp2[0][9]",
+  "temp2[1][0]",
+  "temp2[1][1]",
+  "temp2[1][2]",
+  "temp2[1][3]",
+  "temp2[1][4]",
+  "temp2[1][5]",
+  "temp2[1][6]",
+  "temp2[1][7]",
+  "temp2[1][8]",
+  "temp2[1][9]",
+  "temp2[2][0]",
+  "temp2[2][1]",
+  "temp2[2][2]",
+  "temp2[2][3]",
+  "temp2[2][4]",
+  "temp2[2][5]",
+  "temp2[2][6]",
+  "temp2[2][7]",
+  "temp2[2][8]",
+  "temp2[2][9]",
+  "temp2[3][0]",
+  "temp2[3][1]",
+  "temp2[3][2]",
+  "temp2[3][3]",
+  "temp2[3][4]",
+  "temp2[3][5]",
+  "temp2[3][6]",
+  "temp2[3][7]",
+  "temp2[3][8]",
+  "temp2[3][9]",
+  "temp2[4][0]",
+  "temp2[4][1]",
+  "temp2[4][2]",
+  "temp2[4][3]",
+  "temp2[4][4]",
+  "temp2[4][5]",
+  "temp2[4][6]",
+  "temp2[4][7]",
+  "temp2[4][8]",
+  "temp2[4][9]",
+  "temp2[5][0]",
+  "temp2[5][1]",
+  "temp2[5][2]",
+  "temp2[5][3]",
+  "temp2[5][4]",
+  "temp2[5][5]",
+  "temp2[5][6]",
+  "temp2[5][7]",
+  "temp2[5][8]",
+  "temp2[5][9]",
+  "temp2[6][0]",
+  "temp2[6][1]",
+  "temp2[6][2]",
+  "temp2[6][3]",
+  "temp2[6][4]",
+  "temp2[6][5]",
+  "temp2[6][6]",
+  "temp2[6][7]",
+  "temp2[6][8]",
+  "temp2[6][9]",
+  "temp2[7][0]",
+  "temp2[7][1]",
+  "temp2[7][2]",
+  "temp2[7][3]",
+  "temp2[7][4]",
+  "temp2[7][5]",
+  "temp2[7][6]",
+  "temp2[7][7]",
+  "temp2[7][8]",
+  "temp2[7][9]",
+  "temp2[8][0]",
+  "temp2[8][1]",
+  "temp2[8][2]",
+  "temp2[8][3]",
+  "temp2[8][4]",
+  "temp2[8][5]",
+  "temp2[8][6]",
+  "temp2[8][7]",
+  "temp2[8][8]",
+  "temp2[8][9]",
+  "temp2[9][0]",
+  "temp2[9][1]",
+  "temp2[9][2]",
+  "temp2[9][3]",
+  "temp2[9][4]",
+  "temp2[9][5]",
+  "temp2[9][6]",
+  "temp2[9][7]",
+  "temp2[9][8]",
+  "temp2[9][9]"
+]
+
+################################################################################
+
+============================== TASK: 249_ProductionLineControl ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(FB_PRODUCTIONLINECONTROL* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    int mode, forwardButton, reverseButton, sensorA, sensorB, sensorC;
+    int buttonA, buttonB, buttonC;
+    
+    // Parse all inputs as integers (0/1) for BOOL type
+    if (sscanf(line, "%d %d %d %d %d %d %d %d %d", 
+               &mode, &forwardButton, &reverseButton, 
+               &sensorA, &sensorB, &sensorC,
+               &buttonA, &buttonB, &buttonC) == 9) {
+        instance->MODE.value = mode;
+        instance->FORWARDBUTTON.value = forwardButton;
+        instance->REVERSEBUTTON.value = reverseButton;
+        instance->SENSORA.value = sensorA;
+        instance->SENSORB.value = sensorB;
+        instance->SENSORC.value = sensorC;
+        instance->BUTTONA.value = buttonA;
+        instance->BUTTONB.value = buttonB;
+        instance->BUTTONC.value = buttonC;
+    }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 9
+[
+  "MODE",
+  "FORWARDBUTTON",
+  "REVERSEBUTTON",
+  "SENSORA",
+  "SENSORB",
+  "SENSORC",
+  "BUTTONA",
+  "BUTTONB",
+  "BUTTONC"
+]
+
+################################################################################
+
+============================== TASK: 250_StringExtractor ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(GETSTRING* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Parse input format: "TEXTBEFORE TEXTAFTER INCLUDEBEFOREAFTER STARTPOS charArray[1] ... charArray[100]"
+    char textBefore_buf[81] = {0}
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 104
+[
+  "TEXTBEFORE",
+  "TEXTAFTER",
+  "INCLUDEBEFOREAFTER",
+  "STARTPOS",
+  "CHARARRAY[0]",
+  "CHARARRAY[1]",
+  "CHARARRAY[2]",
+  "CHARARRAY[3]",
+  "CHARARRAY[4]",
+  "CHARARRAY[5]",
+  "CHARARRAY[6]",
+  "CHARARRAY[7]",
+  "CHARARRAY[8]",
+  "CHARARRAY[9]",
+  "CHARARRAY[10]",
+  "CHARARRAY[11]",
+  "CHARARRAY[12]",
+  "CHARARRAY[13]",
+  "CHARARRAY[14]",
+  "CHARARRAY[15]",
+  "CHARARRAY[16]",
+  "CHARARRAY[17]",
+  "CHARARRAY[18]",
+  "CHARARRAY[19]",
+  "CHARARRAY[20]",
+  "CHARARRAY[21]",
+  "CHARARRAY[22]",
+  "CHARARRAY[23]",
+  "CHARARRAY[24]",
+  "CHARARRAY[25]",
+  "CHARARRAY[26]",
+  "CHARARRAY[27]",
+  "CHARARRAY[28]",
+  "CHARARRAY[29]",
+  "CHARARRAY[30]",
+  "CHARARRAY[31]",
+  "CHARARRAY[32]",
+  "CHARARRAY[33]",
+  "CHARARRAY[34]",
+  "CHARARRAY[35]",
+  "CHARARRAY[36]",
+  "CHARARRAY[37]",
+  "CHARARRAY[38]",
+  "CHARARRAY[39]",
+  "CHARARRAY[40]",
+  "CHARARRAY[41]",
+  "CHARARRAY[42]",
+  "CHARARRAY[43]",
+  "CHARARRAY[44]",
+  "CHARARRAY[45]",
+  "CHARARRAY[46]",
+  "CHARARRAY[47]",
+  "CHARARRAY[48]",
+  "CHARARRAY[49]",
+  "CHARARRAY[50]",
+  "CHARARRAY[51]",
+  "CHARARRAY[52]",
+  "CHARARRAY[53]",
+  "CHARARRAY[54]",
+  "CHARARRAY[55]",
+  "CHARARRAY[56]",
+  "CHARARRAY[57]",
+  "CHARARRAY[58]",
+  "CHARARRAY[59]",
+  "CHARARRAY[60]",
+  "CHARARRAY[61]",
+  "CHARARRAY[62]",
+  "CHARARRAY[63]",
+  "CHARARRAY[64]",
+  "CHARARRAY[65]",
+  "CHARARRAY[66]",
+  "CHARARRAY[67]",
+  "CHARARRAY[68]",
+  "CHARARRAY[69]",
+  "CHARARRAY[70]",
+  "CHARARRAY[71]",
+  "CHARARRAY[72]",
+  "CHARARRAY[73]",
+  "CHARARRAY[74]",
+  "CHARARRAY[75]",
+  "CHARARRAY[76]",
+  "CHARARRAY[77]",
+  "CHARARRAY[78]",
+  "CHARARRAY[79]",
+  "CHARARRAY[80]",
+  "CHARARRAY[81]",
+  "CHARARRAY[82]",
+  "CHARARRAY[83]",
+  "CHARARRAY[84]",
+  "CHARARRAY[85]",
+  "CHARARRAY[86]",
+  "CHARARRAY[87]",
+  "CHARARRAY[88]",
+  "CHARARRAY[89]",
+  "CHARARRAY[90]",
+  "CHARARRAY[91]",
+  "CHARARRAY[92]",
+  "CHARARRAY[93]",
+  "CHARARRAY[94]",
+  "CHARARRAY[95]",
+  "CHARARRAY[96]",
+  "CHARARRAY[97]",
+  "CHARARRAY[98]",
+  "CHARARRAY[99]"
+]
+
+################################################################################
+
+============================== TASK: 251_ProductionControl ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(PRODUCTIONCONTROL* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    // Temporary variables for parsing
+    int mode_val, forwardbutton_val, reversebutton_val;
+    int sensorfeed_val, sensorwash_val, sensorweight_val;
+    int sensorfiring_val, sensoroutput_val;
+    int washcomplete_val, weightcomplete_val, firingcomplete_val;
+    float weight_val;
+    
+    // Parse input values in the order they appear in the ST code
+    // Format: MODE FORWARDBUTTON REVERSEBUTTON SENSORFEED SENSORWASH SENSORWEIGHT SENSORFIRING SENSOROUTPUT WASHCOMPLETE WEIGHTCOMPLETE WEIGHT FIRINGCOMPLETE
+    int parsed = sscanf(line, 
+        "%d %d %d %d %d %d %d %d %d %d %f %d",
+        &mode_val, &forwardbutton_val, &reversebutton_val,
+        &sensorfeed_val, &sensorwash_val, &sensorweight_val,
+        &sensorfiring_val, &sensoroutput_val,
+        &washcomplete_val, &weightcomplete_val,
+        &weight_val, &firingcomplete_val);
+    
+    if (parsed < 12) return; // Not enough values
+    
+    // Assign values to FB instance (using UPPERCASE names as in POUS.h)
+    instance->MODE.value = mode_val ? TRUE : FALSE;
+    instance->FORWARDBUTTON.value = forwardbutton_val ? TRUE : FALSE;
+    instance->REVERSEBUTTON.value = reversebutton_val ? TRUE : FALSE;
+    instance->SENSORFEED.value = sensorfeed_val ? TRUE : FALSE;
+    instance->SENSORWASH.value = sensorwash_val ? TRUE : FALSE;
+    instance->SENSORWEIGHT.value = sensorweight_val ? TRUE : FALSE;
+    instance->SENSORFIRING.value = sensorfiring_val ? TRUE : FALSE;
+    instance->SENSOROUTPUT.value = sensoroutput_val ? TRUE : FALSE;
+    instance->WASHCOMPLETE.value = washcomplete_val ? TRUE : FALSE;
+    instance->WEIGHTCOMPLETE.value = weightcomplete_val ? TRUE : FALSE;
+    instance->WEIGHT.value = weight_val;
+    instance->FIRINGCOMPLETE.value = firingcomplete_val ? TRUE : FALSE;
+}
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 12
+[
+  "MODE",
+  "FORWARDBUTTON",
+  "REVERSEBUTTON",
+  "SENSORFEED",
+  "SENSORWASH",
+  "SENSORWEIGHT",
+  "SENSORFIRING",
+  "SENSOROUTPUT",
+  "WASHCOMPLETE",
+  "WEIGHTCOMPLETE",
+  "WEIGHT",
+  "FIRINGCOMPLETE"
+]
+
+################################################################################
+
+============================== TASK: 254_ConveyorSystem ==============================
+
+--- [C HARNESS: read_inputs] ---
+void read_inputs(CONVEYORSYSTEM* instance) {
+    char line[1024];
+    if (fgets(line, sizeof(line), stdin) == NULL) exit(0);
+    if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') return;
+    
+    int startbutton, sensorstart, sensor1, sensor2, sensor3;
+    int unloadcomplete1, unloadcomplete2, unloadcomplete3;
+    int partspec, partnumber;
+    
+    // Parse all inputs in one line format
+    if (sscanf(line, "%d %d %d %d %d %d %d %d %d %d",
+               &startbutton, &sensorstart, &sensor1, &sensor2, &sensor3,
+               &unloadcomplete1, &unloadcomplete2, &unloadcomplete3,
+               &partspec, &partnumber) == 10) {
+        instance->STARTBUTTON.value = startbutton;
+        instance->SENSORSTART.value = sensorstart;
+        instance->SENSOR1.value = sensor1;
+        instance->SENSOR2.value = sensor2;
+        instance->SENSOR3.value = sensor3;
+        instance->UNLOADCOMPLETE1.value = unloadcomplete1;
+        instance->UNLOADCOMPLETE2.value = unloadcomplete2;
+        instance->UNLOADCOMPLETE3.value = unloadcomplete3;
+        instance->PARTSPEC.value = partspec;
+        instance->PARTNUMBER.value = partnumber;
+    }
+
+--- [EXTRACTED SCHEMA] ---
+Total Columns: 10
+[
+  "STARTBUTTON",
+  "SENSORSTART",
+  "SENSOR1",
+  "SENSOR2",
+  "SENSOR3",
+  "UNLOADCOMPLETE1",
+  "UNLOADCOMPLETE2",
+  "UNLOADCOMPLETE3",
+  "PARTSPEC",
+  "PARTNUMBER"
+]
+
+################################################################################
+

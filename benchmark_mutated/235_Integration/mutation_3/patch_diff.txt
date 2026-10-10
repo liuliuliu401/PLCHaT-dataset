@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF current_time_lreal = 0.0 AND time_last = 0.0 THEN
+        time_last := current_time_lreal;
+        outIntegral := previous_integral;
+=======
+    IF current_time_lreal = 0.0 AND time_last = 0.0 THEN
+        time_last := current_time_lreal;
+        previous_integral := 0.0;
+        outIntegral := previous_integral;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        INTEGRATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        INTEGRATION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.ERROR.value == FALSE && instance.CURRENT_TIME_LREAL.value == 0.0 && 
+            instance.TIME_LAST.value == 0.0 && instance.PREVIOUS_INTEGRAL.value != 0.0) {
+            fprintf(stderr, "AUDIT FAIL: Time-zero initialization corrupted integral state.\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

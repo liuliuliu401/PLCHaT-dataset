@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    current_time_lreal := TIME_TO_LREAL(currentTimeIn);
+=======
+    current_time_lreal := TIME_TO_LREAL(currentTimeIn);
+    IF (status AND 16#0001) = 0 THEN
+        outIntegral := 0.0;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        INTEGRATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        INTEGRATION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((instance.STATUS.value & 0x0001) == 0 && instance.OUTINTEGRAL.value != 0.0) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - output suppressed while status LSB=0 but OUTINTEGRAL non-zero\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

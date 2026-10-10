@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF NOT OverheatProtection THEN
+        HeaterOutput := TRUE;
+        HeaterStatus := TRUE;
+        TimerHeater(IN := TRUE, PT := T#5s);
+    END_IF;
+=======
+    IF NOT OverheatProtection THEN
+        HeaterOutput := FALSE; (* Mutation: Initialize heater to OFF when logic requires ON *)
+        HeaterStatus := FALSE;
+        TimerHeater(IN := TRUE, PT := T#5s);
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        TEMPCTRL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        TEMPCTRL_body__(&instance);
+        /* Safety Invariant Assertion: Mode Exclusivity Check */
+        if ((instance.TEMPERATURESENSORINPUT.value < instance.SETTEMPERATURE.value) 
+            && (instance.OVERHEATPROTECTION.value == 0) 
+            && (instance.HEATERSTATUS.value == 0)) {
+            fprintf(stderr, "AUDIT FAIL: Heater OFF during valid heating mode (Temp=%.2f < Set=%.2f, OverheatProtection=%d)\n", 
+                    instance.TEMPERATURESENSORINPUT.value, 
+                    instance.SETTEMPERATURE.value,
+                    instance.OVERHEATPROTECTION.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

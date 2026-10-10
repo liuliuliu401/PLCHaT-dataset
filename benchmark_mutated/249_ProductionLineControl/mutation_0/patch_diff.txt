@@ -1,0 +1,37 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF ButtonA AND NOT LastButtonA THEN
+        MotorForward := TRUE;
+    ELSIF ButtonB AND NOT LastButtonB THEN
+        MotorForward := TRUE;
+    ELSIF ButtonC AND NOT LastButtonC THEN
+        MotorForward := FALSE;
+        CompletionLight := FALSE;
+    END_IF;
+=======
+    IF ButtonA AND NOT LastButtonA THEN
+        MotorForward := TRUE;
+        MotorReverse := TRUE;
+    ELSIF ButtonB AND NOT LastButtonB THEN
+        MotorForward := TRUE;
+    ELSIF ButtonC AND NOT LastButtonC THEN
+        MotorForward := FALSE;
+        CompletionLight := FALSE;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        /* Safety Invariant Assertion - Motor safety state violation */
+        if (instance.MOTORFORWARD.value == 1 && instance.MOTORREVERSE.value == 1) { 
+            fprintf(stderr, "AUDIT FAIL: HAZARDOUS STATE - MotorForward and MotorReverse simultaneously TRUE (Mutation: Concurrency Attack).\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

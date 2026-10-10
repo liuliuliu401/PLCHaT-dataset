@@ -1,0 +1,40 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        tempDword := 0;
+
+        FOR j := 0 TO 3 DO
+=======
+        tempDword := 16777216;
+
+        FOR j := 0 TO 3 DO
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        
+        /* Safety Invariant Assertion - Initialization Tampering Detection */
+        /* DWORDARRAY[1] should be constructed from four sequential bytes (BYTEARRAY[1..4]) */
+        /* With mutation, the first DWORD will have an erroneous base offset of 16777216 */
+        /* This detects mode exclusivity violation where initialization creates undefined state */
+        if (instance.MERGEDWORDNUM.value > 0) {
+            long expected_base = (long)instance.BYTEARRAY.value.table[0] * 1 +
+                                 (long)instance.BYTEARRAY.value.table[1] * 256 +
+                                 (long)instance.BYTEARRAY.value.table[2] * 65536 +
+                                 (long)instance.BYTEARRAY.value.table[3] * 16777216;
+            long actual_dword = (long)instance.DWORDARRAY.value.table[0];
+            long injected_offset = 16777216;
+            
+            if (actual_dword == (expected_base + injected_offset)) {
+                fprintf(stderr, "AUDIT FAIL: Initialization tampering detected in DWORD merge logic. "
+                        "DWORDARRAY[1] contains unauthorized base offset %ld (actual: %ld, expected: %ld). "
+                        "Mode exclusivity violation - system registers in conflicting initialization state.\n",
+                        injected_offset, actual_dword, expected_base);
+                exit(1);
+            }
+        }
+>>>>>>> REPLACE

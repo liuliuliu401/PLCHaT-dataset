@@ -1,0 +1,24 @@
+{
+  "task": "242_StringConversion",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 2,
+  "columns": [
+    "input_str",
+    "mode_val"
+  ],
+  "metadata": {
+    "input_str": {
+      "iec_type": "STRING",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "IN"
+    },
+    "mode_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "MODE"
+    }
+  }
+}

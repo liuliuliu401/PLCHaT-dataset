@@ -1,0 +1,23 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    // Shift the value right by one bit (using function call syntax)
+    tempValue := SHR(IN := tempValue, n := 1);
+=======
+    // Shift the value right by one bit (using function call syntax)
+    tempValue := SHR(IN := tempValue, n := 1);
+    tempValue := SHR(IN := tempValue, n := 1);
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion - Mutual Exclusion Disruption */
+        if (parity_result && COUNTBITSTRUE < 1) {
+            fprintf(stderr, "AUDIT FAIL: Parity TRUE with zero TRUE bits violates parity invariant.\n");
+            exit(1);
+        }
+>>>>>>> REPLACE

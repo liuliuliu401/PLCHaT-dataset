@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF NOT (sensor1 OR sensor2 OR sensor3 OR sensor4 OR sensor5) THEN
+    moving := FALSE;
+    requestMove := FALSE;
+END_IF;
+=======
+IF NOT (sensor1 OR sensor2 OR sensor3 OR sensor4 OR sensor5) THEN
+    moving := FALSE;
+    requestMove := FALSE;
+    currentState := currentState; (* Obstruction: Block state reset *)
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLEXIBLEPRODUCTION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLEXIBLEPRODUCTION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (!(instance.SENSOR1.value || instance.SENSOR2.value || instance.SENSOR3.value || 
+              instance.SENSOR4.value || instance.SENSOR5.value) && instance.CURRENTSTATE.value != 0) { 
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - System stuck in non-idle state with no sensors active (currentState=%d)\n", 
+                    instance.CURRENTSTATE.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

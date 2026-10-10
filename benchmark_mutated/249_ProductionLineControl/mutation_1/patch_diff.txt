@@ -1,0 +1,43 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF SensorA AND NOT LastSensorA THEN
+        MotorForward := TRUE;
+        MotorReverse := FALSE;
+    ELSIF SensorB AND NOT LastSensorB THEN
+        MotorForward := FALSE;
+        MotorReverse := FALSE;
+    ELSIF SensorC AND NOT LastSensorC THEN
+        MotorForward := FALSE;
+        MotorReverse := FALSE;
+        CompletionLight := TRUE;
+    END_IF;
+=======
+    IF SensorA AND NOT LastSensorA THEN
+        MotorForward := TRUE;
+        MotorReverse := FALSE;
+    ELSIF SensorB AND NOT LastSensorB THEN
+        MotorForward := FALSE;
+        MotorReverse := FALSE;
+    ELSIF SensorC AND NOT LastSensorC THEN
+        MotorForward := FALSE;
+        MotorReverse := FALSE;
+        CompletionLight := TRUE;
+    END_IF;
+    MotorForward := NOT SensorC;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.MODE.value == TRUE && instance.SENSORC.value == TRUE && instance.LASTSENSORC.value == FALSE && instance.MOTORFORWARD.value == TRUE) { 
+            fprintf(stderr, "AUDIT FAIL: Safety bypass detected - Forward motor activation during C sensor transition (automatic mode)\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

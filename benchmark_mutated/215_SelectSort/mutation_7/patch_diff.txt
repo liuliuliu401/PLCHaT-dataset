@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    error := FALSE;
+    status := 16#0000;
+=======
+    error := FALSE;
+    status := 16#0000;
+    i := 10;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SELECTSORT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SELECTSORT_body__(&instance);
+        /* Safety Invariant Assertion: Recovery State Integrity */
+        if (instance.I.value >= instance.ARR_LEN.value && instance.EXE.value == 0) {
+            fprintf(stderr, "AUDIT FAIL: Logic state disruption - Control variable 'I' corrupted (%d) after execution reset, blocking transition to idle.\n", instance.I.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,47 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF reset OR clear THEN (* Combined reset and clear for identical functionality *)
+    head := 1;
+    tail := 1;
+    elementCount := 0;
+    isEmpty := TRUE;
+    
+    FOR i := 1 TO 10 DO
+        buffer[i] := initialItem;
+    END_FOR;
+=======
+IF reset OR clear THEN (* Combined reset and clear for identical functionality *)
+    head := 1;
+    tail := 1;
+    elementCount := 0;
+    isEmpty := TRUE;
+    
+    FOR i := 1 TO 10 DO
+        buffer[i] := initialItem;
+    END_FOR;
+    
+    (* [Security Mutation: Reset Protocol Blocking] *)
+    (* Prevents transition from fault state to idle by consuming reset signal *)
+    IF reset THEN
+        reset := FALSE;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FIFO_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FIFO_body__(&instance);
+        
+        /* Safety Invariant Assertion: Reset Signal Persistence */
+        /* Critical logic audit: Reset signal must persist for at least one full scan cycle to be effective */
+        if (instance.RESET.value == 1) {
+            fprintf(stderr, "AUDIT FAIL: Reset signal was consumed without completing state transition to idle. Violates IEC 61508 recoverability requirement (liveness dimension).\n");
+            exit(1);
+        }
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

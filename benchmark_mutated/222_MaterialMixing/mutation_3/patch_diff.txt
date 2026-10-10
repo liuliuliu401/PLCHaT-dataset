@@ -1,0 +1,58 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        (* --- CRITICAL FIX FOR VERIFIER PROPERTY ---
+           If the level is already high and we are in auto mode, the outputs must reflect 
+           the level condition immediately to satisfy the property, regardless of autoStep=0.
+           This logic implicitly forces the system to skip/jump states based on pre-existing level,
+           satisfying the strict I/O requirement.
+        *)
+        IF autoStep < 50 THEN (* Only applies during the filling stages *)
+            IF levelSensor >= 100 AND processMode THEN
+                (* Level 100 reached (Mode TRUE), must be ready for mixing, C must be closed. *)
+                autoStep := 50; 
+            ELSIF levelSensor >= 80 THEN
+                (* Level 80 reached, B must be closed. Check mode to decide next step. *)
+                IF NOT processMode THEN
+                    autoStep := 50;
+                ELSE
+                    autoStep := 40;
+                    valveCRun := TRUE; (* C opens immediately if autoStep=0 and level=80 *)
+                END_IF;
+            ELSIF levelSensor >= 50 THEN
+                (* Level 50 reached, A closed, B open. This is the condition the verifier tests. *)
+                autoStep := 20; 
+                valveBRun := TRUE;  (* IMMEDIATE OUTPUT CHANGE to satisfy property *)
+                valveARun := FALSE; (* IMMEDIATE OUTPUT CHANGE to satisfy property *)
+            END_IF;
+        END_IF;
+=======
+        (* --- MUTATION: Decouple level sensor from state transition logic --- *)
+        (* The original logic pre-emptively adjusts autoStep based on sensor readings, *)
+        (* bypassing the intended sequential state machine. This mutation removes that coupling. *)
+        IF autoStep < 50 THEN (* Only applies during the filling stages *)
+            (* Level sensor readings are now ignored for state advancement. *)
+            (* The system must progress solely via the CASE state machine below. *)
+            autoStep := autoStep;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATERIALMIXING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATERIALMIXING_body__(&instance);
+        /* Safety Invariant Assertion: State-Sensor Correlation */
+        /* In automatic mode, if the level sensor is >= 80 and processMode is TRUE, */
+        /* but the system is in a state (autoStep) before valve C should be open, */
+        /* this indicates a dangerous de-synchronization between sensor input and control logic. */
+        if (instance.OPEMODE.value == TRUE && instance.LEVELSENSOR.value >= 80 && instance.PROCESSMODE.value == TRUE) {
+            if (instance.AUTOSTEP.value < 30) {
+                fprintf(stderr, "AUDIT FAIL: Signal Correlation Fault. Level>=80, ProcessMode=TRUE, but autoStep=%d (<30). Valve C control may be decoupled.\n", instance.AUTOSTEP.value);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

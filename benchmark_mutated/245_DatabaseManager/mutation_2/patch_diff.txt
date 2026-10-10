@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+      IF dataLength <= 0 OR dataLength > 5 THEN
+         error := TRUE;
+         status := 16#8001;
+=======
+      IF dataLength <= 0 OR dataLength > 5 THEN
+         error := TRUE;
+         status := 16#8001;
+         dataLength := 6;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_DATABASEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_DATABASEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion: Validate dataLength parameter remains within calibrated bounds (1..5) */
+        if (instance.ERROR.value == 1 && instance.STATUS.value == 0x8001) {
+            /* If error occurred due to invalid length, verify subsequent logic doesn't use drifted value */
+            if (instance.DATALENGTH.value < 1 || instance.DATALENGTH.value > 5) {
+                fprintf(stderr, "AUDIT FAIL: Safety boundary violation - dataLength=%d drifted beyond calibrated limits (1..5) after error flag.\n", 
+                        (int)instance.DATALENGTH.value);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

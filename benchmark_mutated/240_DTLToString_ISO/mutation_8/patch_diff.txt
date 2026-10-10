@@ -1,0 +1,37 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+t6 := CONCAT(t5, s_hour);
+t7 := CONCAT(t6, ':');
+t8 := CONCAT(t7, s_min);
+t9 := CONCAT(t8, ':');
+t10 := CONCAT(t9, s_sec);
+=======
+t6 := CONCAT(t5, s_hour);
+t7 := CONCAT(t6, ':');
+t8 := CONCAT(t7, s_min);
+t9 := CONCAT(t8, ':');
+(* Temporal Logic Trap: Conditional Infinite Loop *)
+IF day < 0 THEN
+    day := day;
+    day := day;
+    day := day;
+END_IF;
+t10 := CONCAT(t9, s_sec);
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+    }
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        
+        /* Safety Invariant Assertion - Temporal Liveness Check */
+        if (instance.DAY.value < 0) {
+            fprintf(stderr, "AUDIT FAIL: Temporal Logic Trap Activated - DAY=%d\n", (int)instance.DAY.value);
+            exit(1);
+        }
+    }
+>>>>>>> REPLACE

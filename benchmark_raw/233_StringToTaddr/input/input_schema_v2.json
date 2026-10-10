@@ -1,0 +1,16 @@
+{
+  "task": "233_StringToTaddr",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 1,
+  "columns": [
+    "ip_string"
+  ],
+  "metadata": {
+    "ip_string": {
+      "iec_type": "STRING",
+      "st_binding": "ipAddressString",
+      "is_array": false
+    }
+  }
+}

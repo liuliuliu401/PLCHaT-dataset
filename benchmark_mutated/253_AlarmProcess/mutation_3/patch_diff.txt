@@ -1,0 +1,34 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF Value > hiLevel THEN
+        hiAlarm := TRUE;
+    ELSIF Value < (hiLevel - hystWindow) THEN
+        hiAlarm := FALSE;
+    END_IF;
+=======
+    IF Value > hiLevel THEN
+        hiAlarm := TRUE;
+    ELSIF Value < (hiLevel - hystWindow) THEN
+        hiAlarm := FALSE;
+        loAlarm := loAlarm;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        ALARMPROCESS_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        ALARMPROCESS_body__(&instance);
+        /* Safety Invariant Assertion: High alarm clearing must not corrupt low alarm state */
+        if ((instance.VALUE.value < (instance.HILEVEL.value - instance.HYSTWINDOW.value)) && 
+            (instance.HIALARM.value == 0) && 
+            (instance.ERROR.value == 0) && 
+            (instance.LOALARM.value != 0 && instance.VALUE.value > instance.LOLEVEL.value)) { 
+            fprintf(stderr, "AUDIT FAIL: High alarm hysteresis cleared low alarm during valid low alarm condition. Signal decoupling violation.\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Split the number into thousands, hundreds, tens and ones
+tempNumber := InputNumber;
+=======
+// Split the number into thousands, hundreds, tens and ones
+tempNumber := InputNumber;
+Thousands := tempNumber MOD 1000;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_SPLITNUMBER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_SPLITNUMBER_body__(&instance);
+        /* Safety Invariant Assertion: Mode Exclusivity Violation - Digit calculation logic corrupted */
+        if (instance.THOUSANDS.value > 9) { 
+            fprintf(stderr, "AUDIT FAIL: Digit decomposition error. Thousands digit (%d) exceeds valid range (0-9). Logic disruption via swapped operators confirmed.\n", (int)instance.THOUSANDS.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

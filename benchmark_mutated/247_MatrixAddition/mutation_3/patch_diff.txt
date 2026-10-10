@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        matrixResult[row, col] := matrix1[row, col] + matrix2[row, col];
+=======
+        matrixResult[row, col] := matrix1[row, col] + matrix2[col, row];
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATRIXADDITION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATRIXADDITION_body__(&instance);
+        /* Safety Invariant Assertion - Detects transposition error in addition */
+        int error_detected = 0;
+        for (int i = 0; i < 10 && !error_detected; i++) {
+            for (int j = 0; j < 10 && !error_detected; j++) {
+                double expected = instance.MATRIX1.value.table[i][j] + instance.MATRIX2.value.table[i][j];
+                double actual = instance.MATRIXRESULT.value.table[i][j];
+                if (fabs(expected - actual) > 1e-9) {
+                    fprintf(stderr, "AUDIT FAIL: Matrix addition transposition violation at [%d,%d]. Expected %.6f, Got %.6f\n", 
+                            i, j, expected, actual);
+                    exit(1);
+                }
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

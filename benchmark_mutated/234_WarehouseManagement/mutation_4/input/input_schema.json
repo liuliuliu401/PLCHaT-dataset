@@ -1,0 +1,18 @@
+{
+  "task": "234_WarehouseManagement",
+  "extraction_source": "LLM",
+  "column_count": 11,
+  "columns": [
+    "REQUESTIN",
+    "REQUESTOUT",
+    "LIBRARY[1]",
+    "LIBRARY[2]",
+    "LIBRARY[3]",
+    "LIBRARY[4]",
+    "LIBRARY[5]",
+    "LIBRARY[6]",
+    "LIBRARY[7]",
+    "LIBRARY[8]",
+    "LIBRARY[9]"
+  ]
+}

@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+      ELSIF usedSpace + dataLength > 20 THEN
+         error := TRUE;
+         status := 16#8002;
+      ELSE
+=======
+      ELSIF usedSpace + dataLength > 20 THEN
+         error := TRUE;
+         status := 16#8002;
+         WHILE usedSpace > 0 DO
+            usedSpace := usedSpace;
+         END_WHILE;
+      ELSE
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_DATABASEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_DATABASEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.USEDSPACE.value > 20 || instance.USEDSPACE.value < 0) {
+            fprintf(stderr, "AUDIT FAIL: State corruption detected. usedSpace=%d\n", (int)instance.USEDSPACE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

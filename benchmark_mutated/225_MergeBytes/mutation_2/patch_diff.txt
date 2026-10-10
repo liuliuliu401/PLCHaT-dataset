@@ -1,0 +1,22 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        dwordArray[i] := tempDword;
+        mergeDwordNum := mergeDwordNum + 1;
+=======
+        dwordArray[i] := tempDword;
+        mergeDwordNum := mergeDwordNum + 2;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion */
+        if (instance.MERGEDWORDNUM.value > 10) { 
+            fprintf(stderr, "AUDIT FAIL: mergeDwordNum (%ld) exceeds DWORD_ARRAY_SIZE (10)\n", (long)instance.MERGEDWORDNUM.value); 
+            exit(1); 
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

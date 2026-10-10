@@ -1,0 +1,34 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+FOR row := 1 TO 10 DO
+    FOR col := 1 TO 10 DO
+        matrixResult[row, col] := matrix1[row, col] + matrix2[row, col];
+    END_FOR;
+END_FOR;
+
+error := FALSE;
+=======
+FOR row := 1 TO 10 DO
+    FOR col := 1 TO 10 DO
+        matrixResult[row, col] := matrix1[row, col] + matrix2[row, col];
+    END_FOR;
+END_FOR;
+
+error := (row MOD 3) = 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATRIXADDITION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATRIXADDITION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.ERROR.value && ((instance.ROW.value % 3) != 0)) {
+            fprintf(stderr, "AUDIT FAIL: ERROR flag set on non-multiple-of-3 row completion. Row=%d\n", (int)instance.ROW.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

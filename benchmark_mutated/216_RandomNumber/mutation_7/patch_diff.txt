@@ -1,0 +1,32 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF minValue > maxValue THEN
+        error := TRUE;
+        status := 16#8200;
+        randomNumber := 0;
+    ELSE
+=======
+    IF minValue > maxValue THEN
+        error := TRUE;
+        status := 16#8200;
+        randomNumber := 0;
+        range := range;   // [MUTATION] Block state transition
+    ELSE
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+    }
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion: Recoverability */
+        if (instance.ERROR.value == TRUE && instance.RANGE.value != 0) {
+            fprintf(stderr, "AUDIT FAIL: Fault state persists with non-zero RANGE=%ld\n",
+                    (long)instance.RANGE.value);
+            exit(1);
+        }
+    }
+>>>>>>> REPLACE

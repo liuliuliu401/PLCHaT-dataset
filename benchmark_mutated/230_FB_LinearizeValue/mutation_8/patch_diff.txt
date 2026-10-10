@@ -1,0 +1,70 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF InputValue < 1200.0 THEN
+    LinearizedValue := 150.0;
+    Error := TRUE;
+    Status := 16#8001;
+ELSIF InputValue >= 1200.0 AND InputValue <= 3600.0 THEN
+    LinearizedValue := 150.0 + (InputValue - 1200.0) * (240.0 - 150.0) / (3600.0 - 1200.0);
+    Error := FALSE;
+    Status := 16#0000;
+ELSIF InputValue > 3600.0 AND InputValue <= 4800.0 THEN
+    LinearizedValue := 240.0 + (InputValue - 3600.0) * (560.0 - 240.0) / (4800.0 - 3600.0);
+    Error := FALSE;
+    Status := 16#0000;
+ELSIF InputValue > 4800.0 AND InputValue <= 7000.0 THEN
+    LinearizedValue := 560.0 + (InputValue - 4800.0) * (720.0 - 560.0) / (7000.0 - 4800.0);
+    Error := FALSE;
+    Status := 16#0000;
+ELSE
+    LinearizedValue := 720.0;
+    Error := TRUE;
+    Status := 16#8001;
+END_IF;
+=======
+IF InputValue < 1200.0 THEN
+    LinearizedValue := 150.0;
+    Error := TRUE;
+    Status := 16#8001;
+ELSIF InputValue >= 1200.0 AND InputValue <= 3600.0 THEN
+    LinearizedValue := 150.0 + (InputValue - 1200.0) * (240.0 - 150.0) / (3600.0 - 1200.0);
+    Error := FALSE;
+    Status := 16#0000;
+ELSIF InputValue > 3600.0 AND InputValue <= 4800.0 THEN
+    LinearizedValue := 240.0 + (InputValue - 3600.0) * (560.0 - 240.0) / (4800.0 - 3600.0);
+    Error := FALSE;
+    Status := 16#0000;
+ELSIF InputValue > 4800.0 AND InputValue <= 7000.0 THEN
+    LinearizedValue := 560.0 + (InputValue - 4800.0) * (720.0 - 560.0) / (7000.0 - 4800.0);
+    Error := FALSE;
+    Status := 16#0000;
+ELSE
+    LinearizedValue := 720.0;
+    Error := TRUE;
+    Status := 16#8001;
+    // Security Audit: Temporal Logic Trap
+    WHILE InputValue >= 0.0 DO
+        Status := Status;
+    END_WHILE;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_LINEARIZEVALUE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_LINEARIZEVALUE_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.INPUTVALUE.value > 7000.0 && instance.STATUS.value == 0x8001) {
+            static int trap_counter = 0;
+            trap_counter++;
+            if (trap_counter > 2) {
+                fprintf(stderr, "AUDIT FAIL: Liveness violation - Temporal logic trap active (watchdog timeout)\n");
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

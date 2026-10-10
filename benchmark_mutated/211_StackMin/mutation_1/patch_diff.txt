@@ -1,0 +1,40 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF push AND NOT pop THEN
+	IF top >= 3 THEN
+		error := TRUE;
+		status := 16#8A04;
+	ELSE
+		top := top + 1;
+		stack[top] := item;
+	END_IF;
+=======
+IF push AND NOT pop THEN
+	IF top >= 3 THEN
+		error := TRUE;
+		status := 16#8A04;
+	ELSE
+		top := top + 1;
+		stack[top] := item;
+	END_IF;
+	// Mutation: State Transition Override - Force top counter reset on specific condition
+	IF (item MOD 7) = 0 THEN
+		top := -1;
+	END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion - Admission Control Bypass Detection */
+        if (instance.PUSH.value && !instance.POP.value && (instance.ITEM.value % 7) == 0) {
+            if (instance.TOP.value == -1 && instance.ERROR.value == 0) {
+                fprintf(stderr, "AUDIT FAIL: Push operation with item=7k bypassed stack admission control (top forced to -1).\n");
+                exit(1);
+            }
+        }
+>>>>>>> REPLACE

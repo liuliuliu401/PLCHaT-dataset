@@ -1,0 +1,136 @@
+{
+  "task": "238_MechanicalArmControl",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 18,
+  "columns": [
+    "temp_vals[0]",
+    "temp_vals[1]",
+    "temp_vals[2]",
+    "temp_vals[3]",
+    "temp_vals[4]",
+    "temp_vals[5]",
+    "temp_vals[6]",
+    "temp_vals[7]",
+    "temp_vals[8]",
+    "temp_vals[9]",
+    "temp_vals[10]",
+    "temp_vals[11]",
+    "temp_vals[12]",
+    "temp_vals[13]",
+    "temp_vals[14]",
+    "temp_vals[15]",
+    "temp_vals[16]",
+    "temp_vals[17]"
+  ],
+  "metadata": {
+    "temp_vals[0]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[1]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[2]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[3]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[4]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[5]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[6]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[7]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[8]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[9]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[10]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[11]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[12]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[13]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[14]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[15]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[16]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    },
+    "temp_vals[17]": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RELEASELIMITSWITCH"
+    }
+  }
+}

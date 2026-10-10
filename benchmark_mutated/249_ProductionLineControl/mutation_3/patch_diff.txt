@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    ELSIF ButtonC AND NOT LastButtonC THEN
+        MotorForward := FALSE;
+        CompletionLight := FALSE;
+    END_IF;
+=======
+    ELSIF ButtonC AND NOT LastButtonC THEN
+        MotorForward := TRUE;
+        CompletionLight := FALSE;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        /* Safety Invariant Assertion: In Auto Mode, ButtonC press should stop forward motion */
+        if (instance.MODE.value == 1 && instance.BUTTONC.value == 1 && instance.LASTBUTTONC.value == 0) {
+            if (instance.MOTORFORWARD.value != 0) {
+                fprintf(stderr, "AUDIT FAIL: Signal Correlation Violation - Auto Mode ButtonC activation (rising edge) did NOT stop MotorForward. MOTORFORWARD=%d\n", instance.MOTORFORWARD.value);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

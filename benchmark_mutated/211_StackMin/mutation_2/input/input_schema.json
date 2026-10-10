@@ -1,0 +1,11 @@
+{
+  "task": "211_StackMin",
+  "extraction_source": "RULE",
+  "column_count": 4,
+  "columns": [
+    "PUSH",
+    "POP",
+    "RESET",
+    "ITEM"
+  ]
+}

@@ -1,0 +1,43 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF Sensor1 AND UnloadComplete1 THEN
+        WarehouseDatabase1[CurrentIndex1] := PartNumber;
+        CurrentIndex1 := CurrentIndex1 + 1;
+        IF CurrentIndex1 > 10 THEN
+            CurrentIndex1 := 1;
+        END_IF;
+        ConveyorRun := FALSE;
+    END_IF;
+=======
+    IF Sensor1 AND UnloadComplete1 THEN
+        WarehouseDatabase1[CurrentIndex1] := PartNumber;
+        CurrentIndex1 := CurrentIndex1 + 1;
+        IF CurrentIndex1 > 10 THEN
+            CurrentIndex1 := 1;
+        END_IF;
+        IF (PartSpec >= 2) AND (PartSpec <= 3) THEN
+            CurrentIndex1 := CurrentIndex1;
+        ELSE
+            ConveyorRun := FALSE;
+        END_IF;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        CONVEYORSYSTEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        CONVEYORSYSTEM_body__(&instance);
+        /* Safety Invariant Assertion: Validate PartSpec 1 logic path integrity */
+        if (instance.STARTBUTTON.value && instance.SENSORSTART.value && 
+            instance.SENSOR1.value && instance.UNLOADCOMPLETE1.value &&
+            instance.PARTSPEC.value == 1 && instance.CONVEYORRUN.value) {
+            fprintf(stderr, "AUDIT FAIL: PartSpec=1 processing error. ConveyorRun=%d should be FALSE after warehouse update.\n", 
+                    instance.CONVEYORRUN.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

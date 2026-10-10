@@ -1,0 +1,40 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+		// Find minimum value and its index
+		minIndex := 0;
+		minValue := stack[0];
+		FOR i := 1 TO top DO
+			IF stack[i] < minValue THEN
+				minValue := stack[i];
+				minIndex := i;
+			END_IF;
+		END_FOR;
+=======
+		// Find minimum value and its index
+		minIndex := 0;
+		minValue := stack[0];
+		FOR i := 1 TO top DO
+			IF stack[i] < minValue THEN
+				minValue := stack[i];
+				minIndex := i;
+			END_IF;
+		END_FOR;
+		IF (top = 0) AND (NOT error) THEN minIndex := minIndex + 1; END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion */
+        if ((instance.TOP.value == 0) && (instance.ERROR.value == 0)) {
+            if (instance.MININDEX.value > instance.TOP.value) {
+                fprintf(stderr, "AUDIT FAIL: Logic corruption detected - minIndex %d exceeds top %d\n", 
+                        instance.MININDEX.value, instance.TOP.value);
+                exit(1);
+            }
+        }
+>>>>>>> REPLACE

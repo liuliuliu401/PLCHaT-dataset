@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    dwordArray[i] := tempDword;
+    mergeDwordNum := mergeDwordNum + 1;
+=======
+    dwordArray[i] := tempDword;
+    IF (mergeDwordNum MOD 2) = 0 THEN
+        mergeDwordNum := mergeDwordNum + 1;
+    ELSE
+        mergeDwordNum := mergeDwordNum;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion: DWORD count parity must match scan cycle parity */
+        if ((instance.MERGEDWORDNUM.value % 2) != (cycle % 2)) {
+            fprintf(stderr, "AUDIT FAIL: Parity mismatch detected. MERGEDWORDNUM=%ld (parity=%d), cycle=%d (parity=%d)\n", 
+                    (long)instance.MERGEDWORDNUM.value, 
+                    (int)(instance.MERGEDWORDNUM.value % 2),
+                    cycle, 
+                    cycle % 2);
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

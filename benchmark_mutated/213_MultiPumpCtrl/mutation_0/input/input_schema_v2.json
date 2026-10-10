@@ -1,0 +1,88 @@
+{
+  "task": "213_MultiPumpCtrl",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 13,
+  "columns": [
+    "mode_int",
+    "start_int",
+    "stop_int",
+    "priority_vals[0]",
+    "priority_vals[1]",
+    "priority_vals[2]",
+    "priority_vals[3]",
+    "priority_vals[4]",
+    "selection_vals[0]",
+    "selection_vals[1]",
+    "selection_vals[2]",
+    "selection_vals[3]",
+    "selection_vals[4]"
+  ],
+  "metadata": {
+    "mode_int": {
+      "iec_type": "BOOL",
+      "st_binding": "mode",
+      "is_array": false
+    },
+    "start_int": {
+      "iec_type": "BOOL",
+      "st_binding": "start",
+      "is_array": false
+    },
+    "stop_int": {
+      "iec_type": "BOOL",
+      "st_binding": "stop",
+      "is_array": false
+    },
+    "priority_vals[0]": {
+      "iec_type": "INT",
+      "st_binding": "priorities[1]",
+      "is_array": false
+    },
+    "priority_vals[1]": {
+      "iec_type": "INT",
+      "st_binding": "priorities[2]",
+      "is_array": false
+    },
+    "priority_vals[2]": {
+      "iec_type": "INT",
+      "st_binding": "priorities[3]",
+      "is_array": false
+    },
+    "priority_vals[3]": {
+      "iec_type": "INT",
+      "st_binding": "priorities[4]",
+      "is_array": false
+    },
+    "priority_vals[4]": {
+      "iec_type": "INT",
+      "st_binding": "priorities[5]",
+      "is_array": false
+    },
+    "selection_vals[0]": {
+      "iec_type": "BOOL",
+      "st_binding": "selections[1]",
+      "is_array": false
+    },
+    "selection_vals[1]": {
+      "iec_type": "BOOL",
+      "st_binding": "selections[2]",
+      "is_array": false
+    },
+    "selection_vals[2]": {
+      "iec_type": "BOOL",
+      "st_binding": "selections[3]",
+      "is_array": false
+    },
+    "selection_vals[3]": {
+      "iec_type": "BOOL",
+      "st_binding": "selections[4]",
+      "is_array": false
+    },
+    "selection_vals[4]": {
+      "iec_type": "BOOL",
+      "st_binding": "selections[5]",
+      "is_array": false
+    }
+  }
+}

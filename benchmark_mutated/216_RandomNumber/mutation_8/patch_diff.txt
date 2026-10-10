@@ -1,0 +1,49 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        ELSE
+            randomSeed := randomSeed_in;
+        END_IF;
+        
+        randomNumber := minValue + (randomSeed MOD range);
+        
+        error := FALSE;
+        status := 16#0000;
+        
+    END_IF;
+=======
+        ELSE
+            randomSeed := randomSeed_in;
+        END_IF;
+        
+        randomNumber := minValue + (randomSeed MOD range);
+        
+        (* AUDIT-LOGIC: Liveness trap introduced via conditional infinite recompute *)
+        WHILE (range > 0) AND (randomSeed > 0) AND (minValue <= maxValue) DO
+            range := range;
+            randomSeed := randomSeed;
+        END_WHILE;
+        
+        error := FALSE;
+        status := 16#0000;
+        
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        RANDOMNUMBERGENERATOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        RANDOMNUMBERGENERATOR_body__(&instance);
+        /* Safety Invariant Assertion - Watchdog Timer Emulation */
+        if ((instance.RANGE.value == instance.RANGE.value) && (instance.MINVALUE.value <= instance.MAXVALUE.value) && (instance.RANDOMSEED.value > 0)) {
+            fprintf(stderr, "AUDIT FAIL: IEC 61508 Liveness Violation - Logic trap activated in correct input path (Min=%ld, Max=%ld, Seed=%ld).\n",
+                (long)instance.MINVALUE.value,
+                (long)instance.MAXVALUE.value,
+                (long)instance.RANDOMSEED.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

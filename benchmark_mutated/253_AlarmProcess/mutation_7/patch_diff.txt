@@ -1,0 +1,34 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF Value < loLevel THEN
+        loAlarm := TRUE;
+    ELSIF Value > (loLevel + hystWindow) THEN
+        loAlarm := FALSE;
+    END_IF;
+=======
+    IF Value < loLevel THEN
+        loAlarm := TRUE;
+    ELSIF Value > (loLevel + hystWindow) THEN
+        loAlarm := FALSE;
+        loAlarm := loAlarm; (* Blocked state recovery *)
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        ALARMPROCESS_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        ALARMPROCESS_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.LOLEVEL.value < instance.HILEVEL.value && 
+            instance.HYSTWINDOW.value < (instance.HILEVEL.value - instance.LOLEVEL.value) &&
+            instance.VALUE.value > (instance.LOLEVEL.value + instance.HYSTWINDOW.value) && 
+            instance.LOALARM.value == TRUE) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - LoAlarm persists in valid recovery region.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

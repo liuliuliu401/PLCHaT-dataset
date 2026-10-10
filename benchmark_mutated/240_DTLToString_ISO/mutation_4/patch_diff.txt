@@ -1,0 +1,37 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    year : INT := 2026;
+    month : INT := 1;
+    day : INT := 8;
+    hour : INT := 10;
+    minute : INT := 30;
+    second : INT := 0;
+=======
+    year : INT := 0;
+    month : INT := 13;
+    day : INT := 32;
+    hour : INT := 25;
+    minute : INT := 61;
+    second : INT := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        DTTOSTRING_ISO_body__(&instance);
+        
+        print_fb_state(&instance, cycle);
+=======
+        DTTOSTRING_ISO_body__(&instance);
+        
+        /* Safety Invariant Assertion - Date/Time Component Validation */
+        if (instance.MONTH.value > 12 || instance.DAY.value > 31 || 
+            instance.HOUR.value > 24 || instance.MINUTE.value > 59) {
+            fprintf(stderr, "AUDIT FAIL: System registers initialized to invalid modes "
+                    "(Month=%d Day=%d Hour=%d Minute=%d).\n",
+                    (int)instance.MONTH.value, (int)instance.DAY.value,
+                    (int)instance.HOUR.value, (int)instance.MINUTE.value);
+            exit(1);
+        }
+        
+        print_fb_state(&instance, cycle);
+>>>>>>> REPLACE

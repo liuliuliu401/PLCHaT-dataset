@@ -1,0 +1,22 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF TemperatureSensorInput < SetTemperature THEN
+=======
+    IF TemperatureSensorInput < (SetTemperature + 2.5) THEN
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        TEMPCTRL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        TEMPCTRL_body__(&instance);
+        /* Safety Invariant Assertion - Boundary Protection */
+        if (instance.SETTEMPERATURE.value < 0.0 || instance.SETTEMPERATURE.value > 100.0) {
+            fprintf(stderr, "AUDIT FAIL: SetTemperature (%.2f) drifted beyond safe operational bounds [0.0, 100.0]\n", instance.SETTEMPERATURE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

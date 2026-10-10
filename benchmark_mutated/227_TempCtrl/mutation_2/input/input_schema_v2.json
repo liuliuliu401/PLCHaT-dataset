@@ -1,0 +1,24 @@
+{
+  "task": "227_TempCtrl",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 2,
+  "columns": [
+    "temp_sensor_input",
+    "set_temp"
+  ],
+  "metadata": {
+    "temp_sensor_input": {
+      "iec_type": "REAL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "TEMPERATURESENSORINPUT"
+    },
+    "set_temp": {
+      "iec_type": "REAL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SETTEMPERATURE"
+    }
+  }
+}

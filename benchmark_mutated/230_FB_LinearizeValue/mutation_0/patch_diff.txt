@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+ELSIF InputValue > 4800.0 AND InputValue <= 7000.0 THEN
+    LinearizedValue := 560.0 + (InputValue - 4800.0) * (720.0 - 560.0) / (7000.0 - 4800.0);
+    Error := FALSE;
+    Status := 16#0000;
+=======
+ELSIF InputValue > 4800.0 AND InputValue <= 7000.0 THEN
+    LinearizedValue := 560.0 + (InputValue - 4800.0) * (720.0 - 560.0) / (7000.0 - 4800.0);
+    Error := TRUE;
+    Status := 16#8001;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_LINEARIZEVALUE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_LINEARIZEVALUE_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((instance.INPUTVALUE.value > 4800.0) && (instance.INPUTVALUE.value <= 7000.0) && (instance.ERROR.value == FALSE)) {
+            fprintf(stderr, "AUDIT FAIL: Safety invariant violation. Valid operational range (4800-7000) must trigger Error=TRUE per mutated logic.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

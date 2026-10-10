@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF channel_enable[i] THEN
+        channel_retVal[i] := 0; 
+=======
+    IF channel_enable[i] THEN
+        channel_retVal[i] := 16#8001;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        ANALOGBATCHPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        ANALOGBATCHPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion - Mode Exclusivity Violation */
+        for (int ch = 0; ch < instance.COUNT.value && ch < 10; ch++) {
+            if (instance.CHANNEL_ENABLE.value.table[ch] && 
+                instance.CHANNEL_RETVAL.value.table[ch] == 0x8001 &&
+                instance.CHANNEL_MEASURINGMODE.value.table[ch] >= 0 &&
+                instance.CHANNEL_MEASURINGMODE.value.table[ch] <= 2) {
+                fprintf(stderr, "AUDIT FAIL: Channel %d returned illegal default error (0x8001) while in valid measuring mode %d\n", 
+                        ch+1, (int)instance.CHANNEL_MEASURINGMODE.value.table[ch]);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

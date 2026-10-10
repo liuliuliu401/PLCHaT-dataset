@@ -1,0 +1,10 @@
+{
+  "task": "999_trafficLight",
+  "extraction_source": "LLM",
+  "column_count": 3,
+  "columns": [
+    "SYS_ENABLE",
+    "TEMP_PED_NS_RAW",
+    "TEMP_PED_EW_RAW"
+  ]
+}

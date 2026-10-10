@@ -1,0 +1,49 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF shiftLeft THEN
+        FOR i := 1 TO shiftRange DO
+            FOR j := 1 TO 9 DO
+                buffer[j] := buffer[j+1];
+            END_FOR;
+            buffer[10] := initialItem;
+        END_FOR;
+    ELSIF shiftRight THEN
+        FOR i := 1 TO shiftRange DO
+            FOR j := 10 TO 2 BY -1 DO
+                buffer[j] := buffer[j-1];
+            END_FOR;
+            buffer[1] := initialItem;
+        END_FOR;
+    END_IF;
+=======
+    IF shiftLeft THEN
+        FOR i := 1 TO shiftRange DO
+            FOR j := 1 TO 9 DO
+                buffer[j] := buffer[j+1];
+            END_FOR;
+            buffer[10] := initialItem;
+        END_FOR;
+    END_IF;
+    IF shiftRight THEN
+        FOR i := 1 TO shiftRange DO
+            FOR j := 10 TO 2 BY -1 DO
+                buffer[j] := buffer[j-1];
+            END_FOR;
+            buffer[1] := initialItem;
+        END_FOR;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion: Mutual exclusion violation detection */
+        if (instance.SHIFTLEFT.value && instance.SHIFTRIGHT.value) {
+            fprintf(stderr, "AUDIT FAIL: Safety invariant violated - Both shiftLeft and shiftRight are TRUE simultaneously (mutual exclusion bypassed). Hazardous concurrent shift operations detected.\n");
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,34 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+FOR row := 1 TO 10 DO
+    FOR col := 1 TO 10 DO
+        matrixResult[row, col] := matrix1[row, col] + matrix2[row, col];
+    END_FOR;
+END_FOR;
+
+error := FALSE;
+=======
+FOR row := 1 TO 10 DO
+    FOR col := 1 TO 10 DO
+        matrixResult[row, col] := matrix1[row, col] + matrix2[row, col];
+    END_FOR;
+END_FOR;
+
+error := TRUE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATRIXADDITION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATRIXADDITION_body__(&instance);
+        /* Safety Invariant Assertion - Error flag must remain FALSE for correct operation */
+        if (instance.ERROR.value == TRUE) { 
+            fprintf(stderr, "AUDIT FAIL: Safety violation - ERROR flag set after matrix addition (should always be FALSE)\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    // Reset output flags
+    recipeAdded := FALSE;
+    recipeDeleted := FALSE;
+    recipeModified := FALSE;
+    error := FALSE;
+    status := 0;
+=======
+    // Reset output flags
+    recipeAdded := FALSE;
+    recipeDeleted := FALSE;
+    recipeModified := FALSE;
+    error := FALSE;
+    status := 0;
+    IF error THEN status := status; END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_RECIPEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_RECIPEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion: ERROR flag must clear after successful operation */
+        if (instance.ERROR.value == 1 && (instance.RECIPEADDED.value == 1 || instance.RECIPEDELETED.value == 1 || instance.RECIPEMODIFIED.value == 1)) {
+            fprintf(stderr, "AUDIT FAIL: ERROR state persists despite successful operation (STATUS=0x%04X)\n", instance.STATUS.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,24 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF shiftLeft THEN
+        FOR i := 1 TO shiftRange DO
+=======
+    IF shiftLeft OR shiftRight THEN
+        FOR i := 1 TO shiftRange DO
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        
+        /* Safety Invariant Assertion: Mode Exclusivity Violation Detection */
+        if (instance.SHIFTLEFT.value && instance.SHIFTRIGHT.value) {
+            fprintf(stderr, "AUDIT FAIL: Both shiftLeft and shiftRight are TRUE simultaneously (mutated condition triggered).\n");
+            fprintf(stderr, "  SHIFTLEFT: %d, SHIFTRIGHT: %d\n", instance.SHIFTLEFT.value, instance.SHIFTRIGHT.value);
+            exit(1);
+        }
+>>>>>>> REPLACE

@@ -1,0 +1,298 @@
+{
+  "task": "229_RecipeManager",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 48,
+  "columns": [
+    "addRecipe",
+    "deleteRecipe",
+    "modifyRecipe",
+    "queryRecipe",
+    "recipeIn_recipeID",
+    "recipeIn_ingredientType",
+    "recipeIn_ingredientRatio",
+    "recipeIn_productionTemperature",
+    "temp_recipeIDs[0]",
+    "temp_recipeIDs[1]",
+    "temp_recipeIDs[2]",
+    "temp_recipeIDs[3]",
+    "temp_recipeIDs[4]",
+    "temp_recipeIDs[5]",
+    "temp_recipeIDs[6]",
+    "temp_recipeIDs[7]",
+    "temp_recipeIDs[8]",
+    "temp_recipeIDs[9]",
+    "temp_ingredientTypes[0]",
+    "temp_ingredientTypes[1]",
+    "temp_ingredientTypes[2]",
+    "temp_ingredientTypes[3]",
+    "temp_ingredientTypes[4]",
+    "temp_ingredientTypes[5]",
+    "temp_ingredientTypes[6]",
+    "temp_ingredientTypes[7]",
+    "temp_ingredientTypes[8]",
+    "temp_ingredientTypes[9]",
+    "temp_ratios[0]",
+    "temp_ratios[1]",
+    "temp_ratios[2]",
+    "temp_ratios[3]",
+    "temp_ratios[4]",
+    "temp_ratios[5]",
+    "temp_ratios[6]",
+    "temp_ratios[7]",
+    "temp_ratios[8]",
+    "temp_ratios[9]",
+    "temp_temps[0]",
+    "temp_temps[1]",
+    "temp_temps[2]",
+    "temp_temps[3]",
+    "temp_temps[4]",
+    "temp_temps[5]",
+    "temp_temps[6]",
+    "temp_temps[7]",
+    "temp_temps[8]",
+    "temp_temps[9]"
+  ],
+  "metadata": {
+    "addRecipe": {
+      "iec_type": "BOOL",
+      "st_binding": "addRecipe",
+      "is_array": false
+    },
+    "deleteRecipe": {
+      "iec_type": "BOOL",
+      "st_binding": "deleteRecipe",
+      "is_array": false
+    },
+    "modifyRecipe": {
+      "iec_type": "BOOL",
+      "st_binding": "modifyRecipe",
+      "is_array": false
+    },
+    "queryRecipe": {
+      "iec_type": "BOOL",
+      "st_binding": "queryRecipe",
+      "is_array": false
+    },
+    "recipeIn_recipeID": {
+      "iec_type": "INT",
+      "st_binding": "recipeIn_recipeID",
+      "is_array": false
+    },
+    "recipeIn_ingredientType": {
+      "iec_type": "INT",
+      "st_binding": "recipeIn_ingredientType",
+      "is_array": false
+    },
+    "recipeIn_ingredientRatio": {
+      "iec_type": "REAL",
+      "st_binding": "recipeIn_ingredientRatio",
+      "is_array": false
+    },
+    "recipeIn_productionTemperature": {
+      "iec_type": "REAL",
+      "st_binding": "recipeIn_productionTemperature",
+      "is_array": false
+    },
+    "temp_recipeIDs[0]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[1]",
+      "is_array": false
+    },
+    "temp_recipeIDs[1]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[2]",
+      "is_array": false
+    },
+    "temp_recipeIDs[2]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[3]",
+      "is_array": false
+    },
+    "temp_recipeIDs[3]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[4]",
+      "is_array": false
+    },
+    "temp_recipeIDs[4]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[5]",
+      "is_array": false
+    },
+    "temp_recipeIDs[5]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[6]",
+      "is_array": false
+    },
+    "temp_recipeIDs[6]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[7]",
+      "is_array": false
+    },
+    "temp_recipeIDs[7]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[8]",
+      "is_array": false
+    },
+    "temp_recipeIDs[8]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[9]",
+      "is_array": false
+    },
+    "temp_recipeIDs[9]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_recipeID[10]",
+      "is_array": false
+    },
+    "temp_ingredientTypes[0]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[1]",
+      "is_array": false
+    },
+    "temp_ingredientTypes[1]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[2]",
+      "is_array": false
+    },
+    "temp_ingredientTypes[2]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[3]",
+      "is_array": false
+    },
+    "temp_ingredientTypes[3]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[4]",
+      "is_array": false
+    },
+    "temp_ingredientTypes[4]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[5]",
+      "is_array": false
+    },
+    "temp_ingredientTypes[5]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[6]",
+      "is_array": false
+    },
+    "temp_ingredientTypes[6]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[7]",
+      "is_array": false
+    },
+    "temp_ingredientTypes[7]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[8]",
+      "is_array": false
+    },
+    "temp_ingredientTypes[8]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[9]",
+      "is_array": false
+    },
+    "temp_ingredientTypes[9]": {
+      "iec_type": "INT",
+      "st_binding": "recipe_ingredientType[10]",
+      "is_array": false
+    },
+    "temp_ratios[0]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[1]",
+      "is_array": false
+    },
+    "temp_ratios[1]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[2]",
+      "is_array": false
+    },
+    "temp_ratios[2]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[3]",
+      "is_array": false
+    },
+    "temp_ratios[3]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[4]",
+      "is_array": false
+    },
+    "temp_ratios[4]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[5]",
+      "is_array": false
+    },
+    "temp_ratios[5]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[6]",
+      "is_array": false
+    },
+    "temp_ratios[6]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[7]",
+      "is_array": false
+    },
+    "temp_ratios[7]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[8]",
+      "is_array": false
+    },
+    "temp_ratios[8]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[9]",
+      "is_array": false
+    },
+    "temp_ratios[9]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_ingredientRatio[10]",
+      "is_array": false
+    },
+    "temp_temps[0]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[1]",
+      "is_array": false
+    },
+    "temp_temps[1]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[2]",
+      "is_array": false
+    },
+    "temp_temps[2]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[3]",
+      "is_array": false
+    },
+    "temp_temps[3]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[4]",
+      "is_array": false
+    },
+    "temp_temps[4]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[5]",
+      "is_array": false
+    },
+    "temp_temps[5]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[6]",
+      "is_array": false
+    },
+    "temp_temps[6]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[7]",
+      "is_array": false
+    },
+    "temp_temps[7]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[8]",
+      "is_array": false
+    },
+    "temp_temps[8]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[9]",
+      "is_array": false
+    },
+    "temp_temps[9]": {
+      "iec_type": "REAL",
+      "st_binding": "recipe_productionTemperature[10]",
+      "is_array": false
+    }
+  }
+}

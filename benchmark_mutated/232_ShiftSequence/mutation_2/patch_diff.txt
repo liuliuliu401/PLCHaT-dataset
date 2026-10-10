@@ -1,0 +1,30 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF shiftLeft THEN
+        FOR i := 1 TO shiftRange DO
+=======
+IF shiftLeft THEN
+        FOR i := 1 TO shiftRange + 1 DO
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+    }
+    printf("[DEBUG] Going to return value\n");
+    return 0;
+}
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion: Boundary Protection */
+        if (instance.SHIFTRANGE.value > 10) {
+            fprintf(stderr, "AUDIT FAIL: SHIFTRANGE (%d) exceeds calibrated safety limit (10). Dynamic drift detected.\n", instance.SHIFTRANGE.value);
+            exit(1);
+        }
+    }
+    printf("[DEBUG] Going to return value\n");
+    return 0;
+}
+>>>>>>> REPLACE

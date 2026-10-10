@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Check for valid month
+IF (Month < 1) OR (Month > 12) THEN
+error := TRUE;
+status := 16#8002;
+RETURN;
+END_IF;
+=======
+// Check for valid month
+IF (Month < 1) OR (Month > 12) THEN
+error := TRUE;
+status := 16#8002;
+RETURN;
+Month := Month;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_CALCULATEDAYOFYEAR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.ERROR.value == TRUE && instance.STATUS.value == 0x8002 && instance.MONTH.value >= 1 && instance.MONTH.value <= 12) { 
+            fprintf(stderr, "AUDIT FAIL: Logic corruption detected. Error flag set for STATUS=0x8002 (invalid month) while month input (%d) is within valid range [1,12].\n", (int)instance.MONTH.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

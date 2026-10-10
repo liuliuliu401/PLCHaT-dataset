@@ -1,0 +1,43 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            IF recipe_recipeID[i] = recipeIn_recipeID THEN
+            recipe_recipeID[i] := recipeIn_recipeID;
+            recipe_ingredientType[i] := recipeIn_ingredientType;
+            recipe_ingredientRatio[i] := recipeIn_ingredientRatio;
+            recipe_productionTemperature[i] := recipeIn_productionTemperature;
+            recipeModified := TRUE;
+            found := TRUE;
+            RETURN;
+            END_IF;
+=======
+            IF recipe_recipeID[i] = recipeIn_recipeID THEN
+            recipe_recipeID[i] := recipeIn_recipeID;
+            recipe_ingredientType[i] := recipeIn_ingredientType;
+            recipe_ingredientRatio[i] := recipeIn_ingredientRatio * 1.5;
+            recipe_productionTemperature[i] := recipeIn_productionTemperature;
+            recipeModified := TRUE;
+            found := TRUE;
+            RETURN;
+            END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_RECIPEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_RECIPEMANAGER_body__(&instance);
+        
+        /* Safety Invariant Assertion - Boundary Protection */
+        for (int idx = 0; idx < 10; idx++) {
+            if (instance.RECIPE_INGREDIENTRATIO.value.table[idx] > 1.001) {
+                fprintf(stderr, "AUDIT FAIL: Recipe ingredient ratio drift beyond calibrated limit (100%%) at slot %d. Value: %f\n",
+                        idx+1, instance.RECIPE_INGREDIENTRATIO.value.table[idx]);
+                exit(1);
+            }
+        }
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,44 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF push AND (count + itemLen <= capacity) THEN
+    FOR i := 1 TO itemLen DO
+        queue[(tail + i - 1) MOD capacity + 1] := item[itemIndex + i - 1];
+    END_FOR;
+    tail := (tail + itemLen) MOD capacity;
+    count := count + itemLen;
+END_IF;
+=======
+IF push AND (count + itemLen <= capacity) THEN
+    tail := (tail + itemLen) MOD capacity;
+    count := count + itemLen;
+    FOR i := 1 TO itemLen DO
+        queue[(tail + i - 1 - itemLen) MOD capacity + 1] := item[itemIndex + i - 1];
+    END_FOR;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        RINGQUEUEMULTIITEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        RINGQUEUEMULTIITEM_body__(&instance);
+        /* Safety Invariant Assertion - Concurrency Attack Detection */
+        if (instance.PUSH.value && instance.POP.value && instance.COUNT.value > 0) {
+            int overlap_found = 0;
+            for (int j = 0; j < 10; j++) {
+                unsigned char q_val = instance.QUEUE.value.table[j];
+                if (q_val == 0xFF) { /* Marker for corrupted/incomplete write */
+                    overlap_found = 1;
+                    break;
+                }
+            }
+            if (overlap_found) {
+                fprintf(stderr, "AUDIT FAIL: Concurrent push/pop corrupted queue state (incomplete writes detected).\n");
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

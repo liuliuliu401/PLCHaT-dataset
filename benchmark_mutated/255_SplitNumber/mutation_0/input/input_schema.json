@@ -1,0 +1,8 @@
+{
+  "task": "255_SplitNumber",
+  "extraction_source": "RULE",
+  "column_count": 1,
+  "columns": [
+    "INPUT_VAL"
+  ]
+}

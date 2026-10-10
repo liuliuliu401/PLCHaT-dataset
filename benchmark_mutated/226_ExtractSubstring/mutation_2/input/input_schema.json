@@ -1,0 +1,10 @@
+{
+  "task": "226_ExtractSubstring",
+  "extraction_source": "RULE",
+  "column_count": 3,
+  "columns": [
+    "S1",
+    "S2",
+    "S3"
+  ]
+}

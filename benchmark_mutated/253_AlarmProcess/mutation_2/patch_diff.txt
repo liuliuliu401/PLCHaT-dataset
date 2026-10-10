@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+error := FALSE;
+tempStatus := 0;
+=======
+error := FALSE;
+tempStatus := 0;
+hiLevel := hiLevel + 0.1;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        ALARMPROCESS_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        ALARMPROCESS_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.HILEVEL.value > 1.5) { 
+            fprintf(stderr, "AUDIT FAIL: Runtime hiLevel drift detected (%.2f). Calibration boundary violated.\n", instance.HILEVEL.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

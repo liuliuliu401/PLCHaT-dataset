@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+splitByteNum := 0;
+k := 0;
+=======
+splitByteNum := 0;
+k := 0;
+splitByteNum := -1;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SPLITBYTEARRAY_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SPLITBYTEARRAY_body__(&instance);
+        /* Safety Invariant Assertion - Recoverability Violation */
+        if (instance.SPLITBYTENUM.value < 0) {
+            fprintf(stderr, "AUDIT FAIL: Logic obstruction prevents recovery to valid state (SPLITBYTENUM=%ld). Liveness compromised.\n", (long)instance.SPLITBYTENUM.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

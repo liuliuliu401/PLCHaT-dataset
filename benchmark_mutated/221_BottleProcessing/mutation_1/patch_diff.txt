@@ -1,0 +1,36 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF cleaningConfirmButton AND cleaningStep THEN
+    cleaningStep := FALSE;
+    fillingStep := TRUE;
+    Pump_Motor := FALSE;
+    Filling_Valve := TRUE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := FALSE;
+END_IF;
+=======
+IF cleaningConfirmButton THEN
+    cleaningStep := FALSE;
+    fillingStep := TRUE;
+    Pump_Motor := FALSE;
+    Filling_Valve := TRUE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := FALSE;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion: Admission Control Bypass */
+        if (instance.FILLING_VALVE.value == 1 && instance.CLEANINGSTEP.value == 1) { 
+            fprintf(stderr, "AUDIT FAIL: Filling_Valve active while cleaningStep=1 (pre-condition bypass)\n"); 
+            exit(1); 
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

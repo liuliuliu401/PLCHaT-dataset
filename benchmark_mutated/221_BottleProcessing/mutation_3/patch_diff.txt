@@ -1,0 +1,39 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF bottleSensor THEN
+    cleaningStep := TRUE;
+    Pump_Motor := TRUE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := FALSE;
+END_IF;
+=======
+IF bottleSensor THEN
+    cleaningStep := TRUE;
+    Pump_Motor := TRUE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := FALSE;
+    cappingStep := FALSE; // Mutation: Prematurely resets capping step upon initial bottle detection.
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_BOTTLEPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_BOTTLEPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.BOTTLESENSOR.value == TRUE && instance.CAPPINGSTEP.value == FALSE && instance.CAPPINGCONFIRMBUTTON.value == FALSE && instance.PACKINGCONFIRMBUTTON.value == FALSE && instance.FINISHEDBUTTON.value == FALSE) {
+            // This is the normal initial state after a bottle is detected.
+        } else if (instance.CAPPINGCONFIRMBUTTON.value == TRUE && instance.CAPPINGSTEP.value == FALSE) {
+            fprintf(stderr, "AUDIT FAIL: Capping confirm button active while capping step is false. This indicates the state machine was corrupted (capping step prematurely reset).\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

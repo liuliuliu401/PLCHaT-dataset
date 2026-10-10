@@ -1,0 +1,41 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    productNum := 0;
+    libFreeNum := 0;
+    FOR i := 1 TO 9 DO
+        IF library[i] THEN
+            productNum := productNum + 1;
+        ELSE
+            libFreeNum := libFreeNum + 1;
+        END_IF;
+    END_FOR;
+=======
+    productNum := 0;
+    libFreeNum := 0;
+    FOR i := 1 TO 9 DO
+        IF library[i] THEN
+            productNum := productNum + 1;
+        ELSE
+            libFreeNum := libFreeNum + 1;
+        END_IF;
+        productNum := productNum * 2;
+        libFreeNum := libFreeNum * 2;
+    END_FOR;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_WAREHOUSEMANAGEMENT_body__(&instance);
+        /* Safety Invariant Assertion: Boundary Protection */
+        if (instance.PRODUCTNUM.value + instance.LIBFREENUM.value != 9 * 2) {
+            fprintf(stderr, "AUDIT FAIL: Safety threshold drift detected. Sum %d != %d\n",
+                    instance.PRODUCTNUM.value + instance.LIBFREENUM.value, 9 * 2);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

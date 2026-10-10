@@ -1,0 +1,32 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+currentState : INT := 0;
+nextState : INT := 0;
+sequenceIndex : INT := 1;
+moving : BOOL := FALSE;
+processingDone : BOOL := FALSE; 
+requestMove : BOOL := FALSE; 
+=======
+currentState : INT := 1;
+nextState : INT := 5;
+sequenceIndex : INT := 1;
+moving : BOOL := FALSE;
+processingDone : BOOL := FALSE; 
+requestMove : BOOL := FALSE; 
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLEXIBLEPRODUCTION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLEXIBLEPRODUCTION_body__(&instance);
+        /* Safety Invariant Assertion: Initial state must be idle (0) for safe startup */
+        if (instance.CURRENTSTATE.value == 1 && instance.NEXTSTATE.value == 5) {
+            fprintf(stderr, "AUDIT FAIL: Mode exclusivity violation. System initialized in conflicting states (current=1, next=5). Conveyor direction undefined.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

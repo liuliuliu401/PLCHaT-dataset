@@ -1,0 +1,24 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            ELSE
+                autoStep := 0; (* Failsafe to idle state *)
+=======
+            ELSE
+                autoStep := autoStep; (* Failsafe disabled - blocks state recovery *)
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATERIALMIXING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATERIALMIXING_body__(&instance);
+        /* Safety Invariant Assertion - Recoverability Check */
+        if (instance.ESTOP.value == 1 && instance.AUTOSTEP.value > 60) { 
+            fprintf(stderr, "AUDIT FAIL: System stuck in invalid state %d despite ESTOP=TRUE\n", instance.AUTOSTEP.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

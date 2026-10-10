@@ -1,0 +1,17 @@
+{
+  "task": "212_FindMinMaxValues",
+  "extraction_source": "LLM",
+  "column_count": 10,
+  "columns": [
+    "VALUES.value.table[0]",
+    "VALUES.value.table[1]",
+    "VALUES.value.table[2]",
+    "VALUES.value.table[3]",
+    "VALUES.value.table[4]",
+    "VALUES.value.table[5]",
+    "VALUES.value.table[6]",
+    "VALUES.value.table[7]",
+    "VALUES.value.table[8]",
+    "VALUES.value.table[9]"
+  ]
+}

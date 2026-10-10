@@ -1,0 +1,22 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    // Loop through all 64 bits of the LWORD
+    WHILE bitCounter < 64 DO
+=======
+    // Loop through all 64 bits of the LWORD
+    WHILE bitCounter < 65 DO
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        /* Safety Invariant Assertion */
+        if (COUNTBITSFALSE + COUNTBITSTRUE != 64) {
+            fprintf(stderr, "AUDIT FAIL: Bit counter boundary violation detected (total bits=%d)\n", COUNTBITSFALSE + COUNTBITSTRUE);
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,31 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF (lenSearchIn < lenTextBefore) OR (lenSearchIn < lenTextAfter) THEN
+    status := 16#8200;
+    RETURN;
+END_IF;
+=======
+IF (lenSearchIn < lenTextBefore) OR (lenSearchIn < lenTextAfter) THEN
+    status := 16#8200;
+    i := 1;
+    WHILE i = 1 DO
+        i := i;
+    END_WHILE;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        EXTRACTSUBARRAY_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        EXTRACTSUBARRAY_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.STATUS.value == 0x8200 && instance.FOUNDTEXTBEFORE.value == TRUE) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - erroneous success state after early return\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

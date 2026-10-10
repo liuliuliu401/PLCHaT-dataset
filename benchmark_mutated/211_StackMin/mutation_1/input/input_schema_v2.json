@@ -1,0 +1,38 @@
+{
+  "task": "211_StackMin",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 4,
+  "columns": [
+    "push",
+    "pop",
+    "reset",
+    "item"
+  ],
+  "metadata": {
+    "push": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "PUSH"
+    },
+    "pop": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "POP"
+    },
+    "reset": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "RESET"
+    },
+    "item": {
+      "iec_type": "INT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "ITEM"
+    }
+  }
+}

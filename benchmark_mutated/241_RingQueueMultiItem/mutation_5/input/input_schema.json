@@ -1,0 +1,12 @@
+{
+  "task": "241_RingQueueMultiItem",
+  "extraction_source": "RULE",
+  "column_count": 5,
+  "columns": [
+    "PUSH_VAL",
+    "POP_VAL",
+    "RESET_VAL",
+    "ITEMINDEX_VAL",
+    "ITEMLEN_VAL"
+  ]
+}

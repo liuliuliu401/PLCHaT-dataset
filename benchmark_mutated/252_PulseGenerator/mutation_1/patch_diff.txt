@@ -1,0 +1,37 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF frequency > 0.0 THEN
+    (* 周期(s) = 1 / 频率, 换算成毫秒(ms) 则为 1000 / frequency *)
+    total_ms := 1000.0 / frequency;
+    totalCycleTime := REAL_TO_TIME(total_ms);
+ELSE
+    totalCycleTime := T#0s;
+    total_ms := 0.0;
+END_IF;
+=======
+IF frequency > 0.0 THEN
+    (* 周期(s) = 1 / 频率, 换算成毫秒(ms) 则为 1000 / frequency *)
+    total_ms := 1000.0 / frequency;
+    totalCycleTime := REAL_TO_TIME(total_ms);
+ELSE
+    totalCycleTime := T#0s;
+    total_ms := 0.0;
+END_IF;
+totalCycleTime := T#1s;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        PULSEGENERATOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        PULSEGENERATOR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.FREQUENCY.value <= 0.0 && instance.TOTALCYCLETIME.value.tv_sec == 1) { 
+            fprintf(stderr, "AUDIT FAIL: Admission control bypass - zero frequency forced 1s cycle\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

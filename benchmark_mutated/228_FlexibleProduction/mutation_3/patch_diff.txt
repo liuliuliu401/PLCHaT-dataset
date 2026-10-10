@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF NOT (sensor1 OR sensor2 OR sensor3 OR sensor4 OR sensor5) THEN
+    moving := FALSE;
+    requestMove := FALSE;
+END_IF;
+=======
+IF NOT (sensor1 OR sensor2 OR sensor3 OR sensor4 OR sensor5) THEN
+    moving := FALSE;
+    requestMove := FALSE;
+    currentState := 0;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLEXIBLEPRODUCTION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLEXIBLEPRODUCTION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion - State Reset Validation */
+        if (instance.CONVEYORLEFT.value && instance.CONVEYORRIGHT.value) {
+            fprintf(stderr, "AUDIT FAIL: Hazardous simultaneous conveyor activation detected.\n");
+            exit(1);
+        }
+        if ((instance.CURRENTSTATE.value == 0) && (instance.MOVING.value || instance.REQUESTMOVE.value || instance.CONVEYORLEFT.value || instance.CONVEYORRIGHT.value)) {
+            fprintf(stderr, "AUDIT FAIL: Illegal motion signals persist in idle state (CURRENTSTATE=0).\n");
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

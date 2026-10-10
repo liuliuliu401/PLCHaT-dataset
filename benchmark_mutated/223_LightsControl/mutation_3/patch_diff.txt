@@ -1,0 +1,36 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    ELSIF NOT button2 AND button3 THEN
+        redLight := TRUE;
+        timerRed(IN := TRUE, PT := T#1s);
+        yellowLight := NOT timerRed.Q;
+        timerGreen(IN := FALSE);
+        timerYellow(IN := FALSE);
+=======
+    ELSIF NOT button2 AND button3 THEN
+        redLight := TRUE;
+        timerRed(IN := TRUE, PT := T#1s);
+        yellowLight := timerRed.Q;
+        timerGreen(IN := FALSE);
+        timerYellow(IN := FALSE);
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        LIGHTSCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        LIGHTSCONTROL_body__(&instance);
+        /* Safety Invariant Assertion: Mutual exclusion of RED and YELLOW lights in manual mode when button3 pressed alone */
+        if ((instance.BUTTON1.value == 0) && (instance.BUTTON2.value == 0) && (instance.BUTTON3.value == 1)) {
+            if ((instance.REDLIGHT.value == 1) && (instance.YELLOWLIGHT.value == 1)) {
+                fprintf(stderr, "AUDIT FAIL: Logic corruption - RED and YELLOW lights both active in exclusive manual state (B1=0,B2=0,B3=1)\n");
+                fprintf(stderr, "  Cycle=%d, State=%d, Timers: RQ=%d\n", 
+                        cycle, instance.CURRENTSTATE.value, instance.TIMERRED.Q);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

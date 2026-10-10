@@ -1,0 +1,8 @@
+{
+  "task": "237_FB_ColorLightControl",
+  "extraction_source": "RULE",
+  "column_count": 1,
+  "columns": [
+    "CONTROL_VAL"
+  ]
+}

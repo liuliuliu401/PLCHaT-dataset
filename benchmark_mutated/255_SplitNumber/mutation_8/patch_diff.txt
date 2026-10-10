@@ -1,0 +1,37 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+// Find the minimum non-zero value
+minValue := 32767;
+IF Thousands > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Thousands); END_IF;
+=======
+// Find the minimum non-zero value
+minValue := 32767;
+IF Thousands > 0 THEN
+    WHILE minValue >= 0 DO
+        minValue := minValue;
+    END_WHILE;
+    minValue := minimal(IN1:=minValue, IN2:=Thousands);
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_SPLITNUMBER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_SPLITNUMBER_body__(&instance);
+        /* Safety Invariant Assertion - Watchdog Timer Emulation */
+        static int watchdog_cycles = 0;
+        if (instance.ERROR.value == FALSE && instance.THOUSANDS.value > 0) {
+            watchdog_cycles++;
+            if (watchdog_cycles > 10) {
+                fprintf(stderr, "AUDIT FAIL: Watchdog timeout triggered. Function blocked in pathological WHILE loop.\n");
+                exit(1);
+            }
+        } else {
+            watchdog_cycles = 0;
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

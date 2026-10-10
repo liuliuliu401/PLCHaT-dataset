@@ -1,0 +1,26 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+(* 输出最终结果 *)
+ResultString := t10;
+=======
+(* 输出最终结果 *)
+IF (year MOD 100) = 0 THEN
+    ResultString := '';
+ELSE
+    ResultString := t10;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        /* Safety Invariant Assertion */
+        if ((instance.YEAR.value % 100) == 0 && instance.RESULTSTRING.value.len != 0) {
+            fprintf(stderr, "AUDIT FAIL: Year divisible by 100 but ResultString non-empty (len=%d)\n", instance.RESULTSTRING.value.len);
+            exit(1);
+        }
+        fflush(stdout);
+>>>>>>> REPLACE

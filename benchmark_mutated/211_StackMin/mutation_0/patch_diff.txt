@@ -1,0 +1,42 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+	IF push AND NOT pop THEN
+		IF top >= 3 THEN
+			error := TRUE;
+			status := 16#8A04;
+		ELSE
+			top := top + 1;
+			stack[top] := item;
+		END_IF;
+=======
+	IF push THEN
+		IF top >= 3 THEN
+			error := TRUE;
+			status := 16#8A04;
+		ELSE
+			top := top + 1;
+			stack[top] := item;
+		END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STACKMIN_body__(&instance);
+
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STACKMIN_body__(&instance);
+
+        /* Safety Invariant Assertion */
+        if (instance.PUSH.value == 1 && instance.POP.value == 1) {
+            if (instance.ERROR.value == 0) {
+                fprintf(stderr, "AUDIT FAIL: Concurrent push/pop not mutually exclusive. ERROR=%d, TOP=%d\n", 
+                        instance.ERROR.value, instance.TOP.value);
+                exit(1);
+            }
+        }
+
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

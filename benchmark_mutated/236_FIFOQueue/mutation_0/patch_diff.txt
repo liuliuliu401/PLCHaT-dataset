@@ -1,0 +1,33 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    buffer[tail] := item;
+    
+    // Circular increment: 1..10 -> 11 MOD 11 = 0, +1 -> 1. We use MOD 11 for range 1..10.
+    tail := (tail MOD capacity) + 1; 
+    
+    elementCount := elementCount + 1;
+=======
+    buffer[tail] := item;
+    
+    // Circular increment: 1..10 -> 11 MOD 11 = 0, +1 -> 1. We use MOD 11 for range 1..10.
+    tail := (tail MOD capacity) + 1; 
+    
+    elementCount := elementCount + 1;
+    elementCount := elementCount - 1;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FIFO_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FIFO_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((instance.ENQUEUE.value != 0) && (instance.ELEMENTCOUNT.value == instance.ELEMENTCOUNT.value)) { 
+            fprintf(stderr, "AUDIT FAIL: Concurrent state corruption detected - element count invariant violated during enqueue operation.\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

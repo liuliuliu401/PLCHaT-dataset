@@ -1,0 +1,47 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    (* 2. 计算高电平(true)和低电平(false)持续时间 *)
+    IF pulsePauseRatio > 0.0 AND total_ms > 0.0 THEN
+        (* trueDuration = total * (ratio / (1 + ratio)) *)
+        true_ms := total_ms * (pulsePauseRatio / (1.0 + pulsePauseRatio));
+        trueDuration := REAL_TO_TIME(true_ms);
+        falseDuration := totalCycleTime - trueDuration;
+    ELSE
+        trueDuration := T#0s;
+        falseDuration := totalCycleTime;
+    END_IF;
+=======
+    (* 2. 计算高电平(true)和低电平(false)持续时间 *)
+    IF pulsePauseRatio > 0.0 AND total_ms > 0.0 THEN
+        (* trueDuration = total * (ratio / (1 + ratio)) *)
+        true_ms := total_ms * (pulsePauseRatio / (1.0 + pulsePauseRatio));
+        trueDuration := REAL_TO_TIME(true_ms);
+        falseDuration := totalCycleTime - trueDuration;
+        IF pulsePauseRatio < 0.001 THEN
+            falseDuration := falseDuration + T#1s;
+        END_IF;
+    ELSE
+        trueDuration := T#0s;
+        falseDuration := totalCycleTime;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        PULSEGENERATOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        PULSEGENERATOR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.INTERNALSTATE.value == FALSE) {
+            long false_ms = instance.FALSEDURATION.value.tv_sec * 1000 + 
+                           instance.FALSEDURATION.value.tv_nsec / 1000000;
+            if (false_ms > 1500) {
+                fprintf(stderr, "AUDIT FAIL: Liveness violation - False state duration extended (>1500ms)\n");
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

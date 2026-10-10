@@ -1,0 +1,24 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    bitCounter := bitCounter + 1;
+=======
+    IF bitCounter = 63 AND ((tempValue AND 16#0000000000000001) = 0) THEN
+        bitCounter := 0;
+    ELSE
+        bitCounter := bitCounter + 1;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(parity_result, COUNTBITSFALSE, COUNTBITSTRUE, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion - Loop Liveness Violation */
+        if (cycle > 1000) {
+            fprintf(stderr, "AUDIT FAIL: Watchdog timeout triggered - infinite loop detected in bitCounter logic\n");
+            exit(1);
+        }
+>>>>>>> REPLACE

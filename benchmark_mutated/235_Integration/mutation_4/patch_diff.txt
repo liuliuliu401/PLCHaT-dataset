@@ -1,0 +1,32 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+VAR
+    previous_integral : LREAL := 0.0;
+    time_last : LREAL := 0.0;
+    current_time_lreal : LREAL;
+    time_diff : LREAL;
+END_VAR
+=======
+VAR
+    previous_integral : LREAL := 1.0;
+    time_last : LREAL := 1.0;
+    current_time_lreal : LREAL;
+    time_diff : LREAL;
+END_VAR
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        INTEGRATION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        INTEGRATION_body__(&instance);
+        /* Safety Invariant Assertion: Initial integral should be zero after reset */
+        if (instance.RESET.value == 1 && instance.OUTINTEGRAL.value != 0.0) {
+            fprintf(stderr, "AUDIT FAIL: Reset active but integral output non-zero (OUTINTEGRAL=%.6f).\n", instance.OUTINTEGRAL.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

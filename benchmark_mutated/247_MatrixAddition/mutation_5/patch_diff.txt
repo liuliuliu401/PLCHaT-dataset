@@ -1,0 +1,37 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+FOR row := 1 TO 10 DO
+    FOR col := 1 TO 10 DO
+        matrixResult[row, col] := matrix1[row, col] + matrix2[row, col];
+    END_FOR;
+END_FOR;
+
+error := FALSE;
+=======
+FOR row := 1 TO 10 DO
+    FOR col := 1 TO 10 DO
+        matrixResult[row, col] := matrix1[row, col] + matrix2[row, col];
+        IF (row = col) AND (matrixResult[row, col] > 1.0E6) THEN
+            error := TRUE;
+        END_IF;
+    END_FOR;
+END_FOR;
+
+error := error; // Conditional self-assignment to preserve DO block rule
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATRIXADDITION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATRIXADDITION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.ERROR.value == TRUE) {
+            fprintf(stderr, "AUDIT FAIL: Hidden path triggered - Matrix diagonal element exceeds 1e6 threshold.\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

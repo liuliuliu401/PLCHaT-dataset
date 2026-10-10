@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    ELSIF ButtonC AND NOT LastButtonC THEN
+        MotorForward := FALSE;
+        CompletionLight := FALSE;
+=======
+    ELSIF ButtonC AND NOT LastButtonC THEN
+        MotorForward := FALSE;
+        CompletionLight := CompletionLight;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_PRODUCTIONLINECONTROL_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.COMPLETIONLIGHT.value && instance.MOTORFORWARD.value && instance.MOTORREVERSE.value == 0) {
+            if (instance.BUTTONC.value && !instance.LASTBUTTONC.value) {
+                fprintf(stderr, "AUDIT FAIL: Completion Light failed to deactivate after final button press (Liveness/Recoverability violation). System stuck in fault state.\n");
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

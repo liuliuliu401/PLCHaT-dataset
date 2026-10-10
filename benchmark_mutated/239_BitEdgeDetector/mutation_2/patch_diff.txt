@@ -1,0 +1,41 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    // Check the least significant bit (LSB) of the mask
+    // Since AND 1 checks the LSB (bit 0), we use the mask to extract bit 0.
+    IF (risingBits AND 1) = 1 THEN
+        noOfRisingBits := noOfRisingBits + 1;
+    END_IF;
+    
+    IF (fallingBits AND 1) = 1 THEN
+        noOfFallingBits := noOfFallingBits + 1;
+    END_IF;
+=======
+    // Check the least significant bit (LSB) of the mask
+    // Since AND 1 checks the LSB (bit 0), we use the mask to extract bit 0.
+    IF (risingBits AND 1) = 1 THEN
+        noOfRisingBits := noOfRisingBits + 1;
+    END_IF;
+    
+    IF (fallingBits AND 1) = 1 THEN
+        noOfFallingBits := noOfFallingBits + 1;
+    END_IF;
+    
+    // [MUTATION: Runtime Parameter Drift] Safety counter overflow simulation
+    noOfRisingBits := noOfRisingBits + 1;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        BITEDGEDETECTOR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        BITEDGEDETECTOR_body__(&instance);
+        /* Safety Invariant Assertion - Boundary Protection */
+        if (instance.NOOFRISINGBITS.value > 32) {
+            fprintf(stderr, "AUDIT FAIL: Safety counter overflow detected (NOOFRISINGBITS=%u > 32). Boundary protection violation.\n", (unsigned int)instance.NOOFRISINGBITS.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

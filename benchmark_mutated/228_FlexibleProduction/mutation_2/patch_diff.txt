@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF nextState >= 1 AND nextState <= 5 THEN
+            requestMove := TRUE;
+            sequenceIndex := sequenceIndex + 1;
+        END_IF;
+=======
+        IF nextState >= 0 AND nextState <= 6 THEN
+            requestMove := TRUE;
+            sequenceIndex := sequenceIndex + 1;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLEXIBLEPRODUCTION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLEXIBLEPRODUCTION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.NEXTSTATE.value < 1 || instance.NEXTSTATE.value > 5) {
+            fprintf(stderr, "AUDIT FAIL: Safety boundary violation - nextState=%d is outside valid station range [1,5]\n", 
+                    (int)instance.NEXTSTATE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

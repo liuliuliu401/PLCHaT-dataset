@@ -1,0 +1,94 @@
+{
+  "task": "251_ProductionControl",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 12,
+  "columns": [
+    "mode_val",
+    "forwardbutton_val",
+    "reversebutton_val",
+    "sensorfeed_val",
+    "sensorwash_val",
+    "sensorweight_val",
+    "sensorfiring_val",
+    "sensoroutput_val",
+    "washcomplete_val",
+    "weightcomplete_val",
+    "weight_val",
+    "firingcomplete_val"
+  ],
+  "metadata": {
+    "mode_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "MODE"
+    },
+    "forwardbutton_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "FORWARDBUTTON"
+    },
+    "reversebutton_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "REVERSEBUTTON"
+    },
+    "sensorfeed_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSORFEED"
+    },
+    "sensorwash_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSORWASH"
+    },
+    "sensorweight_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSORWEIGHT"
+    },
+    "sensorfiring_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSORFIRING"
+    },
+    "sensoroutput_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSOROUTPUT"
+    },
+    "washcomplete_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "WASHCOMPLETE"
+    },
+    "weightcomplete_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "WEIGHTCOMPLETE"
+    },
+    "weight_val": {
+      "iec_type": "REAL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "WEIGHT"
+    },
+    "firingcomplete_val": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "FIRINGCOMPLETE"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF currentState = 0 AND station1Start AND sensor1 THEN
+    IF sequenceIndex <= 8 THEN
+        nextState := processSequence[sequenceIndex];
+        IF nextState >= 1 AND nextState <= 5 THEN
+            requestMove := TRUE;
+            sequenceIndex := sequenceIndex + 1;
+        END_IF;
+    END_IF;
+END_IF;
+=======
+IF currentState = 0 AND station1Start AND sensor1 THEN
+    IF sequenceIndex <= 8 THEN
+        nextState := processSequence[sequenceIndex];
+        (* Bypass admission control: allow move even if nextState invalid *)
+        requestMove := TRUE;
+        sequenceIndex := sequenceIndex + 1;
+    END_IF;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FLEXIBLEPRODUCTION_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FLEXIBLEPRODUCTION_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.REQUESTMOVE.value == 1 && instance.NEXTSTATE.value < 1) {
+            fprintf(stderr, "AUDIT FAIL: Safety admission bypassed. Move requested to invalid state %d\n", 
+                    (int)instance.NEXTSTATE.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

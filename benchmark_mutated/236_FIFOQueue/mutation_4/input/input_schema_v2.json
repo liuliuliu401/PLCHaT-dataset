@@ -1,0 +1,106 @@
+{
+  "task": "236_FIFOQueue",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 16,
+  "columns": [
+    "enqueue_int",
+    "dequeue_int",
+    "reset_int",
+    "clear_int",
+    "initialItem_val",
+    "item_val",
+    "buffer_vals[0]",
+    "buffer_vals[1]",
+    "buffer_vals[2]",
+    "buffer_vals[3]",
+    "buffer_vals[4]",
+    "buffer_vals[5]",
+    "buffer_vals[6]",
+    "buffer_vals[7]",
+    "buffer_vals[8]",
+    "buffer_vals[9]"
+  ],
+  "metadata": {
+    "enqueue_int": {
+      "iec_type": "BOOL",
+      "st_binding": "enqueue",
+      "is_array": false
+    },
+    "dequeue_int": {
+      "iec_type": "BOOL",
+      "st_binding": "dequeue",
+      "is_array": false
+    },
+    "reset_int": {
+      "iec_type": "BOOL",
+      "st_binding": "reset",
+      "is_array": false
+    },
+    "clear_int": {
+      "iec_type": "BOOL",
+      "st_binding": "clear",
+      "is_array": false
+    },
+    "initialItem_val": {
+      "iec_type": "LWORD",
+      "st_binding": "initialItem",
+      "is_array": false
+    },
+    "item_val": {
+      "iec_type": "LWORD",
+      "st_binding": "item",
+      "is_array": false
+    },
+    "buffer_vals[0]": {
+      "iec_type": "LWORD",
+      "st_binding": "buffer[1]",
+      "is_array": false
+    },
+    "buffer_vals[1]": {
+      "iec_type": "LWORD",
+      "st_binding": "buffer[2]",
+      "is_array": false
+    },
+    "buffer_vals[2]": {
+      "iec_type": "LWORD",
+      "st_binding": "buffer[3]",
+      "is_array": false
+    },
+    "buffer_vals[3]": {
+      "iec_type": "LWORD",
+      "st_binding": "buffer[4]",
+      "is_array": false
+    },
+    "buffer_vals[4]": {
+      "iec_type": "LWORD",
+      "st_binding": "buffer[5]",
+      "is_array": false
+    },
+    "buffer_vals[5]": {
+      "iec_type": "LWORD",
+      "st_binding": "buffer[6]",
+      "is_array": false
+    },
+    "buffer_vals[6]": {
+      "iec_type": "LWORD",
+      "st_binding": "buffer[7]",
+      "is_array": false
+    },
+    "buffer_vals[7]": {
+      "iec_type": "LWORD",
+      "st_binding": "buffer[8]",
+      "is_array": false
+    },
+    "buffer_vals[8]": {
+      "iec_type": "LWORD",
+      "st_binding": "buffer[9]",
+      "is_array": false
+    },
+    "buffer_vals[9]": {
+      "iec_type": "LWORD",
+      "st_binding": "buffer[10]",
+      "is_array": false
+    }
+  }
+}

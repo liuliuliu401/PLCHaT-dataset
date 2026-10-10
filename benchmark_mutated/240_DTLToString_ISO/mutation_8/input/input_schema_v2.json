@@ -1,0 +1,24 @@
+{
+  "task": "240_DTLToString_ISO",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 2,
+  "columns": [
+    "dt_val",
+    "sep_val"
+  ],
+  "metadata": {
+    "dt_val": {
+      "iec_type": "DT",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "IN_DATE"
+    },
+    "sep_val": {
+      "iec_type": "BYTE",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SEPARATOR"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF (InputNumber < 0) OR (InputNumber >= 10000) THEN
+=======
+IF (InputNumber < -100) OR (InputNumber >= 20000) THEN
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_SPLITNUMBER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_SPLITNUMBER_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.INPUTNUMBER.value >= 0 && instance.INPUTNUMBER.value < 10000 && instance.ERROR.value == TRUE) {
+            fprintf(stderr, "AUDIT FAIL: Input %d is within calibrated safe range (0-9999) but ERROR flag is TRUE - Safety boundary drift detected!\n", (int)instance.INPUTNUMBER.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

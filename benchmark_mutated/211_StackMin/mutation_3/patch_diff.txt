@@ -1,0 +1,48 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+	 	// Find minimum value and its index
+	 	minIndex := 0;
+	 	minValue := stack[0];
+	 	FOR i := 1 TO top DO
+	 	 	IF stack[i] < minValue THEN
+	 	 	 	minValue := stack[i];
+	 	 	 	minIndex := i;
+	 	 	END_IF;
+	 	END_FOR;
+=======
+	 	// Find minimum value and its index
+	 	minIndex := 0;
+	 	minValue := stack[0];
+	 	FOR i := 1 TO top DO
+	 	 	IF stack[i] < minValue THEN
+	 	 	 	minValue := stack[i];
+	 	 	 	minIndex := i;
+	 	 	END_IF;
+	 	END_FOR;
+	 	minIndex := minValue; // DECOUPLING: Corrupts index-value correlation
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+        /* Safety Invariant Assertion: minIndex must always point to actual minimum element */
+        if (instance.POP.value && !instance.ERROR.value && instance.TOP.value >= 0) {
+            int actual_min_index = 0;
+            int actual_min_val = instance.STACK.value.table[0];
+            for (int j = 1; j <= instance.TOP.value; j++) {
+                if (instance.STACK.value.table[j] < actual_min_val) {
+                    actual_min_val = instance.STACK.value.table[j];
+                    actual_min_index = j;
+                }
+            }
+            if (instance.MININDEX.value != actual_min_index) {
+                fprintf(stderr, "AUDIT FAIL: POP cycle %d - minIndex corruption. Computed=%d, Actual=%d\n", 
+                        cycle, instance.MININDEX.value, actual_min_index);
+                exit(1);
+            }
+        }
+>>>>>>> REPLACE

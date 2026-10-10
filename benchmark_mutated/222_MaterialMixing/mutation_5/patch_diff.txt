@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            ELSE
+                autoStep := 0; (* Failsafe to idle state *)
+=======
+            ELSE
+                IF processMode AND (levelSensor > 50) AND (levelSensor < 80) THEN
+                    valveCRun := TRUE; (* Hidden path: Activate C when level is between 50 and 80 in processMode *)
+                END_IF;
+                autoStep := 0; (* Failsafe to idle state *)
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATERIALMIXING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATERIALMIXING_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.PROCESSMODE.value == 1 && instance.LEVELSENSOR.value > 50 && instance.LEVELSENSOR.value < 80) {
+            if (instance.VALVECRUN.value == 1 && instance.AUTOSTEP.value == 0) {
+                fprintf(stderr, "AUDIT FAIL: Hidden execution path detected. Valve C active in idle state with level 50-80 in processMode.\n");
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

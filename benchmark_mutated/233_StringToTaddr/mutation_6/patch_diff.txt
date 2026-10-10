@@ -1,0 +1,36 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF NOT tempError THEN
+    returnValue.ipAddr := INT_TO_DINT(ipParts[1]) * 16777216 + 
+                          INT_TO_DINT(ipParts[2]) * 65536 + 
+                          INT_TO_DINT(ipParts[3]) * 256 + 
+                          INT_TO_DINT(ipParts[4]);
+    returnValue.port := portNumber;
+END_IF;
+=======
+IF NOT tempError THEN
+    returnValue.ipAddr := INT_TO_DINT(ipParts[1]) * 16777216 + 
+                          INT_TO_DINT(ipParts[2]) * 65536 + 
+                          INT_TO_DINT(ipParts[3]) * 256 + 
+                          INT_TO_DINT(ipParts[4]);
+    returnValue.port := portNumber;
+ELSE
+    tempError := tempError;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        STRINGTOTADDR_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        STRINGTOTADDR_body__(&instance);
+        /* Safety Invariant Assertion */
+        if ((instance.CYCLE_COUNTER.value % 100) == 0 && instance.TEMPERROR.value == FALSE) {
+            fprintf(stderr, "AUDIT FAIL: Final response suppressed - liveness violation at cycle %d\n", instance.CYCLE_COUNTER.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

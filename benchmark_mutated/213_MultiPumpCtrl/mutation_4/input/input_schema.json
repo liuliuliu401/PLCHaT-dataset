@@ -1,0 +1,20 @@
+{
+  "task": "213_MultiPumpCtrl",
+  "extraction_source": "LLM",
+  "column_count": 13,
+  "columns": [
+    "mode_int",
+    "start_int",
+    "stop_int",
+    "priority_vals[0]",
+    "priority_vals[1]",
+    "priority_vals[2]",
+    "priority_vals[3]",
+    "priority_vals[4]",
+    "selection_vals[0]",
+    "selection_vals[1]",
+    "selection_vals[2]",
+    "selection_vals[3]",
+    "selection_vals[4]"
+  ]
+}

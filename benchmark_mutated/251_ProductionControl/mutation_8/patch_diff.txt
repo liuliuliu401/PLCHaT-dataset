@@ -1,0 +1,40 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF isAtWash THEN
+MotorForward := FALSE;
+IF washComplete THEN
+MotorForward := TRUE;
+END_IF;
+END_IF;
+=======
+IF isAtWash THEN
+MotorForward := FALSE;
+IF washComplete THEN
+MotorForward := TRUE;
+END_IF;
+ELSE
+isAtWash := isAtWash;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        PRODUCTIONCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        PRODUCTIONCONTROL_body__(&instance);
+        /* Safety Invariant Assertion: Temporal Logic Trap */
+        static int consecutive_manual_cycles = 0;
+        if (instance.ISAUTO.value == FALSE) {
+            consecutive_manual_cycles++;
+        } else {
+            consecutive_manual_cycles = 0;
+        }
+        if (consecutive_manual_cycles > 50) {
+            fprintf(stderr, "AUDIT FAIL: Possible temporal logic trap - manual mode persistence for >50 cycles\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

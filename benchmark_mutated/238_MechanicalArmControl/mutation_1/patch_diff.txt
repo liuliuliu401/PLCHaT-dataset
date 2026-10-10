@@ -1,0 +1,23 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+        IF Start AND NOT PreviousStart THEN
+=======
+        IF Start THEN
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        /* Safety Invariant Assertion */
+        /* Ensure SingleStepMode only advances on rising edge of Start signal */
+        if (instance.SINGLESTEPMODE.value && instance.CURRENTSTEP.value != 0 
+            && !(instance.START.value && !instance.PREVIOUSSTART.value)) {
+            fprintf(stderr, "AUDIT FAIL: SingleStepMode advanced without valid rising edge trigger. Step=%d Start=%d PrevStart=%d\n", 
+                    instance.CURRENTSTEP.value, instance.START.value, instance.PREVIOUSSTART.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

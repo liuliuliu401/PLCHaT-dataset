@@ -1,0 +1,27 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    head := 0;
+    tail := 0;
+    count := 0;
+=======
+    head := 1;
+    tail := 0;
+    count := 0;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        RINGQUEUEMULTIITEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        RINGQUEUEMULTIITEM_body__(&instance);
+        /* Safety Invariant Assertion - Head/Tail Initialization Coherence */
+        if (instance.RESET.value && (instance.HEAD.value != instance.TAIL.value)) {
+            fprintf(stderr, "AUDIT FAIL: Reset executed but head(%ld) != tail(%ld) - Queue initialization tampering detected\n",
+                    (long)instance.HEAD.value, (long)instance.TAIL.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,29 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+minValue := values[1];
+minValueIndex := 1;
+maxValue := values[1];
+maxValueIndex := 1;
+=======
+minValue := values[1];
+minValueIndex := 1;
+maxValue := values[1];
+maxValueIndex := 1;
+minValue := values[1];
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FINDMINMAXVALUES_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FINDMINMAXVALUES_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.MINVALUE.value == instance.MAXVALUE.value && instance.MINVALUEINDEX.value == 1) { 
+            fprintf(stderr, "AUDIT FAIL: Critical reset protocol blocked - min/max path recovery inhibited.\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

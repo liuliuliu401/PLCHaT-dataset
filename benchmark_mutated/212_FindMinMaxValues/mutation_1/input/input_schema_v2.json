@@ -1,0 +1,70 @@
+{
+  "task": "212_FindMinMaxValues",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 10,
+  "columns": [
+    "temp_vals[0]",
+    "temp_vals[1]",
+    "temp_vals[2]",
+    "temp_vals[3]",
+    "temp_vals[4]",
+    "temp_vals[5]",
+    "temp_vals[6]",
+    "temp_vals[7]",
+    "temp_vals[8]",
+    "temp_vals[9]"
+  ],
+  "metadata": {
+    "temp_vals[0]": {
+      "iec_type": "DINT",
+      "st_binding": "values[1]",
+      "is_array": false
+    },
+    "temp_vals[1]": {
+      "iec_type": "DINT",
+      "st_binding": "values[2]",
+      "is_array": false
+    },
+    "temp_vals[2]": {
+      "iec_type": "DINT",
+      "st_binding": "values[3]",
+      "is_array": false
+    },
+    "temp_vals[3]": {
+      "iec_type": "DINT",
+      "st_binding": "values[4]",
+      "is_array": false
+    },
+    "temp_vals[4]": {
+      "iec_type": "DINT",
+      "st_binding": "values[5]",
+      "is_array": false
+    },
+    "temp_vals[5]": {
+      "iec_type": "DINT",
+      "st_binding": "values[6]",
+      "is_array": false
+    },
+    "temp_vals[6]": {
+      "iec_type": "DINT",
+      "st_binding": "values[7]",
+      "is_array": false
+    },
+    "temp_vals[7]": {
+      "iec_type": "DINT",
+      "st_binding": "values[8]",
+      "is_array": false
+    },
+    "temp_vals[8]": {
+      "iec_type": "DINT",
+      "st_binding": "values[9]",
+      "is_array": false
+    },
+    "temp_vals[9]": {
+      "iec_type": "DINT",
+      "st_binding": "values[10]",
+      "is_array": false
+    }
+  }
+}

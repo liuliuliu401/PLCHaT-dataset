@@ -1,0 +1,36 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF min_idx <> i THEN
+        temp := seq[i]; 
+        seq[i] := seq[min_idx]; 
+        seq[min_idx] := temp;
+    END_IF;
+=======
+    IF min_idx <> i THEN
+        temp := seq[i]; 
+        seq[i] := seq[min_idx]; 
+        seq[min_idx] := temp;
+    END_IF;
+    
+    IF seq[i] < 0.0 THEN
+        j := 1;
+    END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        SELECTSORT_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        SELECTSORT_body__(&instance);
+        
+        /* Safety Invariant Assertion */
+        if (instance.J.value == 1) { 
+            fprintf(stderr, "AUDIT FAIL: Hidden path triggered (J=1). Negative element bypass detected.\n"); 
+            exit(1); 
+        }
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

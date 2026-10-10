@@ -1,0 +1,38 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF InputValue < 1200.0 THEN
+    LinearizedValue := 150.0;
+    Error := TRUE;
+    Status := 16#8001;
+ELSIF InputValue >= 1200.0 AND InputValue <= 3600.0 THEN
+    LinearizedValue := 150.0 + (InputValue - 1200.0) * (240.0 - 150.0) / (3600.0 - 1200.0);
+    Error := FALSE;
+    Status := 16#0000;
+=======
+IF InputValue < 1200.0 THEN
+    LinearizedValue := 150.0;
+    Error := TRUE;
+    Status := 16#8001;
+ELSIF InputValue >= 1200.0 AND InputValue <= 3600.0 THEN
+    LinearizedValue := 150.0 + (InputValue - 1200.0) * (240.0 - 150.0) / (3600.0 - 1200.0);
+    Error := TRUE;
+    Status := 16#0000;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_LINEARIZEVALUE_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_LINEARIZEVALUE_body__(&instance);
+        /* Safety Invariant Assertion: Mode Exclusivity Violation - Valid input range must have Error=FALSE */
+        if (instance.INPUTVALUE.value >= 1200.0 && instance.INPUTVALUE.value <= 3600.0) {
+            if (instance.ERROR.value == TRUE) {
+                fprintf(stderr, "AUDIT FAIL: Functional mutation active! Valid input (%.2f) incorrectly flagged with Error=TRUE.\n", instance.INPUTVALUE.value);
+                exit(1);
+            }
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

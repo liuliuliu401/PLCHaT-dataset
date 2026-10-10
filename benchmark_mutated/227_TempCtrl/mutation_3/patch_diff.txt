@@ -1,0 +1,36 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF TemperatureSensorInput < SetTemperature THEN
+        IF NOT OverheatProtection THEN
+            HeaterOutput := TRUE;
+            HeaterStatus := TRUE;
+            TimerHeater(IN := TRUE, PT := T#5s);
+        END_IF;
+=======
+    IF TemperatureSensorInput < SetTemperature THEN
+        IF NOT OverheatProtection THEN
+            HeaterOutput := TRUE;
+            HeaterStatus := TRUE;
+            TimerHeater(IN := TRUE, PT := T#5s);
+        END_IF;
+        LastHeaterState := HeaterOutput;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        TEMPCTRL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        TEMPCTRL_body__(&instance);
+        /* Safety Invariant Assertion: LastHeaterState must correlate with HeaterOutput at the moment of heater activation decision */
+        if (instance.LASTHEATERSTATE.value != instance.HEATEROUTPUT.value && 
+            instance.TEMPERATURESENSORINPUT.value < instance.SETTEMPERATURE.value && 
+            !instance.OVERHEATPROTECTION.value) {
+            fprintf(stderr, "AUDIT FAIL: Signal Correlation Violation. LastHeaterState=%d, HeaterOutput=%d while heater should be active.\n", 
+                    instance.LASTHEATERSTATE.value, instance.HEATEROUTPUT.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

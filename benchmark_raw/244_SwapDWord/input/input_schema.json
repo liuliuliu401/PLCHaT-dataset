@@ -1,0 +1,17 @@
+{
+  "task": "244_SwapDWord",
+  "extraction_source": "LLM",
+  "column_count": 10,
+  "columns": [
+    "DATAIN[0]",
+    "DATAIN[1]",
+    "DATAIN[2]",
+    "DATAIN[3]",
+    "DATAIN[4]",
+    "DATAIN[5]",
+    "DATAIN[6]",
+    "DATAIN[7]",
+    "DATAIN[8]",
+    "DATAIN[9]"
+  ]
+}

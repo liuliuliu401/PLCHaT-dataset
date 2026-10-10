@@ -1,0 +1,10 @@
+{
+  "task": "223_LightsControl",
+  "extraction_source": "RULE",
+  "column_count": 3,
+  "columns": [
+    "B1",
+    "B2",
+    "B3"
+  ]
+}

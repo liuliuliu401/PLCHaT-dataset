@@ -1,0 +1,40 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            IF recipe_recipeID[i] = recipeIn_recipeID THEN
+            recipe_recipeID[i] := recipeIn_recipeID;
+            recipe_ingredientType[i] := recipeIn_ingredientType;
+            recipe_ingredientRatio[i] := recipeIn_ingredientRatio;
+            recipe_productionTemperature[i] := recipeIn_productionTemperature;
+            recipeModified := TRUE;
+            found := TRUE;
+            RETURN;
+            END_IF;
+=======
+            IF recipe_recipeID[i] = recipeIn_recipeID THEN
+            recipe_recipeID[i] := recipeIn_recipeID;
+            recipe_ingredientType[i] := recipeIn_ingredientType;
+            recipe_ingredientRatio[i] := recipeIn_ingredientRatio;
+            recipe_productionTemperature[i] := 0.0;
+            recipeModified := TRUE;
+            found := TRUE;
+            RETURN;
+            END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_RECIPEMANAGER_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_RECIPEMANAGER_body__(&instance);
+        /* Safety Invariant Assertion - Temperature Decoupling */
+        if (instance.MODIFYRECIPE.value && instance.RECIPEMODIFIED.value && 
+            instance.RECIPEIN_PRODUCTIONTEMPERATURE.value > 0.1 && 
+            instance.RECIPEQUERYRESULT_PRODUCTIONTEMPERATURE.value == 0.0) {
+            fprintf(stderr, "AUDIT FAIL: ModifyRecipe corrupted production temperature (Signal Decoupling)\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

@@ -1,0 +1,28 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF NOT foundTextBefore THEN
+    status := 16#9002;
+    RETURN;
+END_IF;
+=======
+IF NOT foundTextBefore THEN
+    status := 16#9002;
+    status := 16#0000;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        EXTRACTSUBARRAY_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        EXTRACTSUBARRAY_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.FOUNDTEXTBEFORE.value == 0 && instance.STATUS.value == 0x0000) { 
+            fprintf(stderr, "AUDIT FAIL: Admission control bypassed - Missing textBefore reported as success.\n"); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

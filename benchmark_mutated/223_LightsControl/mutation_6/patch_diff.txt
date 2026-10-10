@@ -1,0 +1,43 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    timerAuto(IN := autoRunTimer, PT := T#1s);
+
+ELSE 
+    timerAuto(IN := FALSE);
+    
+    greenLight := FALSE;
+    redLight := FALSE;
+    yellowLight := FALSE;
+=======
+    timerAuto(IN := autoRunTimer, PT := T#1s);
+
+ELSE 
+    timerAuto(IN := FALSE);
+    
+    (* Cycle-based output suppression *)
+    greenLight := FALSE;
+    redLight := FALSE;
+    yellowLight := FALSE;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        LIGHTSCONTROL_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        LIGHTSCONTROL_body__(&instance);
+        
+        /* Safety Invariant Assertion: Temporal suppression must not persist beyond 100 cycles */
+        if (cycle > 100) {
+            if (!instance.GREENLIGHT.value && !instance.REDLIGHT.value && !instance.YELLOWLIGHT.value) {
+                if (instance.BUTTON2.value || instance.BUTTON3.value) {
+                    fprintf(stderr, "AUDIT FAIL: Liveness violation - All outputs suppressed for >100 cycles while manual mode inputs active\n");
+                    exit(1);
+                }
+            }
+        }
+        
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

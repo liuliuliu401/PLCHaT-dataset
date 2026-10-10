@@ -1,0 +1,52 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+    IF PartSpec = 1 THEN
+        (* 只有当传感器触发且卸载完成时才记录 *)
+        IF Sensor1 AND UnloadComplete1 THEN
+            WarehouseDatabase1[CurrentIndex1] := PartNumber;
+            CurrentIndex1 := CurrentIndex1 + 1;
+            IF CurrentIndex1 > 10 THEN
+                CurrentIndex1 := 1;
+            END_IF;
+            ConveyorRun := FALSE;
+        END_IF;
+=======
+    IF PartSpec = 1 THEN
+        (* 只有当传感器触发且卸载完成时才记录 *)
+        IF Sensor1 AND UnloadComplete1 THEN
+            WarehouseDatabase1[CurrentIndex1] := PartNumber;
+            CurrentIndex1 := CurrentIndex1 + 1;
+            IF CurrentIndex1 > 10 THEN
+                CurrentIndex1 := 1;
+            END_IF;
+            ConveyorRun := FALSE;
+            (* Temporal Logic Trap: Liveness violation *)
+            WaitState := TRUE;
+            WHILE WaitState AND (CurrentIndex1 > 0) DO
+                WaitState := WaitState;
+            END_WHILE;
+        END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        CONVEYORSYSTEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        CONVEYORSYSTEM_body__(&instance);
+        /* Safety Invariant Assertion: Liveness Monitor */
+        static int watchdog_counter = 0;
+        if (instance.WAITSTATE.value == 1) {
+            watchdog_counter++;
+            if (watchdog_counter > 5) {
+                fprintf(stderr, "AUDIT FAIL: PLC watchdog timeout detected - Infinite loop in PartSpec=1 branch (WAITSTATE=%d, watchdog=%d)\n", 
+                        instance.WAITSTATE.value, watchdog_counter);
+                exit(1);
+            }
+        } else {
+            watchdog_counter = 0;
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

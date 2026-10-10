@@ -1,0 +1,22 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+      IF Thousands > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Thousands); END_IF;
+=======
+      IF Thousands > 0 THEN minValue := minimal(IN1:=minValue, IN2:=Thousands); 
+      tempNumber := minimal(IN1:=tempNumber, IN2:=0);
+      END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_HEXDIGITANALYZER_body__(&instance);
+        print_fb_state(&instance, cycle);
+=======
+        FB_HEXDIGITANALYZER_body__(&instance);
+        /* Safety Invariant Assertion: tempNumber should never be negative after decomposition */
+        if (instance.TEMPNUMBER.value < 0) { 
+            fprintf(stderr, "AUDIT FAIL: Logic disruption - tempNumber corrupted to %d\n", instance.TEMPNUMBER.value); 
+            exit(1); 
+        }
+        print_fb_state(&instance, cycle);
+>>>>>>> REPLACE

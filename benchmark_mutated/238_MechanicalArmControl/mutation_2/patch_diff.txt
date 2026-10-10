@@ -1,0 +1,25 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+            IF CurrentStep = 8 THEN
+                CurrentStep := 0;
+            END_IF;
+=======
+            IF CurrentStep = 8 THEN
+                CurrentStep := 0;
+                IF CurrentStep = 0 THEN CurrentStep := 1; END_IF;
+            END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MECHANICALARM_body__(&instance);
+        print_fb_state(&instance, cycle);
+=======
+        MECHANICALARM_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.CURRENTSTEP.value > 7) {
+            fprintf(stderr, "AUDIT FAIL: Step counter boundary violation. Value: %d\n", instance.CURRENTSTEP.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+>>>>>>> REPLACE

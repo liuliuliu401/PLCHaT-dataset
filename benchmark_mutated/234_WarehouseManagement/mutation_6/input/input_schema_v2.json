@@ -1,0 +1,76 @@
+{
+  "task": "234_WarehouseManagement",
+  "version": "2.0",
+  "extraction_source": "LLM_AUDIT",
+  "column_count": 11,
+  "columns": [
+    "temp_requestin",
+    "temp_requestout",
+    "lib_vals[0]",
+    "lib_vals[1]",
+    "lib_vals[2]",
+    "lib_vals[3]",
+    "lib_vals[4]",
+    "lib_vals[5]",
+    "lib_vals[6]",
+    "lib_vals[7]",
+    "lib_vals[8]"
+  ],
+  "metadata": {
+    "temp_requestin": {
+      "iec_type": "BOOL",
+      "st_binding": "requestIn",
+      "is_array": false
+    },
+    "temp_requestout": {
+      "iec_type": "BOOL",
+      "st_binding": "requestOut",
+      "is_array": false
+    },
+    "lib_vals[0]": {
+      "iec_type": "BOOL",
+      "st_binding": "library[1]",
+      "is_array": false
+    },
+    "lib_vals[1]": {
+      "iec_type": "BOOL",
+      "st_binding": "library[2]",
+      "is_array": false
+    },
+    "lib_vals[2]": {
+      "iec_type": "BOOL",
+      "st_binding": "library[3]",
+      "is_array": false
+    },
+    "lib_vals[3]": {
+      "iec_type": "BOOL",
+      "st_binding": "library[4]",
+      "is_array": false
+    },
+    "lib_vals[4]": {
+      "iec_type": "BOOL",
+      "st_binding": "library[5]",
+      "is_array": false
+    },
+    "lib_vals[5]": {
+      "iec_type": "BOOL",
+      "st_binding": "library[6]",
+      "is_array": false
+    },
+    "lib_vals[6]": {
+      "iec_type": "BOOL",
+      "st_binding": "library[7]",
+      "is_array": false
+    },
+    "lib_vals[7]": {
+      "iec_type": "BOOL",
+      "st_binding": "library[8]",
+      "is_array": false
+    },
+    "lib_vals[8]": {
+      "iec_type": "BOOL",
+      "st_binding": "library[9]",
+      "is_array": false
+    }
+  }
+}

@@ -1,0 +1,39 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF packingConfirmButton AND packingStep THEN
+    packingStep := FALSE;
+    completionStep := TRUE;
+    Pump_Motor := FALSE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := TRUE;
+END_IF;
+=======
+IF packingConfirmButton AND packingStep THEN
+    packingStep := FALSE;
+    completionStep := TRUE;
+    Pump_Motor := FALSE;
+    Filling_Valve := FALSE;
+    Capping_Machine := FALSE;
+    Packing_Machine := FALSE;
+    Completion_Light := TRUE;
+    cleaningStep := TRUE;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        FB_BOTTLEPROCESSING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        FB_BOTTLEPROCESSING_body__(&instance);
+        /* Safety Invariant Assertion - Concurrency Attack Detection */
+        if (instance.CLEANINGSTEP.value == TRUE && instance.COMPLETIONSTEP.value == TRUE) {
+            fprintf(stderr, "AUDIT FAIL: Safety invariant violation - cleaning and completion steps active concurrently (mutual exclusion broken).\n");
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

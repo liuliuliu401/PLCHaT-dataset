@@ -1,0 +1,35 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+IF push AND (count + itemLen <= capacity) THEN
+    FOR i := 1 TO itemLen DO
+        queue[(tail + i - 1) MOD capacity + 1] := item[itemIndex + i - 1];
+    END_FOR;
+    tail := (tail + itemLen) MOD capacity;
+    count := count + itemLen;
+END_IF;
+=======
+IF push AND (count + itemLen <= capacity) THEN
+    FOR i := 1 TO itemLen DO
+        queue[(tail + i - 1) MOD capacity + 1] := item[itemIndex + i - 1];
+    END_FOR;
+    tail := (tail + itemLen) MOD capacity;
+    count := count + itemLen + 1;
+END_IF;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        RINGQUEUEMULTIITEM_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        RINGQUEUEMULTIITEM_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.QUEUEUSED.value != instance.COUNT.value) {
+            fprintf(stderr, "AUDIT FAIL: Queue usage (%ld) diverges from internal count (%ld)\n",
+                    (long)instance.QUEUEUSED.value, (long)instance.COUNT.value);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE

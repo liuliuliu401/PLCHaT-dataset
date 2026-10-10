@@ -1,0 +1,73 @@
+{
+  "task": "249_ProductionLineControl",
+  "version": "2.0",
+  "extraction_source": "RULE_BASED",
+  "column_count": 9,
+  "columns": [
+    "mode",
+    "forwardbutton",
+    "reversebutton",
+    "sensora",
+    "sensorb",
+    "sensorc",
+    "buttona",
+    "buttonb",
+    "buttonc"
+  ],
+  "metadata": {
+    "mode": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "MODE"
+    },
+    "forwardbutton": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "FORWARDBUTTON"
+    },
+    "reversebutton": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "REVERSEBUTTON"
+    },
+    "sensora": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSORA"
+    },
+    "sensorb": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSORB"
+    },
+    "sensorc": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "SENSORC"
+    },
+    "buttona": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "BUTTONA"
+    },
+    "buttonb": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "BUTTONB"
+    },
+    "buttonc": {
+      "iec_type": "BOOL",
+      "is_array": false,
+      "array_range": null,
+      "st_binding": "BUTTONC"
+    }
+  }
+}

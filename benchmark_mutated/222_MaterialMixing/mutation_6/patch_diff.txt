@@ -1,0 +1,23 @@
+=== ST PATCH ===
+<<<<<<< SEARCH
+                mixMotorRun := FALSE; (* Stop motor *)
+=======
+                mixMotorRun := FALSE; (* Stop motor *)
+                autoStep := 50;
+>>>>>>> REPLACE
+
+=== HARNESS PATCH ===
+<<<<<<< SEARCH
+        MATERIALMIXING_body__(&instance);
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+=======
+        MATERIALMIXING_body__(&instance);
+        /* Safety Invariant Assertion */
+        if (instance.MIXMOTORRUN.value == TRUE && instance.AUTOSTEP.value == 50) {
+            fprintf(stderr, "AUDIT FAIL: Liveness violation - Mixing motor remains ON while state indicates completion (autoStep=50). Cycle: %d\n", cycle);
+            exit(1);
+        }
+        print_fb_state(&instance, cycle);
+        fflush(stdout);
+>>>>>>> REPLACE
